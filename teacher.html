@@ -186,18 +186,21 @@
     font-weight: 500;
   }
   .session-zoom:hover { text-decoration: underline; }
-  .cancel-btn {
+  .card-actions { display: flex; gap: 0.4rem; }
+  .cancel-btn, .edit-btn {
     background: none;
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 0.3rem 0.6rem;
     font-size: 0.75rem;
-    color: var(--red);
     cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;
   }
+  .cancel-btn { color: var(--red); }
   .cancel-btn:hover { background: var(--red-light); border-color: var(--red); }
+  .edit-btn { color: var(--bark-light); }
+  .edit-btn:hover { background: var(--sun-light); border-color: var(--sun); color: var(--sun); }
   .empty-slot {
     border: 1.5px dashed var(--border);
     border-radius: 12px;
@@ -404,7 +407,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  const WORKER_URL = 'https://redwood.lunamargherita.com';
+  const WORKER_URL = 'https://api.lunamargherita.com';
   const PASSWORD = 'test1';
 
   // --- DATES & SLOTS ---
@@ -449,6 +452,7 @@
   let sessions = [];
   let activeDayIndex = 0;
   let modalPreselectedSlot = null;
+  let editingSessionId = null; // null = new booking, string = editing existing
 
   // --- AUTH ---
   function checkPassword() {
@@ -551,7 +555,10 @@
             <div class="session-activity">${s.activity || 'No activity listed'}</div>
           </div>
           <a class="session-zoom" href="${s.zoom_link}" target="_blank">Join Zoom ↗</a>
-          <button class="cancel-btn" onclick="cancelSession('${s.id}')">Cancel</button>
+          <div class="card-actions">
+            <button class="edit-btn" onclick="openEditModal('${s.id}')">Edit</button>
+            <button class="cancel-btn" onclick="cancelSession('${s.id}')">Cancel</button>
+          </div>
         </div>`;
     });
 
@@ -591,6 +598,35 @@
     document.getElementById('activity-input').value = '';
     document.getElementById('zoom-input').value = '';
     document.getElementById('modal-time-select').value = '';
+    document.getElementById('modal-day-select').value = '';
+    document.getElementById('modal-slot-label').textContent = 'Choose a slot below';
+    document.getElementById('submit-btn').textContent = 'Book slot';
+    document.querySelector('#modal h2').textContent = 'Book a session';
+    editingSessionId = null;
+  }
+
+  function openEditModal(id) {
+    const s = sessions.find(s => s.id === id);
+    if (!s) return;
+    editingSessionId = id;
+
+    document.getElementById('modal').classList.add('open');
+    document.querySelector('#modal h2').textContent = 'Edit session';
+    document.getElementById('submit-btn').textContent = 'Save changes';
+
+    // Pre-fill fields
+    document.getElementById('teacher-select').value = s.teacher;
+
+    const dayIdx = CORRECT_DAYS.findIndex(d => d.date === s.date);
+    if (dayIdx >= 0) {
+      document.getElementById('modal-day-select').value = dayIdx;
+      updateModalSlots();
+      document.getElementById('modal-time-select').value = s.time;
+      document.getElementById('modal-slot-label').textContent = `Editing: ${CORRECT_DAYS[dayIdx].label} at ${s.time}`;
+    }
+
+    document.getElementById('activity-input').value = s.activity || '';
+    document.getElementById('zoom-input').value = s.zoom_link || '';
   }
 
   function updateModalSlots() {
@@ -605,7 +641,7 @@
     });
   }
 
-  // --- SUBMIT ---
+  // --- SUBMIT (new or edit) ---
   async function submitSession() {
     const teacher = document.getElementById('teacher-select').value;
     const dayIdx = document.getElementById('modal-day-select').value;
@@ -621,23 +657,35 @@
     const date = CORRECT_DAYS[dayIdx].date;
     const btn = document.getElementById('submit-btn');
     btn.disabled = true;
-    btn.textContent = 'Booking…';
+    btn.textContent = editingSessionId ? 'Saving…' : 'Booking…';
 
     try {
-      const res = await fetch(`${WORKER_URL}/session`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ date, time, teacher, activity, zoom_link }),
-      });
-      if (!res.ok) throw new Error();
-      showToast('Session booked!', 'success');
+      if (editingSessionId) {
+        // PATCH existing session
+        const res = await fetch(`${WORKER_URL}/session/${editingSessionId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ date, time, teacher, activity, zoom_link }),
+        });
+        if (!res.ok) throw new Error();
+        showToast('Session updated!', 'success');
+      } else {
+        // POST new session
+        const res = await fetch(`${WORKER_URL}/session`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ date, time, teacher, activity, zoom_link }),
+        });
+        if (!res.ok) throw new Error();
+        showToast('Session booked!', 'success');
+      }
       closeModal();
       await loadSessions();
     } catch {
       showToast('Something went wrong. Try again.', 'error');
     } finally {
       btn.disabled = false;
-      btn.textContent = 'Book slot';
+      btn.textContent = editingSessionId ? 'Save changes' : 'Book slot';
     }
   }
 
