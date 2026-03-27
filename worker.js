@@ -3,7 +3,7 @@ const DATABASE_ID = NOTION_DATABASE_ID; // set as env secret
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 };
 
@@ -105,6 +105,45 @@ export default {
       }));
 
       return new Response(JSON.stringify(sessions), {
+        headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
+      });
+    }
+
+    // PATCH /session/:id — teacher edits a session
+    if (request.method === "PATCH" && url.pathname.startsWith("/session/")) {
+      const pageId = url.pathname.split("/session/")[1];
+      const body = await request.json();
+      const { date, time, teacher, activity, zoom_link } = body;
+
+      const notion_payload = {
+        properties: {
+          Date: { date: { start: date } },
+          Time: { rich_text: [{ text: { content: time } }] },
+          Teacher: { title: [{ text: { content: teacher } }] },
+          Activity: { rich_text: [{ text: { content: activity || "" } }] },
+          "Zoom Link": { url: zoom_link },
+        },
+      };
+
+      const notion_res = await fetch(`https://api.notion.com/v1/pages/${pageId}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${notionKey}`,
+          "Content-Type": "application/json",
+          "Notion-Version": "2022-06-28",
+        },
+        body: JSON.stringify(notion_payload),
+      });
+
+      if (!notion_res.ok) {
+        const err = await notion_res.text();
+        return new Response(JSON.stringify({ error: err }), {
+          status: 500,
+          headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
+        });
+      }
+
+      return new Response(JSON.stringify({ success: true }), {
         headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
       });
     }
