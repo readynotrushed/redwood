@@ -160,6 +160,7 @@
     padding-bottom: 0.25rem;
   }
   .day-tab {
+    position: relative;
     padding: 0.5rem 1.2rem;
     border-radius: 20px;
     border: 1.5px solid var(--border);
@@ -180,23 +181,24 @@
   .day-tab:hover:not(.active) { border-color: var(--bark-light); color: var(--bark);
   }
   .tab-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  color: var(--leaf);
-  font-size: 0.65rem;
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #e74c3c;
+  color: white;
+  font-size: 0.6rem;
   font-weight: 700;
   min-width: 16px;
   height: 16px;
   border-radius: 20px;
   padding: 0 4px;
-  margin-left: 0.3rem;
-  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .day-tab.active .tab-badge {
-  background: rgba(255,255,255,0.25);
-  color: white;
+  background: white;
+  color: var(--leaf);
 }
 
   /* SCHEDULE GRID */
