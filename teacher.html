@@ -188,7 +188,7 @@
   background: #e74c3c;
   color: white;
   font-size: 0.6rem;
-  font-weight: 700;
+  font-weight: 400;
   min-width: 16px;
   height: 16px;
   border-radius: 20px;
@@ -746,15 +746,16 @@
   }
 
   function updateDayBadges() {
-    CORRECT_DAYS.forEach((day, i) => {
-      const count = sessions.filter(s => s.date === day.date).length;
-      const badge = document.getElementById(`badge-${i}`);
-      if (badge) {
-        badge.textContent = count > 0 ? count : '';
-        badge.style.display = count > 0 ? 'inline-flex' : 'none';
-      }
-    });
-  }
+  CORRECT_DAYS.forEach((day, i) => {
+    const count = sessions.filter(s => s.date === day.date).length;
+    const badge = document.getElementById(`badge-${i}`);
+    if (badge) {
+      const isActive = i === activeDayIndex;
+      badge.textContent = count > 0 ? count : '';
+      badge.style.display = count > 0 && !isActive ? 'inline-flex' : 'none';
+    }
+  });
+}
 
   function scrollToCurrentTime() {
     const now = new Date();
