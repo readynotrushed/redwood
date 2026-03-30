@@ -399,7 +399,7 @@
           <div class="session-teacher">${s.teacher}</div>
           <div class="session-activity">${s.activity || 'Drop in and see!'}</div>
         </div>
-        <a class="zoom-btn" href="${s.zoom_link}" target="_blank">Join ↗</a>
+        <a class="zoom-btn" href="${s.zoom_link && !s.zoom_link.startsWith('http') ? 'https://' + s.zoom_link : s.zoom_link}" target="_blank">Join ↗</a>
       </div>`;
   }
 </script>
