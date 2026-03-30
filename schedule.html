@@ -7,11 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #fdf8f2;
+    --cream: rgb(250, 240, 227);
     --bark: #3d2b1f;
     --bark-light: #6b4c3b;
-    --leaf: #4a7c59;
-    --leaf-light: #e8f0eb;
+    --leaf: rgb(121, 21, 22);
+    --leaf-light: rgba(121, 21, 22, 0.08);
     --sun: #e8a020;
     --sun-light: #fef3e0;
     --border: #e2d9d0;
@@ -76,7 +76,7 @@
   .login-card button {
     width: 100%;
     padding: 0.9rem;
-    background: var(--bark);
+    background: var(--leaf);
     color: white;
     border: none;
     border-radius: 12px;
@@ -86,7 +86,7 @@
     cursor: pointer;
     transition: background 0.2s;
   }
-  .login-card button:hover { background: var(--bark-light); }
+  .login-card button:hover { background: #5a0f10; }
   .login-error { color: #c0392b; font-size: 0.85rem; margin-top: 0.75rem; display: none; }
 
   /* MAIN */
@@ -121,6 +121,22 @@
     transition: all 0.2s;
   }
   .refresh-btn:hover { border-color: var(--leaf); color: var(--leaf); }
+  .header-right { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; justify-content: flex-end; }
+  .tz-wrapper { display: flex; align-items: center; gap: 0.4rem; }
+  .tz-label { font-size: 0.75rem; color: var(--bark-light); white-space: nowrap; }
+  .tz-select {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    color: var(--bark);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 0.35rem 0.6rem;
+    background: var(--cream);
+    cursor: pointer;
+    outline: none;
+    max-width: 160px;
+  }
+  .tz-select:focus { border-color: var(--leaf); }
 
   .main { padding: 1.5rem; max-width: 700px; margin: 0 auto; }
 
@@ -158,7 +174,7 @@
     color: var(--bark-light);
     font-family: 'DM Sans', sans-serif;
   }
-  .day-tab.active { background: var(--bark); color: white; border-color: var(--bark); }
+  .day-tab.active { background: var(--leaf); color: white; border-color: var(--leaf); }
   .day-tab:hover:not(.active) { border-color: var(--bark-light); color: var(--bark); }
 
   /* SESSION CARDS */
@@ -170,9 +186,7 @@
     letter-spacing: 0.08em;
     margin: 1rem 0 0.6rem;
   }
-
   .sessions-list { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 0.5rem; }
-
   .session-card {
     background: white;
     border: 1.5px solid var(--border);
@@ -182,8 +196,25 @@
     align-items: center;
     gap: 1rem;
     transition: box-shadow 0.2s, transform 0.15s;
+    flex-wrap: wrap;
+    position: relative;
   }
   .session-card:hover { box-shadow: 0 4px 16px var(--shadow); transform: translateY(-1px); }
+  .session-card.is-live {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 3px rgba(231,76,60,0.08);
+  }
+  .session-card.is-past {
+    opacity: 0.5;
+    filter: grayscale(0.4);
+    transform: none !important;
+  }
+  .session-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
   .session-time-badge {
     background: var(--leaf-light);
     color: var(--leaf);
@@ -199,9 +230,38 @@
     background: var(--sun-light);
     color: var(--sun);
   }
-  .session-info { flex: 1 }
+  .session-info { flex: 1; }
   .session-teacher { font-weight: 500; font-size: 0.95rem; }
   .session-activity { font-size: 0.82rem; color: var(--bark-light); margin-top: 0.15rem; }
+
+  /* LIVE badge */
+  .live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: #e74c3c;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 20px;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  /* Buttons */
   .zoom-btn {
     display: inline-flex;
     align-items: center;
@@ -216,7 +276,59 @@
     white-space: nowrap;
     transition: background 0.2s;
   }
-  .zoom-btn:hover { background: #3d6b4a; }
+  .zoom-btn:hover { background: #5a0f10; }
+  .add-cal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: none;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 0.45rem 0.7rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--bark-light);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+  }
+  .add-cal-btn:hover { border-color: var(--bark); color: var(--bark); background: var(--cream); }
+
+  /* Calendar popup */
+  .cal-popup {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: 0;
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px var(--shadow);
+    padding: 0.5rem;
+    min-width: 160px;
+    z-index: 50;
+    display: none;
+  }
+  .cal-popup.open { display: block; }
+  .cal-popup-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--bark);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s;
+    font-family: 'DM Sans', sans-serif;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+  .cal-popup-item:hover { background: var(--cream); }
 
   .empty-day {
     text-align: center;
@@ -238,7 +350,9 @@
     .main { padding: 1rem; }
     header { padding: 0.8rem 1rem; }
     .session-card { flex-wrap: wrap; }
-    .zoom-btn { width: 100%; justify-content: center; }
+    .session-card-actions { width: 100%; justify-content: flex-start; }
+    .zoom-btn { flex: 1; justify-content: center; }
+    .cal-popup { right: auto; left: 0; }
   }
 </style>
 </head>
@@ -254,7 +368,7 @@
       💡 <strong>Zoom tip:</strong> Before joining, rename yourself in Zoom to your child's name — teachers love calling children by name!
     </div>
     <input type="password" id="password-input" placeholder="Enter password" />
-    <button onclick="checkPassword()">View schedule</button>
+    <button id="login-btn">View schedule</button>
     <div class="login-error" id="login-error">Incorrect password. Try again.</div>
   </div>
 </div>
@@ -269,14 +383,32 @@
         <small id="last-updated-header">Loading…</small>
       </div>
     </div>
-    <button class="refresh-btn" onclick="loadSessions()">↻ Refresh</button>
+    <div class="header-right">
+      <div class="tz-wrapper">
+        <span class="tz-label">🕐</span>
+        <select class="tz-select" id="tz-select" onchange="onTzChange()">
+          <option value="4">Dubai (GMT+4)</option>
+          <option value="0">London (GMT+0)</option>
+          <option value="1">Paris / Rome (GMT+1)</option>
+          <option value="2">Cairo / Athens (GMT+2)</option>
+          <option value="3">Moscow (GMT+3)</option>
+          <option value="5">Karachi (GMT+5)</option>
+          <option value="5.5">Mumbai (GMT+5:30)</option>
+          <option value="6">Dhaka (GMT+6)</option>
+          <option value="7">Bangkok (GMT+7)</option>
+          <option value="8">Singapore (GMT+8)</option>
+          <option value="-5">New York (GMT-5)</option>
+          <option value="-8">Los Angeles (GMT-8)</option>
+        </select>
+      </div>
+      <button class="refresh-btn" onclick="loadSessions()">↻ Refresh</button>
+    </div>
   </header>
 
   <div class="main">
     <div class="tip-banner">
       💡 <strong>Zoom tip:</strong> Rename yourself to your child's name before joining — it helps teachers call children by name, even across classes. Any Redwood child can join any session.
     </div>
-
     <div class="day-tabs" id="day-tabs"></div>
     <div id="schedule"></div>
     <div class="last-updated" id="last-updated"></div>
@@ -285,7 +417,27 @@
 
 <script>
   const WORKER_URL = 'https://redwood-api.lunamargherita.com';
-  const PASSWORD = 'test2';
+  const DUBAI_OFFSET = 4;
+  let tzOffset = 4;
+
+  function convertTime(timeStr, fromOffset, toOffset) {
+    const [h, m] = timeStr.split(':').map(Number);
+    const totalMins = h * 60 + m - (fromOffset * 60) + (toOffset * 60);
+    const adjMins = ((totalMins % 1440) + 1440) % 1440;
+    const newH = Math.floor(adjMins / 60);
+    const newM = adjMins % 60;
+    return `${String(newH).padStart(2,'0')}:${String(newM).padStart(2,'0')}`;
+  }
+
+  function displayTime(dubaiTime) {
+    if (tzOffset === DUBAI_OFFSET) return dubaiTime;
+    return convertTime(dubaiTime, DUBAI_OFFSET, tzOffset);
+  }
+
+  function onTzChange() {
+    tzOffset = parseFloat(document.getElementById('tz-select').value);
+    renderSchedule();
+  }
 
   const CORRECT_DAYS = [
     { label: 'Mon 30 Mar', date: '2026-03-30' },
@@ -304,26 +456,63 @@
     return idx >= 0 ? idx : 0;
   }
 
-  function checkPassword() {
+  // --- AUTH ---
+  let authToken = sessionStorage.getItem('redwood-parent-token') || null;
+
+  async function checkPassword() {
     const val = document.getElementById('password-input').value;
-    if (val === PASSWORD) {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('app').style.display = 'block';
-      activeDayIndex = getTodayIndex();
-      init();
-    } else {
+    const btn = document.getElementById('login-btn');
+    btn.disabled = true;
+    btn.textContent = 'Checking…';
+    try {
+      const res = await fetch(`${WORKER_URL}/auth`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: val, role: 'parent' }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        authToken = data.token;
+        sessionStorage.setItem('redwood-parent-token', authToken);
+        showApp();
+      } else {
+        document.getElementById('login-error').style.display = 'block';
+      }
+    } catch {
+      document.getElementById('login-error').textContent = 'Connection error. Try again.';
       document.getElementById('login-error').style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'View schedule';
     }
   }
-  document.getElementById('password-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') checkPassword();
-  });
+
+  function authHeaders() {
+    return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` };
+  }
+
+  function showApp() {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    activeDayIndex = getTodayIndex();
+    init();
+  }
+
+  if (authToken) {
+    showApp();
+  } else {
+    document.getElementById('login-btn').addEventListener('click', checkPassword);
+    document.getElementById('password-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') checkPassword();
+    });
+    document.getElementById('password-input').focus();
+  }
 
   function init() {
     buildDayTabs();
     loadSessions();
-    // Auto-refresh every 2 minutes
     setInterval(loadSessions, 120000);
+    setInterval(renderSchedule, 60000);
   }
 
   function buildDayTabs() {
@@ -343,7 +532,7 @@
 
   async function loadSessions() {
     try {
-      const res = await fetch(`${WORKER_URL}/sessions`);
+      const res = await fetch(`${WORKER_URL}/sessions`, { headers: authHeaders() });
       sessions = await res.json();
       renderSchedule();
       const now = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
@@ -375,15 +564,16 @@
     const afternoon = daySessions.filter(s => s.time >= '14:00');
 
     let html = '';
+    const tzLabel = tzOffset === DUBAI_OFFSET ? 'Dubai time' : `your local time (GMT${tzOffset >= 0 ? '+' : ''}${tzOffset})`;
 
     if (morning.length) {
-      html += `<div class="section-label">Morning sessions</div><div class="sessions-list">`;
+      html += `<div class="section-label">Morning · ${tzLabel}</div><div class="sessions-list">`;
       morning.forEach(s => { html += sessionCardHtml(s, false); });
       html += `</div>`;
     }
 
     if (afternoon.length) {
-      html += `<div class="section-label">Afternoon sessions 🌍</div><div class="sessions-list">`;
+      html += `<div class="section-label">Afternoon · ${tzLabel} 🌍</div><div class="sessions-list">`;
       afternoon.forEach(s => { html += sessionCardHtml(s, true); });
       html += `</div>`;
     }
@@ -391,16 +581,117 @@
     container.innerHTML = html;
   }
 
+  function isLive(s) {
+    const now = new Date();
+    const dubaiNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Dubai' }));
+    const [year, month, day] = s.date.split('-').map(Number);
+    const [h, m] = s.time.split(':').map(Number);
+    const sessionStart = new Date(year, month - 1, day, h, m, 0);
+    const sessionEnd = new Date(sessionStart.getTime() + 15 * 60 * 1000);
+    return dubaiNow >= sessionStart && dubaiNow < sessionEnd;
+  }
+
+  function isPast(s) {
+    const now = new Date();
+    const dubaiNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Dubai' }));
+    const [year, month, day] = s.date.split('-').map(Number);
+    const [h, m] = s.time.split(':').map(Number);
+    const sessionEnd = new Date(year, month - 1, day, h, m + 15, 0);
+    return dubaiNow >= sessionEnd;
+  }
+
   function sessionCardHtml(s, isAfternoon) {
+    const live = isLive(s);
+    const past = isPast(s);
+    const gcalUrl = buildGcalUrl(s);
+    const popupId = `cal-popup-${s.id}`;
+
+    const joinBtn = !past
+      ? `<a class="zoom-btn" href="${s.zoom_link && !s.zoom_link.startsWith('http') ? 'https://' + s.zoom_link : s.zoom_link}" target="_blank">Join ↗</a>`
+      : '';
+
+    const calBtn = !past && !live
+      ? `<div style="position:relative">
+           <button class="add-cal-btn" onclick="toggleCalPopup('${popupId}', event)">📅 Add to calendar</button>
+           <div class="cal-popup" id="${popupId}">
+             <button class="cal-popup-item" onclick='downloadIcs(${JSON.stringify(s).replace(/'/g, "&#39;")})'>📱 iCal / Apple Calendar</button>
+             <a class="cal-popup-item" href="${gcalUrl}" target="_blank">🗓 Google Calendar</a>
+           </div>
+         </div>`
+      : '';
+
     return `
-      <div class="session-card">
-        <div class="session-time-badge ${isAfternoon ? 'afternoon' : ''}">${s.time}</div>
+      <div class="session-card${live ? ' is-live' : ''}${past ? ' is-past' : ''}">
+        <div class="session-time-badge ${isAfternoon ? 'afternoon' : ''}">${displayTime(s.time)}</div>
         <div class="session-info">
-          <div class="session-teacher">${s.teacher}</div>
+          <div class="session-teacher">
+            ${s.teacher}
+            ${live ? '<span class="live-badge"><span class="live-dot"></span>LIVE</span>' : ''}
+          </div>
           <div class="session-activity">${s.activity || 'Drop in and see!'}</div>
         </div>
-        <a class="zoom-btn" href="${s.zoom_link && !s.zoom_link.startsWith('http') ? 'https://' + s.zoom_link : s.zoom_link}" target="_blank">Join ↗</a>
+        <div class="session-card-actions">
+          ${joinBtn}
+          ${calBtn}
+        </div>
       </div>`;
+  }
+
+  function toggleCalPopup(id, e) {
+    e.stopPropagation();
+    const popup = document.getElementById(id);
+    const isOpen = popup.classList.contains('open');
+    document.querySelectorAll('.cal-popup').forEach(p => p.classList.remove('open'));
+    if (!isOpen) popup.classList.add('open');
+  }
+
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.cal-popup').forEach(p => p.classList.remove('open'));
+  });
+
+  function buildGcalUrl(s) {
+    const [year, month, day] = s.date.split('-').map(Number);
+    const [h, m] = s.time.split(':').map(Number);
+    const startUtc = new Date(Date.UTC(year, month - 1, day, h - 4, m, 0));
+    const endUtc = new Date(startUtc.getTime() + 15 * 60 * 1000);
+    const fmt = d => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    const title = encodeURIComponent(`Redwood: ${s.teacher}${s.activity ? ' — ' + s.activity : ''}`);
+    const details = encodeURIComponent(`Join Zoom: ${s.zoom_link}\n\nRedwood Sessions — any Redwood child can join.`);
+    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${fmt(startUtc)}/${fmt(endUtc)}&details=${details}`;
+  }
+
+  function downloadIcs(s) {
+    const [year, month, day] = s.date.split('-').map(Number);
+    const [h, m] = s.time.split(':').map(Number);
+    const startUtc = new Date(Date.UTC(year, month - 1, day, h - 4, m, 0));
+    const endUtc = new Date(startUtc.getTime() + 15 * 60 * 1000);
+    const fmt = d => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    const uid = `redwood-${s.id}@lunamargherita.com`;
+    const title = `Redwood: ${s.teacher}${s.activity ? ' — ' + s.activity : ''}`;
+    const ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Redwood Sessions//EN',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
+      'BEGIN:VEVENT',
+      `UID:${uid}`,
+      `DTSTART:${fmt(startUtc)}`,
+      `DTEND:${fmt(endUtc)}`,
+      `SUMMARY:${title}`,
+      `DESCRIPTION:Join Zoom: ${s.zoom_link}\\nAny Redwood child can join.`,
+      `URL:${s.zoom_link}`,
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+
+    const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `redwood-session-${s.date}-${s.time.replace(':', '')}.ics`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 </script>
 </body>
