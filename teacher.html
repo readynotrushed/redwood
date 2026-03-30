@@ -554,7 +554,7 @@
             <div class="session-teacher">${s.teacher}</div>
             <div class="session-activity">${s.activity || 'No activity listed'}</div>
           </div>
-          <a class="session-zoom" href="${s.zoom_link}" target="_blank">Join Zoom ↗</a>
+          <a class="session-zoom" href="${s.zoom_link && !s.zoom_link.startsWith('http') ? 'https://' + s.zoom_link : s.zoom_link}" target="_blank">Join Zoom ↗</a>
           <div class="card-actions">
             <button class="edit-btn" onclick="openEditModal('${s.id}')">Edit</button>
             <button class="cancel-btn" onclick="cancelSession('${s.id}')">Cancel</button>
@@ -648,6 +648,11 @@
     const time = document.getElementById('modal-time-select').value;
     const activity = document.getElementById('activity-input').value.trim();
     const zoom_link = document.getElementById('zoom-input').value.trim();
+
+    let zoom_link = document.getElementById('zoom-input').value.trim();
+    if (zoom_link && !zoom_link.startsWith('http://') && !zoom_link.startsWith('https://')) {
+    zoom_link = 'https://' + zoom_link;
+    }
 
     if (!teacher || dayIdx === '' || !time || !zoom_link) {
       showToast('Please fill in all required fields.', 'error');
