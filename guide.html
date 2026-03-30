@@ -191,22 +191,25 @@
 
   .steps-row {
     display: flex;
-    gap: 0.6rem;
+    gap: 1.6rem;
     justify-content: center;
     flex-wrap: wrap;
   }
 
   .step-chip {
-    background: var(--cream);
-    border: 1.5px solid var(--border);
-    border-radius: 40px;
-    padding: 0.45rem 1.1rem;
-    font-size: 0.82rem;
+    font-size: 0.88rem;
     color: var(--bark-light);
-    font-weight: 500;
+    font-weight: 400;
   }
 
-  .step-chip b { color: var(--leaf); }
+  .step-chip b {
+    color: var(--leaf);
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    font-style: italic;
+    margin-right: 0.2rem;
+  }
 
   /* ── CONTENT ── */
   .content {
@@ -310,11 +313,31 @@
   }
 
   .password-box .pw-val {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.6rem;
-    letter-spacing: 0.03em;
-    margin-bottom: 0.5rem;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.5rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.75rem;
   }
+
+  .pw-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    border-radius: 8px;
+    padding: 0.35rem 0.9rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-bottom: 0.75rem;
+  }
+
+  .pw-copy-btn:hover { background: rgba(255,255,255,0.22); }
+  .pw-copy-btn.copied { background: rgba(255,255,255,0.25); }
 
   .password-box .pw-url {
     font-size: 0.78rem;
@@ -730,7 +753,11 @@
 
       <div class="password-box">
         <div class="pw-label">this is the password</div>
-        <div class="pw-val">+Teacher5poweR-</div>
+        <div class="pw-val" id="pw-display">+Teacher5poweR-</div>
+        <button class="pw-copy-btn" id="copy-btn" onclick="copyPassword()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span id="copy-label">Copy password</span>
+        </button>
         <div class="pw-url"><a href="https://redwood.lunamargherita.com/teacher" target="_blank">START BOOKING YOUR SESSIONS NOW ↗</a></div>
       </div>
 
@@ -953,12 +980,27 @@
 
   loginBtn.addEventListener('click', tryLogin);
   pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
-  pwInput.focus();
 
   if (sessionStorage.getItem('redwood-guide-auth') === '1') {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('guide').style.display = 'block';
     initAnimations();
+  } else {
+    pwInput.focus();
+  }
+
+  function copyPassword() {
+    const pw = document.getElementById('pw-display').textContent;
+    navigator.clipboard.writeText(pw).then(() => {
+      const btn = document.getElementById('copy-btn');
+      const label = document.getElementById('copy-label');
+      btn.classList.add('copied');
+      label.textContent = 'Copied!';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        label.textContent = 'Copy password';
+      }, 2000);
+    });
   }
 
   function initAnimations() {
