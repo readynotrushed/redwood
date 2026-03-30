@@ -177,7 +177,27 @@
     color: white;
     border-color: var(--leaf);
   }
-  .day-tab:hover:not(.active) { border-color: var(--bark-light); color: var(--bark); }
+  .day-tab:hover:not(.active) { border-color: var(--bark-light); color: var(--bark);
+  }
+  .tab-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: var(--leaf);
+  font-size: 0.65rem;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 20px;
+  padding: 0 4px;
+  margin-left: 0.3rem;
+  vertical-align: middle;
+}
+.day-tab.active .tab-badge {
+  background: rgba(255,255,255,0.25);
+  color: white;
+}
 
   /* SCHEDULE GRID */
   .schedule { display: flex; flex-direction: column; gap: 0.5rem; }
@@ -651,7 +671,7 @@
     CORRECT_DAYS.forEach((day, i) => {
       const btn = document.createElement('button');
       btn.className = 'day-tab' + (i === activeDayIndex ? ' active' : '');
-      btn.textContent = day.label;
+      btn.innerHTML = `${day.label} <span class="tab-badge" id="badge-${i}"></span>`;
       btn.onclick = () => { activeDayIndex = i; setActiveTab(i); renderSchedule(); };
       container.appendChild(btn);
     });
@@ -719,6 +739,17 @@
 
     container.innerHTML = html;
     scrollToCurrentTime();
+
+  function updateDayBadges() {
+    CORRECT_DAYS.forEach((day, i) => {
+    const count = sessions.filter(s => s.date === day.date).length;
+    const badge = document.getElementById(`badge-${i}`);
+    if (badge) {
+      badge.textContent = count > 0 ? count : '';
+      badge.style.display = count > 0 ? 'inline-flex' : 'none';
+    }
+  });
+}
   }
 
   function scrollToCurrentTime() {
