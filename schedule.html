@@ -172,6 +172,7 @@
     gap: 0.4rem;
     margin-bottom: 1.5rem;
     overflow-x: auto;
+    padding-top: 8px;
     padding-bottom: 0.25rem;
   }
   .day-tab {
@@ -179,6 +180,7 @@
     border-radius: 20px;
     border: 1.5px solid var(--border);
     background: white;
+    position: relative;
     font-size: 0.82rem;
     font-weight: 500;
     cursor: pointer;
@@ -189,6 +191,28 @@
   }
   .day-tab.active { background: var(--leaf); color: white; border-color: var(--leaf); }
   .day-tab:hover:not(.active) { border-color: var(--bark-light); color: var(--bark); }
+
+  .tab-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #e74c3c;
+  color: white;
+  font-size: 0.6rem;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 20px;
+  padding: 0 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+  
+.day-tab.active .tab-badge {
+  background: white;
+  color: var(--leaf);
+}
 
   /* SESSION CARDS */
   .section-label {
@@ -536,7 +560,7 @@
     CORRECT_DAYS.forEach((day, i) => {
       const btn = document.createElement('button');
       btn.className = 'day-tab' + (i === activeDayIndex ? ' active' : '');
-      btn.textContent = day.label;
+      btn.innerHTML = `${day.label} <span class="tab-badge" id="badge-${i}"></span>`;
       btn.onclick = () => { activeDayIndex = i; setActiveTab(i); renderSchedule(); };
       container.appendChild(btn);
     });
@@ -596,6 +620,18 @@
 
     container.innerHTML = html;
   }
+
+  function updateDayBadges() {
+  CORRECT_DAYS.forEach((day, i) => {
+    const count = sessions.filter(s => s.date === day.date).length;
+    const badge = document.getElementById(`badge-${i}`);
+    if (badge) {
+      const isActive = i === activeDayIndex;
+      badge.textContent = count > 0 ? count : '';
+      badge.style.display = count > 0 && !isActive ? 'inline-flex' : 'none';
+    }
+  });
+}
 
   function isLive(s) {
     const now = new Date();
