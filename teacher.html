@@ -157,6 +157,7 @@
     gap: 0.5rem;
     margin-bottom: 2rem;
     overflow-x: auto;
+    padding-top: 8px;
     padding-bottom: 0.25rem;
   }
   .day-tab {
@@ -739,19 +740,20 @@
       html += renderSlotRow(slot, byTime[slot] || [], day.date);
     });
 
-    container.innerHTML = html;
+   container.innerHTML = html;
+    updateDayBadges();
     scrollToCurrentTime();
+  }
 
   function updateDayBadges() {
     CORRECT_DAYS.forEach((day, i) => {
-    const count = sessions.filter(s => s.date === day.date).length;
-    const badge = document.getElementById(`badge-${i}`);
-    if (badge) {
-      badge.textContent = count > 0 ? count : '';
-      badge.style.display = count > 0 ? 'inline-flex' : 'none';
-    }
-  });
-}
+      const count = sessions.filter(s => s.date === day.date).length;
+      const badge = document.getElementById(`badge-${i}`);
+      if (badge) {
+        badge.textContent = count > 0 ? count : '';
+        badge.style.display = count > 0 ? 'inline-flex' : 'none';
+      }
+    });
   }
 
   function scrollToCurrentTime() {
