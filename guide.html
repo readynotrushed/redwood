@@ -32,83 +32,6 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ── LOGIN ── */
-  #login-screen {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    background: var(--cream);
-  }
-
-  .login-card {
-    background: white;
-    border-radius: 24px;
-    padding: 3rem 2.5rem;
-    max-width: 360px;
-    width: 100%;
-    box-shadow: 0 8px 48px rgba(61,43,31,0.10);
-    text-align: center;
-  }
-
-  .login-card .tree { font-size: 2.8rem; margin-bottom: 1.2rem; }
-
-  .login-card h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.7rem;
-    color: var(--bark);
-    margin-bottom: 0.3rem;
-  }
-
-  .login-card .sub {
-    font-size: 0.85rem;
-    color: var(--bark-light);
-    margin-bottom: 2rem;
-  }
-
-  .login-card input {
-    width: 100%;
-    padding: 0.85rem 1.1rem;
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1rem;
-    color: var(--bark);
-    background: var(--cream);
-    margin-bottom: 0.9rem;
-    outline: none;
-    transition: border-color 0.2s;
-    text-align: center;
-    letter-spacing: 0.05em;
-  }
-
-  .login-card input:focus { border-color: var(--leaf); }
-
-  .login-card button {
-    width: 100%;
-    padding: 0.85rem;
-    background: var(--leaf);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-  }
-
-  .login-card button:hover { background: #5a0f10; }
-  .login-card button:active { transform: scale(0.98); }
-
-  .login-error {
-    color: var(--leaf);
-    font-size: 0.82rem;
-    margin-top: 0.75rem;
-    display: none;
-  }
-
   /* ── MAIN ── */
   #guide { display: none; }
 
@@ -717,18 +640,6 @@
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="login-screen">
-  <div class="login-card">
-    <div class="tree">📖</div>
-    <h1>Redwood Teacher Guide</h1>
-    <p class="sub">Enter your password to continue</p>
-    <input type="password" id="pw" placeholder="Password" autocomplete="current-password" />
-    <button id="login-btn">Enter</button>
-    <div class="login-error" id="login-error">Incorrect password. Try again.</div>
-  </div>
-</div>
-
 <!-- GUIDE -->
 <div id="guide">
 
@@ -773,7 +684,7 @@
           <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
           WhatsApp
         </a>
-        <a class="delegate-btn-email" href="mailto:lunamargherita@gmail.com?subject=Redwood%20session%20request&body=My%20name%3A%20%0AActivity%20starting%20time%20(Dubai%20time)%3A%20%0ADuration%3A%20%0AZoom%20link%3A%20%0ADescription%3A%20" target="_blank">
+        <a class="delegate-btn-email" href="/cdn-cgi/l/email-protection#036f766d626e6271646b66716a776243646e626a6f2d606c6e3c707661696660773e516667746c6c67263133706670706a6c6d2631337166727666707725616c677a3e4e7a2631336d626e662630422631332633424260776a756a777a26313370776271776a6d64263133776a6e662631332b477661626a263133776a6e662a26304226313326334247767162776a6c6d263042263133263342596c6c6e2631336f6a6d6826304226313326334247667060716a73776a6c6d263042263133" target="_blank">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg> Email
         </a>
       </div>
@@ -1075,36 +986,9 @@
   </div>
 </div>
 
-<script>
-  const CORRECT_PASSWORD = 'starteam';
-
-  const pwInput = document.getElementById('pw');
-  const loginBtn = document.getElementById('login-btn');
-  const loginError = document.getElementById('login-error');
-
-  function tryLogin() {
-    if (pwInput.value.trim() === CORRECT_PASSWORD) {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('guide').style.display = 'block';
-      sessionStorage.setItem('redwood-guide-auth', '1');
-      initAnimations();
-    } else {
-      loginError.style.display = 'block';
-      pwInput.value = '';
-      pwInput.focus();
-    }
-  }
-
-  loginBtn.addEventListener('click', tryLogin);
-  pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
-
-  if (sessionStorage.getItem('redwood-guide-auth') === '1') {
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('guide').style.display = 'block';
-    initAnimations();
-  } else {
-    pwInput.focus();
-  }
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  document.getElementById('guide').style.display = 'block';
+  initAnimations();
 
   function copyPassword() {
     const pw = document.getElementById('pw-display').textContent;
@@ -1122,16 +1006,4 @@
 
   function initAnimations() {
     const sections = document.querySelectorAll('.section');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.08 });
-    sections.forEach(s => observer.observe(s));
-  }
-</script>
-</body>
-</html>
+    const o
