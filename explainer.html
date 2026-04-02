@@ -606,6 +606,67 @@
   }
 
   .wa-btn:hover { border-color: var(--black); }
+
+  /* ── PASSWORD BOX ── */
+  .password-box {
+    background: var(--wa-bg);
+    color: white;
+    border-radius: 16px;
+    padding: 1.6rem 2rem;
+    margin: 1.8rem 0;
+    text-align: center;
+  }
+
+  .password-box .pw-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    margin-bottom: 0.5rem;
+  }
+
+  .password-box .pw-val {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.5rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.75rem;
+  }
+
+  .pw-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--orange);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    border-radius: 8px;
+    padding: 0.35rem 0.9rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-bottom: 0.75rem;
+  }
+
+  .pw-copy-btn:hover { background: rgba(255,255,255,0.22); }
+  .pw-copy-btn.copied { background: rgba(255,255,255,0.25); }
+
+  .password-box .pw-url {
+    font-size: 0.78rem;
+    opacity: 0.6;
+    font-weight: 600;
+  }
+
+  .password-box .pw-url a {
+    color: white;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+  }
+
+  .password-box .pw-url a:hover { opacity: 1; }
 </style>
 </head>
 <body>
@@ -749,8 +810,8 @@
     <p class="lead">Starting points only. You won't always know who will show up, so keep it open and playful.</p>
 
     <div class="activity-grid">
-      <div class="ac"><span class="ac-icon">🎵</span><div class="ac-name">Morning songs</div><div class="ac-desc">Hello song, goodbye song, a favourite from class</div></div>
-      <div class="ac"><span class="ac-icon">📖</span><div class="ac-name">Story time</div><div class="ac-desc">Read a picture book, pause for questions</div></div>
+      <div class="ac"><span class="ac-icon">🎵</span><div class="ac-name">Morning songs</div><div class="ac-desc">Hello song, random song, a favourite from class</div></div>
+      <div class="ac"><span class="ac-icon">📖</span><div class="ac-name">Story time</div><div class="ac-desc">Read a book, let kids choose how characters should sound ROAAR</div></div>
       <div class="ac"><span class="ac-icon">🤸</span><div class="ac-name">Stretch &amp; move</div><div class="ac-desc">Action songs, kids yoga, follow the teacher</div></div>
       <div class="ac"><span class="ac-icon">🔤</span><div class="ac-name">Phonics</div><div class="ac-desc">Letters, sounds, a fun action for each</div></div>
       <div class="ac"><span class="ac-icon">🎒</span><div class="ac-name">What's in the bag?</div><div class="ac-desc">Mystery objects, naming, colours, shapes</div></div>
@@ -863,6 +924,15 @@
         </a>
       </div>
     </div>
+    <div class="password-box">
+        <div class="pw-label">this is the password</div>
+        <div class="pw-val" id="pw-display">15minJOY</div>
+        <button class="pw-copy-btn" id="copy-btn" onclick="copyPassword()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          <span id="copy-label">Copy password</span>
+        </button>
+        <div class="pw-url"><a href="https://redwood.lunamargherita.com/teacher" target="_blank">START BOOKING YOUR SESSIONS NOW ↗</a></div>
+      </div>
   </div>
 
 </div>
