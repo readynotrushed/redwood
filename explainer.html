@@ -609,8 +609,7 @@
 
   /* ── PASSWORD BOX ── */
   .password-box {
-    background: var(--wa-bg);
-    color: white;
+    background: var(--black);
     border-radius: 16px;
     padding: 1.6rem 2rem;
     margin: 1.8rem 0;
@@ -618,21 +617,21 @@
   }
 
   .password-box .pw-label {
-    font-size: 0.8rem;
-    color: var(--grey-mid);
-    font-weight: 600;
-    letter-spacing: 0.12em;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.45);
+    font-weight: 700;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    opacity: 0.55;
     margin-bottom: 0.5rem;
   }
 
   .password-box .pw-val {
     font-family: 'Courier New', Courier, monospace;
-    color: var(--grey);
-    font-size: 1.5rem;
-    letter-spacing: 0.04em;
-    margin-bottom: 0.75rem;
+    color: var(--white);
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.85rem;
   }
 
   .pw-copy-btn {
@@ -644,7 +643,7 @@
     color: white;
     border-radius: 8px;
     padding: 0.35rem 0.9rem;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Lato', sans-serif;
     font-size: 0.78rem;
     font-weight: 500;
     cursor: pointer;
@@ -652,23 +651,23 @@
     margin-bottom: 0.75rem;
   }
 
-  .pw-copy-btn:hover { background: rgba(255,255,255,0.22); }
-  .pw-copy-btn.copied { background: rgba(255,255,255,0.25); }
+  .pw-copy-btn:hover { background: #e8835a; }
+  .pw-copy-btn.copied { background: var(--green); }
 
   .password-box .pw-url {
     font-size: 0.78rem;
-    opacity: 0.6;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-top: 0.2rem;
   }
 
   .password-box .pw-url a {
-    color: var(--grey-mid);
+    color: rgba(255,255,255,0.55);
     text-decoration: none;
-    opacity: 0.6;
-    transition: opacity 0.2s;
+    transition: color 0.2s;
   }
 
-  .password-box .pw-url a:hover { opacity: 1; }
+  .password-box .pw-url a:hover { color: var(--white); }
 </style>
 </head>
 <body>
@@ -940,6 +939,37 @@
 </div>
 
 <script>
+// ── Copy password ──
+function copyPassword() {
+  const pw = document.getElementById('pw-display').textContent;
+  const btn = document.getElementById('copy-btn');
+  const lbl = document.getElementById('copy-label');
+  navigator.clipboard.writeText(pw).then(() => {
+    btn.classList.add('copied');
+    lbl.textContent = 'Copied!';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      lbl.textContent = 'Copy password';
+    }, 2000);
+  }).catch(() => {
+    // Fallback for browsers that block clipboard without https
+    const ta = document.createElement('textarea');
+    ta.value = pw;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.classList.add('copied');
+    lbl.textContent = 'Copied!';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      lbl.textContent = 'Copy password';
+    }, 2000);
+  });
+}
+
 // ── Scroll animation for sections ──
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => {
