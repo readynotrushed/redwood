@@ -3,27 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Redwood — Teacher Schedule</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Redwood — Book a Session</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: rgb(250, 240, 227);
-    --bark: #3d2b1f;
-    --bark-light: #6b4c3b;
+    --bg: #f0ebe1;
+    --card: #ffffff;
+    --navy: #1a1a2e;
+    --muted: #6b6055;
+    --border: #e8e2d8;
+    --red: rgb(121, 21, 22);
+    --red-light: rgba(121, 21, 22, 0.07);
+    --green: #4a7c59;
+    --green-bg: #e8f4ed;
+    --peach: #c4623a;
+    --shadow: rgba(26,26,46,0.07);
+    /* legacy aliases for existing JS-generated HTML */
+    --cream: #f0ebe1;
+    --bark: #1a1a2e;
+    --bark-light: #6b6055;
     --leaf: rgb(121, 21, 22);
-    --leaf-light: rgba(121, 21, 22, 0.08);
-    --sun: #e8a020;
+    --leaf-light: rgba(121, 21, 22, 0.07);
+    --sun: #c47a10;
     --sun-light: #fef3e0;
-    --red: #c0392b;
-    --red-light: #fdecea;
-    --border: #e2d9d0;
-    --shadow: rgba(61,43,31,0.08);
+    --red-err: #c0392b;
+    --red-light-err: #fdecea;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--bark);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--navy);
     min-height: 100vh;
   }
 
@@ -36,56 +46,57 @@
     padding: 2rem;
   }
   .login-card {
-    background: white;
-    border-radius: 20px;
+    background: var(--card);
+    border-radius: 28px;
     padding: 3rem 2.5rem;
     max-width: 380px;
     width: 100%;
-    box-shadow: 0 8px 40px var(--shadow);
+    box-shadow: 0 4px 32px var(--shadow);
     text-align: center;
   }
   .login-card .tree { font-size: 3rem; margin-bottom: 1rem; }
   .login-card h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.8rem;
-    color: var(--bark);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--navy);
+    letter-spacing: -0.02em;
     margin-bottom: 0.25rem;
   }
-  .login-card p { color: var(--bark-light); font-size: 0.9rem; margin-bottom: 2rem; }
+  .login-card p { color: var(--muted); font-size: 0.85rem; margin-bottom: 2rem; }
   .login-card input {
     width: 100%;
     padding: 0.9rem 1.2rem;
     border: 1.5px solid var(--border);
     border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 1rem;
-    color: var(--bark);
-    background: var(--cream);
+    color: var(--navy);
+    background: var(--bg);
     margin-bottom: 1rem;
     outline: none;
     transition: border-color 0.2s;
   }
-  .login-card input:focus { border-color: var(--leaf); }
+  .login-card input:focus { border-color: var(--red); background: white; }
   .login-card button {
     width: 100%;
     padding: 0.9rem;
-    background: var(--leaf);
+    background: var(--red);
     color: white;
     border: none;
     border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: opacity 0.2s;
   }
-  .login-card button:hover { background: #5a0f10; }
-  .login-error { color: var(--red); font-size: 0.85rem; margin-top: 0.75rem; display: none; }
+  .login-card button:hover { opacity: 0.88; }
+  .login-error { color: var(--peach); font-size: 0.85rem; margin-top: 0.75rem; display: none; }
 
   /* MAIN APP */
   #app { display: none; }
   header {
-    background: white;
+    background: var(--card);
     border-bottom: 1px solid var(--border);
     padding: 1rem 2rem;
     display: flex;
@@ -98,52 +109,53 @@
   .header-left { display: flex; align-items: center; gap: 0.75rem; }
   .header-left span { font-size: 1.5rem; }
   .header-left h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.3rem;
-    color: var(--bark);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--navy);
   }
-  .header-left small { font-size: 0.75rem; color: var(--bark-light); display: block; }
+  .header-left small { font-size: 0.72rem; color: var(--muted); display: block; margin-top: 1px; }
   .add-btn {
-    background: var(--leaf);
+    background: var(--red);
     color: white;
     border: none;
-    border-radius: 10px;
-    padding: 0.6rem 1.2rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 500;
+    border-radius: 20px;
+    padding: 0.5rem 1.1rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: opacity 0.2s;
   }
-  .add-btn:hover { background: #5a0f10; }
+  .add-btn:hover { opacity: 0.88; }
   .header-actions { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
   .tz-wrapper { display: flex; align-items: center; gap: 0.4rem; }
-  .tz-label { font-size: 0.75rem; color: var(--bark-light); white-space: nowrap; }
+  .tz-label { font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
   .tz-select {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 0.8rem;
-    color: var(--bark);
+    color: var(--navy);
     border: 1.5px solid var(--border);
     border-radius: 8px;
     padding: 0.35rem 0.6rem;
-    background: var(--cream);
+    background: var(--bg);
     cursor: pointer;
     outline: none;
     max-width: 160px;
   }
-  .tz-select:focus { border-color: var(--leaf); }
+  .tz-select:focus { border-color: var(--red); }
   .wa-btn {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
     background: none;
     border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 0.55rem 1rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
+    border-radius: 20px;
+    padding: 0.45rem 1rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.82rem;
     font-weight: 500;
-    color: var(--bark-light);
+    color: var(--muted);
     text-decoration: none;
     transition: all 0.2s;
     white-space: nowrap;
@@ -858,7 +870,8 @@
   }
 
   // --- AUTH ---
-  let authToken = sessionStorage.getItem('redwood-teacher-token') || null;
+  // Check hub sessionStorage first, fall back to own token
+  let authToken = sessionStorage.getItem('rw_token') || sessionStorage.getItem('redwood-teacher-token') || null;
 
   async function checkPassword() {
     const val = document.getElementById('password-input').value;
@@ -866,15 +879,16 @@
     btn.disabled = true;
     btn.textContent = 'Checking…';
     try {
-      const res = await fetch(`${WORKER_URL}/auth`, {
+      const res = await fetch(`${WORKER_URL}/stats-auth`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: val, role: 'teacher' }),
+        body: JSON.stringify({ password: val }),
       });
       if (res.ok) {
         const data = await res.json();
         authToken = data.token;
-        sessionStorage.setItem('redwood-teacher-token', authToken);
+        sessionStorage.setItem('rw_auth', 'true');
+        sessionStorage.setItem('rw_token', authToken);
         showApp();
       } else {
         document.getElementById('login-error').style.display = 'block';
@@ -1317,5 +1331,61 @@ sessionsHtml += `<div class="empty-slot" onclick="openModal('${date}','${slot}')
   });
   
 </script>
+<div class="rw-footer">
+  <div class="rw-footer-inner">
+    <div class="rw-footer-copy"><strong>Built by Eshanka and Luna.</strong> If something's not working, ask Maria.</div>
+    <div style="display:flex;gap:0.75rem;align-items:center;">
+      <a href="teachers.html" class="rw-footer-link">← Teachers hub</a>
+      <a href="guide.html" class="rw-footer-btn">👵 Ask Maria</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .rw-footer {
+    border-top: 1px solid var(--border);
+    background: var(--card);
+    padding: 1.25rem 2rem;
+    position: sticky;
+    bottom: 0;
+    z-index: 50;
+  }
+  .rw-footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .rw-footer-copy { font-size: 0.82rem; color: var(--muted); }
+  .rw-footer-copy strong { color: var(--navy); font-weight: 600; }
+  .rw-footer-link {
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .rw-footer-link:hover { color: var(--navy); }
+  .rw-footer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0.45rem 1rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .rw-footer-btn:hover { opacity: 0.85; }
+</style>
+
 </body>
 </html>

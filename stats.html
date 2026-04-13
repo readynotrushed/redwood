@@ -4,344 +4,326 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Redwood Sessions — Stats</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --leaf: rgb(121, 21, 22);
-    --leaf-glow: rgba(121, 21, 22, 0.2);
-    --sun: #c47a10;
-    --cream: rgb(250, 240, 227);
-    --bark: #3d2b1f;
-    --bark-light: #6b4c3b;
-    --glass-bg: rgba(255, 255, 255, 0.55);
-    --glass-border: rgba(61, 43, 31, 0.12);
-    --glass-highlight: rgba(255, 255, 255, 0.85);
+    --bg: #f0ebe1;
+    --card: #ffffff;
+    --navy: #1a1a2e;
+    --primary: rgb(121, 21, 22);
+    --muted: #a09888;
+    --border: #ede8e0;
+    --green: #4a7c59;
+    --green-bg: #e8f4ed;
+    --peach: #c4623a;
+    --peach-bg: #fef0ea;
+    --radius: 20px;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--navy);
     min-height: 100vh;
-    background: #f5ece1;
-    color: var(--bark);
-    overflow-x: hidden;
-  }
-
-  .bg {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    background:
-      radial-gradient(ellipse 70% 55% at 10% 5%, rgba(232,160,32,0.15) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 50% at 90% 90%, rgba(121,21,22,0.08) 0%, transparent 60%),
-      #f5ece1;
   }
 
   /* LOGIN */
   #login-screen {
-    position: relative;
-    z-index: 10;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2rem;
+    background: var(--bg);
   }
 
   .login-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(28px);
-    -webkit-backdrop-filter: blur(28px);
-    border: 1px solid var(--glass-border);
+    background: var(--card);
     border-radius: 28px;
     padding: 3rem 2.5rem;
     max-width: 340px;
     width: 100%;
     text-align: center;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.5), inset 0 1px 0 var(--glass-highlight);
-    animation: fadeUp 0.5s ease both;
+    box-shadow: 0 4px 32px rgba(26,26,46,0.08);
+    animation: fadeUp 0.4s ease both;
   }
 
   .login-tree { font-size: 2.8rem; margin-bottom: 1rem; }
 
   .login-card h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.8rem;
-    color: var(--bark);
-    margin-bottom: 0.2rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--navy);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
   }
 
   .login-card p {
-    font-size: 0.75rem;
-    color: var(--bark-light);
+    font-size: 0.82rem;
+    color: var(--muted);
     margin-bottom: 2rem;
-    font-family: 'DM Mono', monospace;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    font-weight: 400;
   }
 
   .login-card input {
     width: 100%;
     padding: 0.85rem 1.1rem;
-    background: rgba(255,255,255,0.7);
-    border: 1px solid var(--glass-border);
+    background: var(--bg);
+    border: 1.5px solid var(--border);
     border-radius: 12px;
-    font-family: 'DM Mono', monospace;
-    font-size: 1rem;
-    color: var(--bark);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--navy);
     margin-bottom: 1rem;
     outline: none;
-    transition: border-color 0.2s, background 0.2s;
-    letter-spacing: 0.08em;
+    transition: border-color 0.2s;
+    letter-spacing: 0.05em;
   }
-  .login-card input::placeholder { color: rgba(61,43,31,0.3); }
-  .login-card input:focus {
-    border-color: var(--leaf);
-    background: white;
-  }
+  .login-card input::placeholder { color: var(--muted); }
+  .login-card input:focus { border-color: var(--navy); background: white; }
 
   .login-card button {
     width: 100%;
     padding: 0.85rem;
-    background: var(--leaf);
+    background: var(--primary);
     color: white;
     border: none;
     border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 0.95rem;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 20px var(--leaf-glow);
+    transition: opacity 0.2s;
   }
-  .login-card button:hover { background: #8a1213; box-shadow: 0 6px 28px var(--leaf-glow); }
+  .login-card button:hover { opacity: 0.85; }
 
   .login-error {
-    color: #ff7070;
-    font-size: 0.78rem;
+    color: var(--peach);
+    font-size: 0.8rem;
     margin-top: 0.75rem;
-    font-family: 'DM Mono', monospace;
     display: none;
   }
 
   /* APP */
-  #app { display: none; position: relative; z-index: 10; min-height: 100vh; }
+  #app { display: none; min-height: 100vh; }
 
   header {
-    padding: 1.2rem 2rem;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 1.75rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid var(--glass-border);
-    background: rgba(245,236,225,0.75);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     position: sticky;
     top: 0;
     z-index: 100;
   }
 
-  .header-left { display: flex; align-items: center; gap: 0.8rem; }
-  .header-left span { font-size: 1.5rem; }
-  .header-left h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.25rem;
-    color: var(--bark);
-  }
-  .header-left small {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--bark-light);
-    display: block;
-    letter-spacing: 0.04em;
-  }
+  .header-left { display: flex; align-items: center; gap: 0.75rem; }
+  .header-left span { font-size: 1.4rem; }
+  .header-left h1 { font-size: 1.1rem; font-weight: 600; letter-spacing: -0.01em; }
+  .header-left small { font-size: 0.72rem; color: var(--muted); display: block; margin-top: 1px; }
 
   .refresh-btn {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 8px;
-    padding: 0.4rem 0.9rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--bark-light);
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0.45rem 1rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: opacity 0.2s;
   }
-  .refresh-btn:hover { border-color: var(--leaf); color: var(--leaf); }
+  .refresh-btn:hover { opacity: 0.8; }
 
-  .main { padding: 1.75rem 2rem; max-width: 860px; margin: 0 auto; }
+  .main { padding: 1.75rem; max-width: 860px; margin: 0 auto; }
 
-  /* SUMMARY */
+  /* SUMMARY CARDS */
   .summary-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0,1fr));
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
   }
 
   .summary-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-    border-radius: 18px;
+    background: var(--card);
+    border-radius: var(--radius);
     padding: 1.4rem 1.5rem;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 var(--glass-highlight);
-    animation: fadeUp 0.4s ease both;
+    box-shadow: 0 2px 12px rgba(26,26,46,0.05);
+    animation: fadeUp 0.35s ease both;
   }
   .summary-card:nth-child(2) { animation-delay: 0.07s; }
   .summary-card:nth-child(3) { animation-delay: 0.14s; }
 
   .summary-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
+    font-size: 0.68rem;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--bark-light);
+    letter-spacing: 0.08em;
+    color: var(--muted);
     margin-bottom: 0.5rem;
   }
   .summary-value {
-    font-family: 'DM Serif Display', serif;
-    font-size: 2.6rem;
-    color: var(--bark);
+    font-size: 2.8rem;
+    font-weight: 600;
     line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--navy);
   }
-  .summary-card.accent-sun .summary-value { color: var(--sun); }
-  .summary-card.accent-love .summary-value { color: var(--leaf); }
+  .summary-foot {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 0.4rem;
+  }
+  .summary-card.accent-green .summary-value { color: var(--green); }
+  .summary-card.accent-peach .summary-value { color: var(--peach); }
 
   /* TABLE */
   .table-wrap {
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-    border-radius: 20px;
+    background: var(--card);
+    border-radius: var(--radius);
     overflow: hidden;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.4), inset 0 1px 0 var(--glass-highlight);
-    animation: fadeUp 0.4s ease 0.2s both;
+    box-shadow: 0 2px 12px rgba(26,26,46,0.05);
+    animation: fadeUp 0.35s ease 0.2s both;
   }
 
   .table-head {
     display: grid;
     grid-template-columns: 1fr 90px 70px 70px 70px;
     padding: 0.85rem 1.5rem;
-    border-bottom: 1px solid var(--glass-border);
-    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid var(--border);
+    background: #faf8f4;
   }
 
   .th {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
+    font-size: 0.65rem;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--bark-light);
+    letter-spacing: 0.08em;
+    color: var(--muted);
   }
   .th.r { text-align: right; }
 
   .table-row {
     display: grid;
     grid-template-columns: 1fr 90px 70px 70px 70px;
-    padding: 0.95rem 1.5rem;
-    border-bottom: 1px solid var(--glass-border);
+    padding: 0.9rem 1.5rem;
+    border-bottom: 1px solid var(--border);
     align-items: center;
     transition: background 0.15s;
   }
   .table-row:last-child { border-bottom: none; }
-  .table-row:hover { background: rgba(255,255,255,0.5); }
-  .table-row.live-row { background: rgba(121,21,22,0.05); }
+  .table-row:hover { background: #faf8f4; }
+  .table-row.live-row { background: var(--green-bg); }
+
+  .row-teacher-wrap { display: flex; align-items: center; gap: 0.65rem; }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
 
   .row-name {
     font-size: 0.88rem;
     font-weight: 500;
-    color: var(--bark);
+    color: var(--navy);
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
     flex-wrap: wrap;
   }
   .row-sub {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--bark-light);
-    margin-top: 0.1rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 1px;
   }
 
   .live-pill {
-    font-size: 0.58rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    background: var(--leaf);
-    color: white;
-    padding: 0.12rem 0.45rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    background: var(--green-bg);
+    color: var(--green);
+    padding: 0.15rem 0.5rem;
     border-radius: 20px;
-    animation: pulse-pill 2s ease-in-out infinite;
   }
-  @keyframes pulse-pill {
-    0%, 100% { box-shadow: 0 0 6px var(--leaf-glow); }
-    50% { box-shadow: 0 0 14px var(--leaf-glow); }
+  .live-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: blink 1.4s ease-in-out infinite;
   }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
   .mono {
-    font-family: 'DM Mono', monospace;
     font-size: 0.78rem;
-    color: var(--bark-light);
+    color: var(--muted);
     text-align: right;
   }
   .stat {
-    font-family: 'DM Mono', monospace;
     font-size: 1rem;
+    font-weight: 600;
     text-align: right;
-    color: var(--bark);
+    color: var(--navy);
   }
-  .stat.zero { color: rgba(61,43,31,0.2); }
-  .stat.hi-sun { color: var(--sun); }
-  .stat.hi-love { color: var(--leaf); }
+  .stat.zero { color: #d8d0c8; font-weight: 400; }
+  .stat.hi-green { color: var(--green); }
+  .stat.hi-peach { color: var(--peach); }
 
   .loading-msg {
     padding: 3rem 1.5rem;
     text-align: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.78rem;
-    color: var(--bark-light);
-    letter-spacing: 0.05em;
+    font-size: 0.82rem;
+    color: var(--muted);
   }
 
   .footer-ts {
     text-align: center;
     padding: 1.5rem 2rem 2rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    color: rgba(61,43,31,0.3);
-    letter-spacing: 0.05em;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
   }
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
   @media (max-width: 560px) {
     .main { padding: 1rem; }
     header { padding: 1rem; }
-    .summary-value { font-size: 2rem; }
-    .table-head,
-    .table-row { grid-template-columns: 1fr 60px 60px; }
+    .summary-value { font-size: 2.2rem; }
+    .table-head, .table-row { grid-template-columns: 1fr 60px 60px; }
     .col-date, .col-zoom { display: none; }
   }
 </style>
 </head>
 <body>
 
-<div class="bg"></div>
-
 <!-- LOGIN -->
 <div id="login-screen">
   <div class="login-card">
     <div class="login-tree">🌳</div>
     <h1>Redwood Stats</h1>
-    <p>analytics dashboard</p>
-    <input type="password" id="pw" placeholder="password" autocomplete="current-password" />
+    <p>Analytics dashboard</p>
+    <input type="password" id="pw" placeholder="Password" autocomplete="current-password" />
     <button onclick="login()">View stats</button>
     <div class="login-error" id="login-error">Wrong password</div>
   </div>
@@ -354,10 +336,10 @@
       <span>🌳</span>
       <div>
         <h1>Redwood Sessions</h1>
-        <small id="last-updated">—</small>
+        <small id="last-updated">Here's how Redwood Sessions are doing today</small>
       </div>
     </div>
-    <button class="refresh-btn" onclick="loadData()">↻ refresh</button>
+    <button class="refresh-btn" onclick="loadData()">↻ Refresh</button>
   </header>
 
   <div class="main">
@@ -365,14 +347,16 @@
       <div class="summary-card">
         <div class="summary-label">Sessions</div>
         <div class="summary-value" id="s-sessions">—</div>
-      </div>
-      <div class="summary-card accent-sun">
+        <div class="summary-foot">all time</div>
+
         <div class="summary-label">Join Zoom taps</div>
         <div class="summary-value" id="s-zooms">—</div>
+        <div class="summary-foot">across all sessions</div>
       </div>
-      <div class="summary-card accent-love">
-        <div class="summary-label">Love sent 💛</div>
+      <div class="summary-card accent-peach">
+        <div class="summary-label">💛 Love sent</div>
         <div class="summary-value" id="s-love">—</div>
+        <div class="summary-foot">from children</div>
       </div>
     </div>
 
@@ -385,16 +369,44 @@
         <div class="th r">💛</div>
       </div>
       <div id="tbody">
-        <div class="loading-msg">fetching sessions...</div>
+        <div class="loading-msg">Fetching sessions...</div>
       </div>
     </div>
   </div>
 
   <div class="footer-ts" id="footer-ts"></div>
+
+  <div style="border-top:1px solid var(--border);background:var(--card);padding:1.25rem 1.75rem;position:sticky;bottom:0;z-index:50;">
+    <div style="max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+      <div style="font-size:0.82rem;color:var(--muted);"><strong style="color:var(--navy);font-weight:600;">Built by Eshanka and Luna.</strong> If something's not working, ask Maria.</div>
+      <div style="display:flex;gap:0.75rem;align-items:center;">
+        <a href="teachers.html" style="font-size:0.78rem;color:var(--muted);text-decoration:none;font-weight:500;">← Teachers hub</a>
+        <a href="guide.html" style="display:inline-flex;align-items:center;gap:0.4rem;background:var(--navy);color:white;border-radius:20px;padding:0.45rem 1rem;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:600;text-decoration:none;">👵 Ask Maria</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
   const WORKER_URL = 'https://redwood-api.lunamargherita.com';
+
+  const AVATAR_COLORS = [
+    { bg: '#e8f4ed', color: '#4a7c59' },
+    { bg: '#fef0ea', color: '#c4623a' },
+    { bg: '#f0eeff', color: '#6b5dd3' },
+    { bg: '#fff8e8', color: '#b07a20' },
+    { bg: '#fce8f0', color: '#b03a6a' },
+    { bg: '#e8f0fe', color: '#3a6ab0' },
+  ];
+
+  const avatarCache = {};
+  function getAvatar(name) {
+    if (!avatarCache[name]) {
+      const keys = Object.keys(avatarCache).length;
+      avatarCache[name] = AVATAR_COLORS[keys % AVATAR_COLORS.length];
+    }
+    return avatarCache[name];
+  }
 
   let workerToken = null;
 
@@ -420,10 +432,6 @@
     }
   }
   document.getElementById('pw').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
-
-  async function getWorkerToken() {
-    return workerToken;
-  }
 
   function isLive(date, time) {
     const now = new Date();
@@ -454,16 +462,19 @@
     return `${h > 12 ? h - 12 : h}:${m.toString().padStart(2,'0')}${h >= 12 ? 'pm' : 'am'}`;
   }
 
+  function initials(name) {
+    return name.replace('Ms ', '').replace('Mr ', '').trim().charAt(0).toUpperCase();
+  }
+
   async function loadData() {
-    document.getElementById('tbody').innerHTML = '<div class="loading-msg">fetching sessions...</div>';
+    document.getElementById('tbody').innerHTML = '<div class="loading-msg">Fetching sessions...</div>';
     ['s-sessions','s-zooms','s-love'].forEach(id => document.getElementById(id).textContent = '—');
 
     try {
-      const token = await getWorkerToken();
       const sessRes = await fetch(`${WORKER_URL}/sessions`, {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 'Authorization': `Bearer ${workerToken}` }
       });
-      if (!sessRes.ok) throw new Error('Could not load sessions — check WORKER_PARENT_TOKEN');
+      if (!sessRes.ok) throw new Error('Could not load sessions');
       const sessions = await sessRes.json();
 
       const counts = await Promise.all(sessions.map(async s => {
@@ -497,25 +508,27 @@
       document.getElementById('tbody').innerHTML = sorted.map(s => {
         const live = isLive(s.date, s.time);
         const c = cm[s.id] || { zoom: 0, love: 0 };
+        const av = getAvatar(s.teacher);
+        const liveHtml = live ? `<span class="live-pill"><span class="live-dot"></span>Live</span>` : '';
         return `
           <div class="table-row${live ? ' live-row' : ''}">
-            <div>
-              <div class="row-name">
-                ${s.teacher}
-                ${live ? '<span class="live-pill">LIVE</span>' : ''}
+            <div class="row-teacher-wrap">
+              <div class="avatar" style="background:${av.bg}; color:${av.color};">${initials(s.teacher)}</div>
+              <div>
+                <div class="row-name">${s.teacher} ${liveHtml}</div>
+                <div class="row-sub">${s.activity || 'drop in'}</div>
               </div>
-              <div class="row-sub">${s.activity || 'drop in'}</div>
             </div>
             <div class="mono col-date">${fmtDate(s.date)}</div>
             <div class="mono">${fmtTime(s.time)}</div>
-            <div class="stat col-zoom ${c.zoom === 0 ? 'zero' : 'hi-sun'}">${c.zoom}</div>
-            <div class="stat ${c.love === 0 ? 'zero' : 'hi-love'}">${c.love}</div>
+            <div class="stat col-zoom ${c.zoom === 0 ? 'zero' : 'hi-green'}">${c.zoom}</div>
+            <div class="stat ${c.love === 0 ? 'zero' : 'hi-peach'}">${c.love}</div>
           </div>`;
       }).join('') || '<div class="loading-msg">No sessions found.</div>';
 
       const now = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-      document.getElementById('last-updated').textContent = `updated ${now}`;
-      document.getElementById('footer-ts').textContent = `redwood sessions · stats · ${now}`;
+      document.getElementById('last-updated').textContent = `Here's how Redwood Sessions are doing today · updated ${now}`;
+      document.getElementById('footer-ts').textContent = `Redwood Nursery Jumeirah Park · from parents for parents · ${now}`;
 
     } catch (err) {
       document.getElementById('tbody').innerHTML = `<div class="loading-msg">${err.message}</div>`;

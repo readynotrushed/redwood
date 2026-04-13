@@ -3,70 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Online Learning Findings — Redwood Nursery</title>
-<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<title>Why 15 Minutes — Redwood Sessions</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
+    --bg: #f0ebe1;
+    --card: #ffffff;
+    --navy: #1a1a2e;
+    --muted: #6b6055;
+    --muted-light: #9a8e84;
+    --border: #e8e2d8;
+    --red: rgb(121, 21, 22);
+    --red-light: rgba(121, 21, 22, 0.07);
+    --green: #4a7c59;
+    --green-light: #e8f4ed;
+    --peach: #c4623a;
+    --shadow: rgba(26,26,46,0.07);
+    /* legacy aliases used in inline styles and JS-generated HTML */
     --white: #ffffff;
-    --black: #111111;
-    --grey: #4a4a4a;
-    --grey-mid: #666666;
-    --grey-light: #999999;
-    --grey-faint: #f5f5f5;
-    --border: #e2e2e2;
-    --red: #c0141a;
-    --red-light: rgba(192,20,26,0.08);
-    --orange: #FF9760;
-    --green: #1a7a3c;
+    --black: #1a1a2e;
+    --grey: #6b6055;
+    --grey-mid: #6b6055;
+    --grey-light: #9a8e84;
+    --grey-faint: #f7f3ee;
+    --orange: #c4623a;
     --wa-green: #25D366;
     --wa-bubble: #d9fdd3;
-    --wa-bg: #efeae2;
+    --wa-bg: #ede8e0;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'Lato', sans-serif;
-    background: var(--white);
-    color: var(--black);
-    -webkit-font-smoothing: antialiased;
-    font-size: 17px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--navy);
+    font-size: 16px;
     line-height: 1.65;
   }
 
   /* ── HEADER ── */
   .header {
-    background: var(--white);
+    background: var(--card);
     border-bottom: 1px solid var(--border);
-    padding: 4.5rem 2rem 4rem;
+    padding: 4rem 2rem 3.5rem;
     text-align: center;
   }
 
   .eyebrow {
-    font-size: 0.8rem;
-    font-weight: 800;
-    letter-spacing: 0.18em;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--grey-mid);
-    margin-bottom: 1.3rem;
+    color: var(--red);
+    margin-bottom: 1.2rem;
   }
 
   .header h1 {
-    font-weight: 900;
-    font-size: clamp(2rem, 5vw, 3.1rem);
-    line-height: 1.08;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    line-height: 1.1;
     letter-spacing: -0.025em;
-    color: var(--black);
+    color: var(--navy);
     max-width: 700px;
     margin: 0 auto 1.2rem;
   }
 
-  .header h1 .highlight { color: var(--orange); }
+  .header h1 .highlight { color: var(--peach); }
 
   .header .sub {
-    font-size: 1.05rem;
-    color: var(--grey-mid);
+    font-size: 1rem;
+    color: var(--muted);
     max-width: 480px;
     margin: 0 auto;
     font-weight: 400;
@@ -90,26 +98,26 @@
   .section.visible { opacity: 1; transform: translateY(0); }
 
   .section-num {
-    font-size: 0.78rem;
-    font-weight: 900;
-    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--grey-mid);
+    color: var(--red);
     margin-bottom: 0.5rem;
   }
 
   .section h2 {
-    font-weight: 900;
-    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
     letter-spacing: -0.02em;
     line-height: 1.15;
     margin-bottom: 0.8rem;
-    color: var(--black);
+    color: var(--navy);
   }
 
   .lead {
-    font-size: 1.05rem;
-    color: var(--grey);
+    font-size: 1rem;
+    color: var(--muted);
     margin-bottom: 2rem;
     line-height: 1.65;
     max-width: 580px;
@@ -326,42 +334,43 @@
 
   /* ── THE IDEA ── */
   .idea-box {
-    border: 1.5px solid var(--border);
-    border-radius: 18px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
     padding: 2.5rem;
     margin: 2rem 0;
     text-align: center;
+    box-shadow: 0 2px 16px var(--shadow);
   }
 
   .idea-box .tagline {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--grey-light);
+    color: var(--red);
     margin-bottom: 1rem;
   }
 
   .idea-box h3 {
-    font-weight: 900;
-    font-size: clamp(1.3rem, 2.8vw, 1.75rem);
+    font-weight: 700;
+    font-size: clamp(1.2rem, 2.8vw, 1.6rem);
     line-height: 1.2;
     letter-spacing: -0.015em;
-    color: var(--black);
+    color: var(--navy);
     margin-bottom: 0.75rem;
   }
 
   .idea-box .slogan {
     font-size: 0.88rem;
-    color: var(--grey-mid);
+    color: var(--muted);
     font-weight: 400;
-    letter-spacing: 0.01em;
     margin-bottom: 1.5rem;
   }
 
   .idea-box p {
     font-size: 0.95rem;
-    color: var(--grey);
+    color: var(--muted);
     max-width: 480px;
     margin: 0 auto;
     line-height: 1.65;
@@ -369,16 +378,18 @@
 
   /* ── OFFER CARD ── */
   .offer-card {
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
     padding: 2rem;
     margin: 1.5rem 0;
+    box-shadow: 0 2px 12px var(--shadow);
   }
 
   .offer-card h3 {
-    font-weight: 900;
-    font-size: 1.1rem;
-    color: var(--black);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--navy);
     margin-bottom: 1.2rem;
     letter-spacing: -0.01em;
   }
@@ -389,21 +400,21 @@
     display: flex;
     gap: 1rem;
     align-items: flex-start;
-    font-size: 0.95rem;
+    font-size: 0.93rem;
   }
 
   .offer-key {
-    font-size: 0.67rem;
-    font-weight: 900;
-    letter-spacing: 0.12em;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--grey-light);
+    color: var(--muted-light);
     min-width: 52px;
     padding-top: 0.22rem;
     flex-shrink: 0;
   }
 
-  .offer-val { color: var(--grey); line-height: 1.55; }
+  .offer-val { color: var(--muted); line-height: 1.55; }
 
   /* ── COMPARE ── */
   .compare {
@@ -416,23 +427,20 @@
   @media (max-width: 520px) { .compare { grid-template-columns: 1fr; } }
 
   .ccard {
-    border-radius: 14px;
+    border-radius: 16px;
     padding: 1.5rem;
-    border: 1.5px solid var(--border);
-    background: var(--grey-faint);
+    border: 1px solid var(--border);
+    background: var(--card);
   }
 
-  /* "What we are asking" left, black label */
-  .ccard.asking { order: -1; }
-  .ccard.asking .clabel { color: var(--black); }
-
-  /* "Not what we are asking" right, orange label */
-  .ccard.not-asking .clabel { color: var(--orange); }
+  .ccard.asking { background: var(--green-light); border-color: #b8dcc4; }
+  .ccard.asking .clabel { color: var(--green); }
+  .ccard.not-asking .clabel { color: var(--muted-light); }
 
   .clabel {
-    font-size: 0.66rem;
-    font-weight: 900;
-    letter-spacing: 0.14em;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     margin-bottom: 1rem;
   }
@@ -441,12 +449,54 @@
 
   .ccard li {
     display: flex; gap: 0.6rem;
-    font-size: 0.92rem; line-height: 1.5;
+    font-size: 0.9rem; line-height: 1.5;
     align-items: flex-start;
-    color: var(--grey);
+    color: var(--muted);
   }
 
-  .mk { flex-shrink: 0; color: var(--grey-light); }
+  .mk { flex-shrink: 0; color: var(--muted-light); }
+
+  /* ── REASON CARDS ── */
+  .reason-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .reason-card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    background: var(--card);
+    box-shadow: 0 2px 12px var(--shadow);
+  }
+
+  .reason-card h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 0.4rem;
+  }
+
+  .reason-card p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .reason-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--red-light);
+    color: var(--red);
+    border-radius: 99px;
+    padding: 0.2rem 0.65rem;
+    margin-bottom: 0.65rem;
+  }
 
   /* ── SESSION TYPES ── */
   .stype-grid {
@@ -459,35 +509,36 @@
   @media (max-width: 520px) { .stype-grid { grid-template-columns: 1fr; } }
 
   .stype {
-    border: 1.5px solid var(--border);
+    border: 1px solid var(--border);
     border-radius: 16px;
     padding: 1.5rem;
-    background: var(--white);
+    background: var(--card);
+    box-shadow: 0 2px 12px var(--shadow);
   }
 
   .stype-tag {
     display: inline-block;
     font-size: 0.71rem;
-    font-weight: 700;
+    font-weight: 600;
     border-radius: 99px;
     padding: 0.25rem 0.8rem;
     margin-bottom: 1rem;
-    border: 1.5px solid var(--border);
-    color: var(--grey-mid);
-    background: var(--grey-faint);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: var(--bg);
   }
 
   .stype h4 {
     font-size: 1rem;
-    font-weight: 700;
-    color: var(--black);
+    font-weight: 600;
+    color: var(--navy);
     margin-bottom: 0.4rem;
     line-height: 1.3;
   }
 
   .stype p {
-    font-size: 0.9rem;
-    color: var(--grey);
+    font-size: 0.88rem;
+    color: var(--muted);
     line-height: 1.6;
     margin-bottom: 1rem;
   }
@@ -496,22 +547,22 @@
 
   .stype-detail {
     display: flex; gap: 0.5rem;
-    font-size: 0.85rem;
-    color: var(--grey);
+    font-size: 0.83rem;
+    color: var(--muted);
     line-height: 1.4;
     align-items: flex-start;
   }
 
   /* ── NOTE ── */
   .note {
-    background: var(--grey-faint);
-    border-left: 3px solid var(--grey-mid);
-    border-radius: 0 10px 10px 0;
+    background: var(--card);
+    border-left: 3px solid var(--red);
+    border-radius: 0 12px 12px 0;
     padding: 1rem 1.2rem;
     margin: 2rem 0 0;
   }
 
-  .note p { font-size: 0.9rem; color: var(--grey); line-height: 1.6; }
+  .note p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
 
   /* ── ACTIVITIES ── */
   .activity-grid {
@@ -524,27 +575,30 @@
   @media (max-width: 520px) { .activity-grid { grid-template-columns: repeat(2, 1fr); } }
 
   .ac {
-    border: 1.5px solid var(--border);
-    border-radius: 13px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
     padding: 1.1rem;
     text-align: center;
-    transition: border-color 0.2s;
+    transition: box-shadow 0.2s;
   }
 
-  .ac:hover { border-color: var(--grey-mid); }
+  .ac:hover { box-shadow: 0 4px 16px var(--shadow); }
   .ac-icon { font-size: 1.7rem; margin-bottom: 0.4rem; display: block; }
-  .ac-name { font-size: 0.85rem; font-weight: 700; color: var(--black); margin-bottom: 0.18rem; }
-  .ac-desc { font-size: 0.75rem; color: var(--grey-light); line-height: 1.4; }
+  .ac-name { font-size: 0.85rem; font-weight: 600; color: var(--navy); margin-bottom: 0.18rem; }
+  .ac-desc { font-size: 0.75rem; color: var(--muted-light); line-height: 1.4; }
 
   /* ── BOOKING ── */
   .booking-box {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0;
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
     overflow: hidden;
     margin: 1.5rem 0;
+    box-shadow: 0 2px 16px var(--shadow);
   }
 
   @media (max-width: 520px) { .booking-box { grid-template-columns: 1fr; } }
@@ -558,37 +612,37 @@
   }
 
   .bo-label {
-    font-size: 0.66rem;
-    font-weight: 900;
-    letter-spacing: 0.14em;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--grey-light);
+    color: var(--muted-light);
     margin-bottom: 0.4rem;
   }
 
   .booking-opt h4 {
     font-size: 1rem;
-    font-weight: 700;
-    color: var(--black);
+    font-weight: 600;
+    color: var(--navy);
     margin-bottom: 0.35rem;
   }
 
-  .booking-opt p { font-size: 0.88rem; color: var(--grey); line-height: 1.55; }
+  .booking-opt p { font-size: 0.88rem; color: var(--muted); line-height: 1.55; }
 
   .book-btn {
     display: inline-block;
     margin-top: 1.1rem;
-    background: var(--black);
-    color: var(--white);
+    background: var(--navy);
+    color: white;
     text-decoration: none;
     padding: 0.65rem 1.3rem;
-    border-radius: 9px;
-    font-size: 0.85rem;
-    font-weight: 700;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
     transition: opacity 0.2s;
   }
 
-  .book-btn:hover { opacity: 0.75; }
+  .book-btn:hover { opacity: 0.85; }
 
   .wa-btn {
     display: inline-flex;
@@ -596,38 +650,38 @@
     gap: 0.4rem;
     margin-top: 1.1rem;
     border: 1.5px solid var(--border);
-    color: var(--black);
+    color: var(--navy);
     text-decoration: none;
     padding: 0.65rem 1.3rem;
-    border-radius: 9px;
-    font-size: 0.85rem;
-    font-weight: 700;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
     transition: border-color 0.2s;
   }
 
-  .wa-btn:hover { border-color: var(--black); }
+  .wa-btn:hover { border-color: var(--navy); }
 
   /* ── PASSWORD BOX ── */
   .password-box {
-    background: var(--black);
-    border-radius: 16px;
+    background: var(--navy);
+    border-radius: 18px;
     padding: 1.6rem 2rem;
     margin: 1.8rem 0;
     text-align: center;
   }
 
   .password-box .pw-label {
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     color: rgba(255,255,255,0.45);
-    font-weight: 700;
-    letter-spacing: 0.14em;
+    font-weight: 600;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     margin-bottom: 0.5rem;
   }
 
   .password-box .pw-val {
     font-family: 'Courier New', Courier, monospace;
-    color: var(--white);
+    color: white;
     font-size: 1.8rem;
     font-weight: 700;
     letter-spacing: 0.06em;
@@ -638,25 +692,25 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    background: var(--orange);
-    border: 1px solid rgba(255,255,255,0.2);
+    background: var(--red);
+    border: none;
     color: white;
-    border-radius: 8px;
-    padding: 0.35rem 0.9rem;
-    font-family: 'Lato', sans-serif;
+    border-radius: 20px;
+    padding: 0.4rem 1rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 0.78rem;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: opacity 0.2s;
     margin-bottom: 0.75rem;
   }
 
-  .pw-copy-btn:hover { background: #e8835a; }
+  .pw-copy-btn:hover { opacity: 0.85; }
   .pw-copy-btn.copied { background: var(--green); }
 
   .password-box .pw-url {
     font-size: 0.78rem;
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: 0.04em;
     margin-top: 0.2rem;
   }
@@ -667,7 +721,7 @@
     transition: color 0.2s;
   }
 
-  .password-box .pw-url a:hover { color: var(--white); }
+  .password-box .pw-url a:hover { color: white; }
 </style>
 </head>
 <body>
@@ -913,7 +967,7 @@
         <div class="bo-label">Option A — Do it yourself</div>
         <h4>Book on the platform</h4>
         <p>Log in, pick a slot, add your Zoom link and a one-line description. The schedule updates instantly for parents.</p>
-        <a class="book-btn" href="https://redwood.lunamargherita.com/teacher" target="_blank">Open booking page ↗</a>
+        <a class="book-btn" href="https://redwood.lunamargherita.com/teachers" target="_blank">Go to teacher hub ↗</a>
       </div>
       <div class="booking-opt">
         <div class="bo-label">Option B — We will do it for you</div>
@@ -927,12 +981,12 @@
     </div>
     <div class="password-box">
         <div class="pw-label">this is the password</div>
-        <div class="pw-val" id="pw-display">15minJOY</div>
+        <div class="pw-val" id="pw-display">Reggio26JP</div>
         <button class="pw-copy-btn" id="copy-btn" onclick="copyPassword()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
           <span id="copy-label">Copy password</span>
         </button>
-        <div class="pw-url"><a href="https://redwood.lunamargherita.com/teacher" target="_blank">START BOOKING YOUR SESSIONS NOW ↗</a></div>
+        <div class="pw-url"><a href="https://redwood.lunamargherita.com/teachers" target="_blank">GO TO TEACHER HUB ↗</a></div>
       </div>
   </div>
 
@@ -1142,7 +1196,47 @@ function aswitchTo(p){
 window.aswitchTo=aswitchTo;
 window.addEventListener('resize',()=>{aresize();abuildTeachers();abuildDots();adrawFrame(0);});
 aresize();abuildTeachers();abuildDots();araf=requestAnimationFrame(aanimLoop);
+
+// Auth check — redirect to teachers hub if not authenticated
+const WORKER_URL = 'https://redwood-api.lunamargherita.com';
+if (!sessionStorage.getItem('rw_auth')) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:var(--bg,#f0ebe1);display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:1rem;font-family:Plus Jakarta Sans,sans-serif;';
+  overlay.innerHTML = `
+    <div style="background:white;border-radius:24px;padding:2.5rem;max-width:320px;width:90%;text-align:center;box-shadow:0 4px 32px rgba(26,26,46,0.08);">
+      <div style="font-size:2.5rem;margin-bottom:1rem;">🌳</div>
+      <h2 style="font-size:1.4rem;font-weight:700;letter-spacing:-0.02em;color:#1a1a2e;margin-bottom:0.25rem;">Teachers only</h2>
+      <p style="font-size:0.85rem;color:#6b6055;margin-bottom:1.5rem;">Enter your password to continue.</p>
+      <input type="password" id="exp-pw" placeholder="Password" style="width:100%;padding:0.85rem 1rem;border:1.5px solid #e8e2d8;border-radius:12px;font-family:inherit;font-size:0.95rem;color:#1a1a2e;background:#f0ebe1;outline:none;margin-bottom:0.75rem;" />
+      <button onclick="expLogin()" style="width:100%;padding:0.85rem;background:rgb(121,21,22);color:white;border:none;border-radius:12px;font-family:inherit;font-size:0.95rem;font-weight:600;cursor:pointer;">Enter</button>
+      <div id="exp-err" style="color:#c4623a;font-size:0.8rem;margin-top:0.6rem;display:none;">Wrong password</div>
+    </div>`;
+  document.body.appendChild(overlay);
+  document.getElementById('exp-pw').addEventListener('keydown', e => { if (e.key === 'Enter') expLogin(); });
+  window.expLogin = async function() {
+    const val = document.getElementById('exp-pw').value.trim();
+    try {
+      const res = await fetch(`${WORKER_URL}/stats-auth`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({password: val}) });
+      if (res.ok) {
+        const data = await res.json();
+        sessionStorage.setItem('rw_auth', 'true');
+        sessionStorage.setItem('rw_token', data.token);
+        overlay.remove();
+      } else { document.getElementById('exp-err').style.display = 'block'; }
+    } catch { document.getElementById('exp-err').style.display = 'block'; }
+  };
+}
 </script>
+
+<div style="border-top:1px solid #e8e2d8;background:white;padding:1.25rem 2rem;position:sticky;bottom:0;z-index:50;">
+  <div style="max-width:760px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+    <div style="font-size:0.82rem;color:#6b6055;"><strong style="color:#1a1a2e;font-weight:600;">Built by Eshanka and Luna.</strong> If something's not working, ask Maria.</div>
+    <div style="display:flex;gap:0.75rem;align-items:center;">
+      <a href="teachers.html" style="font-size:0.78rem;color:#6b6055;text-decoration:none;font-weight:500;">← Teachers hub</a>
+      <a href="guide.html" style="display:inline-flex;align-items:center;gap:0.4rem;background:#1a1a2e;color:white;border-radius:20px;padding:0.45rem 1rem;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:600;text-decoration:none;">👵 Ask Maria</a>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
