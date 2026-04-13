@@ -952,11 +952,15 @@
     } catch { /* silent */ }
   }
 
-  async function logZoomClick(sessionId) {
-    try {
-      await fetch(`${WORKER_URL}/zoom-click/${sessionId}`, { method: 'POST' });
-    } catch { /* silent */ }
-  }
+async function logZoomClick(sessionId, teacher) {
+  try {
+    await fetch(`${WORKER_URL}/zoom-click`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId, teacher, ts: new Date().toISOString() })
+    });
+  } catch { /* silent */ }
+}
 
   function spawnParticle(event) {
     const el = document.createElement('div');
