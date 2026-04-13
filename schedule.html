@@ -876,8 +876,8 @@
     const popupId = `cal-popup-${s.id}`;
 
     const joinBtn = !past
-  ? `<a class="zoom-btn" href="${s.zoom_link && !s.zoom_link.startsWith('http') ? 'https://' + s.zoom_link : s.zoom_link}" target="_blank" onclick="logZoomClick('${s.id}', '${s.teacher}')">Join ↗</a>`
-  : '';
+      ? `<a class="zoom-btn" href="${s.zoom_link && !s.zoom_link.startsWith('http') ? 'https://' + s.zoom_link : s.zoom_link}" target="_blank" onclick="logZoomClick('${s.id}')">Join ↗</a>`
+      : '';
 
     const calBtn = !past && !live
       ? `<div style="position:relative">
@@ -952,15 +952,11 @@
     } catch { /* silent */ }
   }
 
-  async function logZoomClick(sessionId, teacher) {
-  try {
-    await fetch(`${WORKER_URL}/zoom-click`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId, teacher, ts: new Date().toISOString() })
-    });
-  } catch { /* silent */ }
-}
+  async function logZoomClick(sessionId) {
+    try {
+      await fetch(`${WORKER_URL}/zoom-click/${sessionId}`, { method: 'POST' });
+    } catch { /* silent */ }
+  }
 
   function spawnParticle(event) {
     const el = document.createElement('div');
