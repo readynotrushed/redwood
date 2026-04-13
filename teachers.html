@@ -10,7 +10,7 @@
     --bg: #f0ebe1;
     --card: #ffffff;
     --navy: #1a1a2e;
-    --muted: #a09888;
+    --muted: #6b6055;
     --border: #e8e2d8;
     --red: rgb(121, 21, 22);
     --red-bg: rgba(121, 21, 22, 0.06);
@@ -281,8 +281,22 @@
   .footer {
     border-top: 1px solid var(--border);
     padding: 2rem;
+    max-width: 100%;
+    background: var(--card);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    position: sticky;
+    bottom: 0;
+    z-index: 50;
+  }
+
+  .footer-inner {
     max-width: 860px;
     margin: 0 auto;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -319,7 +333,23 @@
   }
   .ask-maria-btn:hover { opacity: 0.85; }
 
-  @keyframes fadeUp {
+  .card-cta-btn {
+    margin-top: 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: var(--peach-bg);
+    color: var(--peach);
+    border: none;
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .card-cta-btn:hover { opacity: 0.8; }
     from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: translateY(0); }
   }
@@ -368,7 +398,8 @@
   <div class="hero">
     <div class="hero-eyebrow">Welcome</div>
     <h2>Good to have you here.</h2>
-    <p>Everything you need to run your 15-minute sessions. Book a slot, read the explainer, or ask Maria if something's not working.</p>
+    <p style="color:#4a4035;">Everything you need to run your 15-minute sessions. Book a slot, read the explainer, or ask Maria if something's not working.</p>
+    <button class="ask-maria-btn" onclick="go('guide.html')" style="margin-top:1.25rem;">👵 Ask Maria</button>
   </div>
 
   <div class="main">
@@ -391,11 +422,12 @@
       </div>
 
       <div class="nav-card" onclick="go('guide.html')">
-        <div class="card-icon peach">💬</div>
+        <div class="card-icon peach">👵</div>
         <div class="card-label">Need help?</div>
-        <div class="card-title">Ask Maria</div>
-        <div class="card-desc">Maria can walk you through booking, editing or cancelling a session — or answer anything else.</div>
-        <div class="card-arrow">Open Maria ↗</div>
+        <div class="card-title">Maria</div>
+        <div class="card-desc">Maria can walk you through booking, editing or cancelling a session — or answer anything else about the platform.</div>
+        <button class="card-cta-btn" onclick="go('guide.html')">Say hi to Maria ↗</button>
+        <div class="coming-soon-badge" style="background:#fef0ea; color:var(--peach);">NEW</div>
       </div>
 
       <div class="nav-card disabled">
@@ -411,13 +443,15 @@
   </div>
 
   <div class="footer">
-    <div class="footer-copy">
-      <strong>Built by Eshanka and Luna.</strong><br>
-      If something's not working, ask Maria.
+    <div class="footer-inner">
+      <div class="footer-copy">
+        <strong>Built by Eshanka and Luna.</strong><br>
+        If something's not working, ask Maria.
+      </div>
+      <button class="ask-maria-btn" onclick="go('guide.html')">
+        👵 Ask Maria
+      </button>
     </div>
-    <button class="ask-maria-btn" onclick="go('guide.html')">
-      💬 Ask Maria
-    </button>
   </div>
 </div>
 
