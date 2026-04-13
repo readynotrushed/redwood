@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redwood Sessions — Stats</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --leaf: rgb(121, 21, 22);
+    --leaf-glow: rgba(121, 21, 22, 0.2);
+    --sun: #c47a10;
+    --cream: rgb(250, 240, 227);
+    --bark: #3d2b1f;
+    --bark-light: #6b4c3b;
+    --glass-bg: rgba(255, 255, 255, 0.55);
+    --glass-border: rgba(61, 43, 31, 0.12);
+    --glass-highlight: rgba(255, 255, 255, 0.85);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    background: #f5ece1;
+    color: var(--bark);
+    overflow-x: hidden;
+  }
+
+  .bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 55% at 10% 5%, rgba(232,160,32,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 90% 90%, rgba(121,21,22,0.08) 0%, transparent 60%),
+      #f5ece1;
+  }
+
+  /* LOGIN */
+  #login-screen {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .login-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    padding: 3rem 2.5rem;
+    max-width: 340px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5), inset 0 1px 0 var(--glass-highlight);
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .login-tree { font-size: 2.8rem; margin-bottom: 1rem; }
+
+  .login-card h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    color: var(--bark);
+    margin-bottom: 0.2rem;
+  }
+
+  .login-card p {
+    font-size: 0.75rem;
+    color: var(--bark-light);
+    margin-bottom: 2rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .login-card input {
+    width: 100%;
+    padding: 0.85rem 1.1rem;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 1rem;
+    color: var(--bark);
+    margin-bottom: 1rem;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    letter-spacing: 0.08em;
+  }
+  .login-card input::placeholder { color: rgba(61,43,31,0.3); }
+  .login-card input:focus {
+    border-color: var(--leaf);
+    background: white;
+  }
+
+  .login-card button {
+    width: 100%;
+    padding: 0.85rem;
+    background: var(--leaf);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px var(--leaf-glow);
+  }
+  .login-card button:hover { background: #8a1213; box-shadow: 0 6px 28px var(--leaf-glow); }
+
+  .login-error {
+    color: #ff7070;
+    font-size: 0.78rem;
+    margin-top: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    display: none;
+  }
+
+  /* APP */
+  #app { display: none; position: relative; z-index: 10; min-height: 100vh; }
+
+  header {
+    padding: 1.2rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--glass-border);
+    background: rgba(245,236,225,0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-left { display: flex; align-items: center; gap: 0.8rem; }
+  .header-left span { font-size: 1.5rem; }
+  .header-left h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem;
+    color: var(--bark);
+  }
+  .header-left small {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--bark-light);
+    display: block;
+    letter-spacing: 0.04em;
+  }
+
+  .refresh-btn {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    padding: 0.4rem 0.9rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--bark-light);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .refresh-btn:hover { border-color: var(--leaf); color: var(--leaf); }
+
+  .main { padding: 1.75rem 2rem; max-width: 860px; margin: 0 auto; }
+
+  /* SUMMARY */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .summary-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    padding: 1.4rem 1.5rem;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 var(--glass-highlight);
+    animation: fadeUp 0.4s ease both;
+  }
+  .summary-card:nth-child(2) { animation-delay: 0.07s; }
+  .summary-card:nth-child(3) { animation-delay: 0.14s; }
+
+  .summary-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--bark-light);
+    margin-bottom: 0.5rem;
+  }
+  .summary-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.6rem;
+    color: var(--bark);
+    line-height: 1;
+  }
+  .summary-card.accent-sun .summary-value { color: var(--sun); }
+  .summary-card.accent-love .summary-value { color: var(--leaf); }
+
+  /* TABLE */
+  .table-wrap {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4), inset 0 1px 0 var(--glass-highlight);
+    animation: fadeUp 0.4s ease 0.2s both;
+  }
+
+  .table-head {
+    display: grid;
+    grid-template-columns: 1fr 90px 70px 70px 70px;
+    padding: 0.85rem 1.5rem;
+    border-bottom: 1px solid var(--glass-border);
+    background: rgba(255,255,255,0.03);
+  }
+
+  .th {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--bark-light);
+  }
+  .th.r { text-align: right; }
+
+  .table-row {
+    display: grid;
+    grid-template-columns: 1fr 90px 70px 70px 70px;
+    padding: 0.95rem 1.5rem;
+    border-bottom: 1px solid var(--glass-border);
+    align-items: center;
+    transition: background 0.15s;
+  }
+  .table-row:last-child { border-bottom: none; }
+  .table-row:hover { background: rgba(255,255,255,0.5); }
+  .table-row.live-row { background: rgba(121,21,22,0.05); }
+
+  .row-name {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--bark);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .row-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--bark-light);
+    margin-top: 0.1rem;
+  }
+
+  .live-pill {
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    background: var(--leaf);
+    color: white;
+    padding: 0.12rem 0.45rem;
+    border-radius: 20px;
+    animation: pulse-pill 2s ease-in-out infinite;
+  }
+  @keyframes pulse-pill {
+    0%, 100% { box-shadow: 0 0 6px var(--leaf-glow); }
+    50% { box-shadow: 0 0 14px var(--leaf-glow); }
+  }
+
+  .mono {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--bark-light);
+    text-align: right;
+  }
+  .stat {
+    font-family: 'DM Mono', monospace;
+    font-size: 1rem;
+    text-align: right;
+    color: var(--bark);
+  }
+  .stat.zero { color: rgba(61,43,31,0.2); }
+  .stat.hi-sun { color: var(--sun); }
+  .stat.hi-love { color: var(--leaf); }
+
+  .loading-msg {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--bark-light);
+    letter-spacing: 0.05em;
+  }
+
+  .footer-ts {
+    text-align: center;
+    padding: 1.5rem 2rem 2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: rgba(61,43,31,0.3);
+    letter-spacing: 0.05em;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 560px) {
+    .main { padding: 1rem; }
+    header { padding: 1rem; }
+    .summary-value { font-size: 2rem; }
+    .table-head,
+    .table-row { grid-template-columns: 1fr 60px 60px; }
+    .col-date, .col-zoom { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-tree">🌳</div>
+    <h1>Redwood Stats</h1>
+    <p>analytics dashboard</p>
+    <input type="password" id="pw" placeholder="password" autocomplete="current-password" />
+    <button onclick="login()">View stats</button>
+    <div class="login-error" id="login-error">Wrong password</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <header>
+    <div class="header-left">
+      <span>🌳</span>
+      <div>
+        <h1>Redwood Sessions</h1>
+        <small id="last-updated">—</small>
+      </div>
+    </div>
+    <button class="refresh-btn" onclick="loadData()">↻ refresh</button>
+  </header>
+
+  <div class="main">
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-label">Sessions</div>
+        <div class="summary-value" id="s-sessions">—</div>
+      </div>
+      <div class="summary-card accent-sun">
+        <div class="summary-label">Join Zoom taps</div>
+        <div class="summary-value" id="s-zooms">—</div>
+      </div>
+      <div class="summary-card accent-love">
+        <div class="summary-label">Love sent 💛</div>
+        <div class="summary-value" id="s-love">—</div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-head">
+        <div class="th">Session</div>
+        <div class="th r col-date">Date</div>
+        <div class="th r">Time</div>
+        <div class="th r col-zoom">Join ↗</div>
+        <div class="th r">💛</div>
+      </div>
+      <div id="tbody">
+        <div class="loading-msg">fetching sessions...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-ts" id="footer-ts"></div>
+</div>
+
+<script>
+  const WORKER_URL = 'https://redwood.lunamargherita.com';
+  const LOCAL_PASSWORD = 'makeitcount';
+
+  let workerToken = null;
+
+  function login() {
+    const val = document.getElementById('pw').value.trim();
+    if (val === LOCAL_PASSWORD) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      loadData();
+    } else {
+      document.getElementById('login-error').style.display = 'block';
+    }
+  }
+  document.getElementById('pw').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+
+  async function getWorkerToken() {
+    if (workerToken) return workerToken;
+    const res = await fetch(`${WORKER_URL}/stats-auth`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: LOCAL_PASSWORD })
+    });
+    if (!res.ok) throw new Error('Auth failed — check STATS_PASSWORD env var in Worker');
+    const data = await res.json();
+    workerToken = data.token;
+    return workerToken;
+  }
+
+  function isLive(date, time) {
+    const now = new Date();
+    const dubaiNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Dubai' }));
+    const [y, mo, d] = date.split('-').map(Number);
+    const [h, m] = time.split(':').map(Number);
+    const start = new Date(y, mo - 1, d, h, m, 0);
+    const end = new Date(start.getTime() + 15 * 60 * 1000);
+    return dubaiNow >= start && dubaiNow < end;
+  }
+
+  function isPast(date, time) {
+    const now = new Date();
+    const dubaiNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Dubai' }));
+    const [y, mo, d] = date.split('-').map(Number);
+    const [h, m] = time.split(':').map(Number);
+    const end = new Date(y, mo - 1, d, h, m + 15, 0);
+    return dubaiNow >= end;
+  }
+
+  function fmtDate(dateStr) {
+    const [y, mo, d] = dateStr.split('-').map(Number);
+    return new Date(y, mo - 1, d).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+  }
+
+  function fmtTime(timeStr) {
+    const [h, m] = timeStr.split(':').map(Number);
+    return `${h > 12 ? h - 12 : h}:${m.toString().padStart(2,'0')}${h >= 12 ? 'pm' : 'am'}`;
+  }
+
+  async function loadData() {
+    document.getElementById('tbody').innerHTML = '<div class="loading-msg">fetching sessions...</div>';
+    ['s-sessions','s-zooms','s-love'].forEach(id => document.getElementById(id).textContent = '—');
+
+    try {
+      const token = await getWorkerToken();
+      const sessRes = await fetch(`${WORKER_URL}/sessions`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!sessRes.ok) throw new Error('Could not load sessions — check WORKER_PARENT_TOKEN');
+      const sessions = await sessRes.json();
+
+      const counts = await Promise.all(sessions.map(async s => {
+        const [zr, lr] = await Promise.all([
+          fetch(`${WORKER_URL}/zoom-click/${s.id}`),
+          fetch(`${WORKER_URL}/love/${s.id}`)
+        ]);
+        const zoom = zr.ok ? (await zr.json()).count : 0;
+        const love = lr.ok ? (await lr.json()).count : 0;
+        return { id: s.id, zoom, love };
+      }));
+
+      const cm = {};
+      counts.forEach(c => { cm[c.id] = c; });
+
+      const sorted = [...sessions].sort((a, b) => {
+        const al = isLive(a.date, a.time), bl = isLive(b.date, b.time);
+        const ap = isPast(a.date, a.time), bp = isPast(b.date, b.time);
+        if (al && !bl) return -1; if (!al && bl) return 1;
+        if (!ap && bp) return -1; if (ap && !bp) return 1;
+        return (a.date + a.time).localeCompare(b.date + b.time);
+      });
+
+      let totalZoom = 0, totalLove = 0;
+      counts.forEach(c => { totalZoom += c.zoom; totalLove += c.love; });
+
+      document.getElementById('s-sessions').textContent = sessions.length;
+      document.getElementById('s-zooms').textContent = totalZoom;
+      document.getElementById('s-love').textContent = totalLove;
+
+      document.getElementById('tbody').innerHTML = sorted.map(s => {
+        const live = isLive(s.date, s.time);
+        const c = cm[s.id] || { zoom: 0, love: 0 };
+        return `
+          <div class="table-row${live ? ' live-row' : ''}">
+            <div>
+              <div class="row-name">
+                ${s.teacher}
+                ${live ? '<span class="live-pill">LIVE</span>' : ''}
+              </div>
+              <div class="row-sub">${s.activity || 'drop in'}</div>
+            </div>
+            <div class="mono col-date">${fmtDate(s.date)}</div>
+            <div class="mono">${fmtTime(s.time)}</div>
+            <div class="stat col-zoom ${c.zoom === 0 ? 'zero' : 'hi-sun'}">${c.zoom}</div>
+            <div class="stat ${c.love === 0 ? 'zero' : 'hi-love'}">${c.love}</div>
+          </div>`;
+      }).join('') || '<div class="loading-msg">No sessions found.</div>';
+
+      const now = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('last-updated').textContent = `updated ${now}`;
+      document.getElementById('footer-ts').textContent = `redwood sessions · stats · ${now}`;
+
+    } catch (err) {
+      document.getElementById('tbody').innerHTML = `<div class="loading-msg">${err.message}</div>`;
+    }
+  }
+</script>
+</body>
+</html>
