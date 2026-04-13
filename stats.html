@@ -398,28 +398,30 @@
 
   let workerToken = null;
 
-  function login() {
+  async function login() {
     const val = document.getElementById('pw').value.trim();
-    if (val === LOCAL_PASSWORD) {
+    try {
+      const res = await fetch(`${WORKER_URL}/stats-auth`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: val })
+      });
+      if (!res.ok) {
+        document.getElementById('login-error').style.display = 'block';
+        return;
+      }
+      const data = await res.json();
+      workerToken = data.token;
       document.getElementById('login-screen').style.display = 'none';
       document.getElementById('app').style.display = 'block';
       loadData();
-    } else {
+    } catch {
       document.getElementById('login-error').style.display = 'block';
     }
   }
   document.getElementById('pw').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
 
   async function getWorkerToken() {
-    if (workerToken) return workerToken;
-    const res = await fetch(`${WORKER_URL}/stats-auth`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: LOCAL_PASSWORD })
-    });
-    if (!res.ok) throw new Error('Auth failed — check STATS_PASSWORD env var in Worker');
-    const data = await res.json();
-    workerToken = data.token;
     return workerToken;
   }
 
