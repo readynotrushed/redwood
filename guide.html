@@ -3,1018 +3,657 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Redwood Sessions — Teacher Guide</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<title>Maria — Redwood Sessions</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: rgb(250, 240, 227);
-    --bark: #3d2b1f;
-    --bark-light: #6b4c3b;
-    --bark-faint: #a07060;
-    --leaf: rgb(121, 21, 22);
-    --leaf-light: rgba(121, 21, 22, 0.07);
-    --leaf-mid: rgba(121, 21, 22, 0.15);
-    --border: #e2d9d0;
-    --sun: #e8a020;
-    --sun-light: #fef3e0;
-    --white: #ffffff;
+    --bg: #f0ebe1;
+    --card: #ffffff;
+    --navy: #1a1a2e;
+    --muted: #6b6055;
+    --border: #e8e2d8;
+    --red: rgb(121, 21, 22);
+    --red-light: rgba(121, 21, 22, 0.07);
+    --green: #4a7c59;
+    --green-bg: #e8f4ed;
+    --peach: #c4623a;
+    --shadow: rgba(26,26,46,0.07);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html { scroll-behavior: smooth; }
-
   body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--bark);
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* ── MAIN ── */
-  #guide { display: block; }
-
-  /* ── TOP NAV ── */
-  .top-nav {
-    background: white;
-    border-bottom: 1px solid var(--border);
-    padding: 0.9rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .nav-brand {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-  }
-
-  .nav-brand span { font-size: 1.3rem; }
-
-  .nav-brand h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.15rem;
-    color: var(--bark);
-  }
-
-  .nav-brand small {
-    display: block;
-    font-size: 0.68rem;
-    color: var(--bark-light);
-    font-weight: 400;
-    letter-spacing: 0.03em;
-  }
-
-  .nav-link {
-    font-size: 0.82rem;
-    color: var(--bark-light);
-    text-decoration: none;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    padding: 0.4rem 0.9rem;
-    transition: all 0.2s;
-    font-weight: 500;
-  }
-
-  .nav-link:hover { border-color: var(--leaf); color: var(--leaf); }
-
-  /* ── HERO ── */
-  .hero {
-    background: white;
-    border-bottom: 1px solid var(--border);
-    padding: 4rem 2rem 3.5rem;
-    text-align: center;
-  }
-
-  .hero-tree { font-size: 3rem; margin-bottom: 1.2rem; display: block; }
-
-  .hero h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2rem, 5vw, 2.8rem);
-    color: var(--bark);
-    line-height: 1.15;
-    margin-bottom: 0.75rem;
-    max-width: 560px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .hero-sub {
-    font-size: 1rem;
-    color: var(--bark-light);
-    max-width: 440px;
-    margin: 0 auto 2.5rem;
-    line-height: 1.6;
-  }
-
-  .steps-row {
-    display: flex;
-    gap: 1.6rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .step-chip {
-    font-size: 1rem;
-    color: var(--leaf);
-    font-weight: 400;
-  }
-
-  .step-chip b {
-    color: var(--leaf);
-    font-size: 1rem;
-    font-weight: 600;
-    margin-right: 0.2rem;
-  }
-
-  /* ── CONTENT ── */
-  .content {
-    max-width: 740px;
-    margin: 0 auto;
-    padding: 3rem 1.5rem 5rem;
-  }
-
-  /* ── SECTION ── */
-  .section {
-    margin-bottom: 3.5rem;
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-  }
-
-  .section.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .section-label {
-    font-size: 0.8rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--leaf);
-    margin-bottom: 0.6rem;
-  }
-
-  .section h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.6rem;
-    color: var(--bark);
-    margin-bottom: 0.5rem;
-    line-height: 1.25;
-  }
-
-  .section-intro {
-    font-size: 0.92rem;
-    color: var(--bark-light);
-    margin-bottom: 1.8rem;
-    line-height: 1.6;
-    max-width: 500px;
-  }
-
-  /* ── NUMBERED STEPS ── */
-  .steps { display: flex; flex-direction: column; gap: 1.2rem; }
-
-  .step {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-  }
-
-  .step-num {
-    flex-shrink: 0;
-    width: 30px;
-    height: 30px;
-    background: var(--leaf);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 0.8rem;
-    margin-top: 0.1rem;
-  }
-
-  .step-body h4 {
-    font-weight: 600;
-    font-size: 0.92rem;
-    color: var(--bark);
-    margin-bottom: 0.2rem;
-  }
-
-  .step-body p {
-    font-size: 0.87rem;
-    color: var(--bark-light);
-    line-height: 1.6;
-  }
-
-  /* ── PASSWORD BOX ── */
-  .password-box {
-    background: var(--bark);
-    color: white;
-    border-radius: 16px;
-    padding: 1.6rem 2rem;
-    margin: 1.8rem 0;
-    text-align: center;
-  }
-
-  .password-box .pw-label {
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    opacity: 0.55;
-    margin-bottom: 0.5rem;
-  }
-
-  .password-box .pw-val {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1.5rem;
-    letter-spacing: 0.04em;
-    margin-bottom: 0.75rem;
-  }
-
-  .pw-copy-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: white;
-    border-radius: 8px;
-    padding: 0.35rem 0.9rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
-    margin-bottom: 0.75rem;
-  }
-
-  .pw-copy-btn:hover { background: rgba(255,255,255,0.22); }
-  .pw-copy-btn.copied { background: rgba(255,255,255,0.25); }
-
-  .password-box .pw-url {
-    font-size: 0.78rem;
-    opacity: 0.6;
-    font-weight: 600;
-  }
-
-  .password-box .pw-url a {
-    color: white;
-    text-decoration: none;
-    opacity: 0.8;
-    transition: opacity 0.2s;
-  }
-
-  .password-box .pw-url a:hover { opacity: 1; }
-
-  /* ── FORM MOCK ── */
-  .form-mock {
-    background: white;
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
-    padding: 1.4rem;
-    margin: 1.5rem 0;
-  }
-
-  .form-mock-title {
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--bark-light);
-    margin-bottom: 1rem;
-  }
-
-  .mock-field {
-    background: var(--cream);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 0.6rem 0.9rem;
-    margin-bottom: 0.6rem;
-  }
-
-  .mock-field.focus { border-color: var(--leaf); background: var(--leaf-light); }
-
-  .mock-field .fl {
-    font-size: 0.66rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--bark-light);
-    margin-bottom: 0.15rem;
-  }
-
-  .mock-field .fv {
-    font-size: 0.88rem;
-    color: var(--bark);
-  }
-
-  .mock-field .fv.hint { color: var(--border); }
-
-  /* ── SCHEDULE MOCK ── */
-  .schedule-mock {
-    background: var(--cream);
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
-    padding: 1.2rem;
-    margin: 1.5rem 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--navy);
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .mock-time-row {
-    display: flex;
-    gap: 0.75rem;
-    align-items: flex-start;
-  }
-
-  .mock-time {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--bark-light);
-    width: 44px;
-    flex-shrink: 0;
-    padding-top: 0.55rem;
-    text-align: right;
-  }
-
-  .mock-cards { flex: 1; display: flex; flex-direction: column; gap: 0.35rem; }
-
-  .mock-card {
-    background: white;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 0.6rem 0.8rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-  }
-
-  .mock-card.live { border-color: #e74c3c; box-shadow: 0 0 0 3px rgba(231,76,60,0.08); }
-
-  .mock-card .mc-name { font-weight: 600; font-size: 0.83rem; color: var(--bark); }
-  .mock-card .mc-act { font-size: 0.76rem; color: var(--bark-light); }
-
-  .live-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    background: #e74c3c;
-    color: white;
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    padding: 0.12rem 0.45rem;
-    border-radius: 20px;
-    margin-left: 0.3rem;
-  }
-
-  .live-dot {
-    width: 5px; height: 5px;
-    background: white;
-    border-radius: 50%;
-    animation: pulse 1.2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.7); }
-  }
-
-  .mc-btns { display: flex; gap: 0.3rem; flex-shrink: 0; }
-
-  .mc-btn {
-    font-size: 0.7rem;
-    padding: 0.2rem 0.5rem;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    color: var(--bark-light);
-    background: none;
-    font-family: 'DM Sans', sans-serif;
-    cursor: default;
-  }
-
-  .mc-btn.zoom { color: var(--leaf); border: none; font-weight: 600; padding-left: 0; }
-  .mc-btn.cancel { color: #c0392b; }
-
-  .mock-empty {
-    border: 1.5px dashed var(--border);
-    border-radius: 10px;
-    padding: 0.5rem;
-    font-size: 0.76rem;
-    color: var(--border);
-    text-align: center;
-  }
-
-  /* ── TIP / EXAMPLE BOXES ── */
-  .tip-box {
-    background: var(--leaf-light);
-    border: 1.5px solid var(--leaf-mid);
-    border-radius: 12px;
-    padding: 1rem 1.2rem;
-    margin: 1.2rem 0;
-    display: flex;
-    gap: 0.75rem;
-    align-items: flex-start;
-  }
-
-  .tip-box .ti { font-size: 1rem; flex-shrink: 0; margin-top: 0.1rem; }
-
-  .tip-box p {
-    font-size: 0.87rem;
-    color: var(--bark);
-    line-height: 1.55;
-  }
-
-  .tip-box strong { color: var(--leaf); }
-
-  .example-box {
-    background: var(--sun-light);
-    border-left: 0px solid var(--sun);
-    border-radius: 0 10px 10px 0;
-    padding: 0.9rem 1.1rem;
-    margin: 1.2rem 0;
-  }
-
-  .example-box .ex-label {
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--sun);
-    margin-bottom: 0.4rem;
-  }
-
-  .example-box p {
-    font-size: 0.87rem;
-    color: var(--bark);
-    line-height: 1.6;
-  }
-
-  /* ── FAQ ── */
-  .faq { display: flex; flex-direction: column; }
-
-  .faq-item {
-    border-bottom: 1px solid var(--border);
-    padding: 0;
     overflow: hidden;
   }
 
-  .faq-item:first-child { border-top: 1px solid var(--border); }
-
-  .faq-q {
+  /* HEADER */
+  header {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 0.9rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-    padding: 1rem 0;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--bark);
-    user-select: none;
-    list-style: none;
+    flex-shrink: 0;
   }
 
-  .faq-q::-webkit-details-marker { display: none; }
+  .header-left { display: flex; align-items: center; gap: 0.75rem; }
 
-  .faq-icon {
-    flex-shrink: 0;
-    width: 22px;
-    height: 22px;
-    border: 1.5px solid var(--border);
+  .maria-avatar {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
+    background: var(--red-light);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.9rem;
-    color: var(--bark-light);
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+
+  .header-name { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
+  .header-status {
+    font-size: 0.72rem;
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 1px;
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+
+  .back-btn {
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 20px;
     transition: all 0.2s;
   }
+  .back-btn:hover { color: var(--navy); border-color: var(--navy); }
 
-  details[open] .faq-icon {
-    background: var(--leaf);
-    border-color: var(--leaf);
-    color: white;
-    transform: rotate(45deg);
+  /* CHAT AREA */
+  .chat-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 720px;
+    width: 100%;
+    margin: 0 auto;
+    align-self: stretch;
   }
 
-  .faq-a {
-    font-size: 0.87rem;
-    color: var(--bark-light);
-    line-height: 1.65;
-    padding-bottom: 1rem;
+  /* MESSAGES */
+  .msg {
+    display: flex;
+    gap: 0.6rem;
+    animation: msgIn 0.25s ease both;
   }
 
-  /* ── CONTACT ── */
-  .contact-box {
-    background: white;
-    border: 1.5px solid var(--border);
-    border-radius: 20px;
-    padding: 2.5rem 2rem;
-    text-align: center;
-    margin-top: 3rem;
+  @keyframes msgIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
-  .contact-box .wa-icon { font-size: 2.2rem; margin-bottom: 1rem; display: block; }
+  .msg.user { flex-direction: row-reverse; }
 
-  .contact-box h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.4rem;
-    color: var(--bark);
-    margin-bottom: 0.4rem;
+  .msg-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--red-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 2px;
   }
 
-  .contact-box p {
-    font-size: 0.87rem;
-    color: var(--bark-light);
-    max-width: 360px;
-    margin: 0 auto 1.5rem;
+  .msg.user .msg-avatar {
+    background: #e8f4ed;
+  }
+
+  .msg-bubble {
+    max-width: 80%;
+    padding: 0.85rem 1.1rem;
+    border-radius: 18px;
+    font-size: 0.9rem;
     line-height: 1.6;
   }
 
-  .wa-btn-link {
-    display: inline-flex;
+  .msg.maria .msg-bubble {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top-left-radius: 4px;
+    color: var(--navy);
+  }
+
+  .msg.user .msg-bubble {
+    background: var(--navy);
+    color: white;
+    border-top-right-radius: 4px;
+  }
+
+  .msg-bubble p { margin-bottom: 0.5rem; }
+  .msg-bubble p:last-child { margin-bottom: 0; }
+  .msg-bubble strong { font-weight: 600; }
+
+  /* THINKING */
+  .thinking-bubble {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    border-top-left-radius: 4px;
+    padding: 0.85rem 1.1rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-style: italic;
+    display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: #25D366;
-    color: white;
-    border-radius: 10px;
-    padding: 0.7rem 1.5rem;
-    font-size: 0.88rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background 0.2s, transform 0.1s;
   }
 
-  .wa-btn-link:hover { background: #1ea854; }
-  .wa-btn-link:active { transform: scale(0.97); }
+  .thinking-dots {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+  }
 
-  /* ── DELEGATE CTA ── */
-  .delegate-box {
-    background: white;
-    border: 1.5px solid var(--border);
+  .thinking-dots span {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--muted);
+    animation: dot-pulse 1.4s ease-in-out infinite;
+  }
+  .thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes dot-pulse {
+    0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+    40% { opacity: 1; transform: scale(1); }
+  }
+
+  /* QUICK REPLIES */
+  .quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0 1.5rem;
+    max-width: 720px;
+    width: 100%;
+    margin: 0 auto;
+    flex-shrink: 0;
+  }
+
+  .quick-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
     border-radius: 20px;
-    padding: 2rem 2rem 2rem;
-    margin-bottom: 3rem;
+    padding: 0.45rem 0.9rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--navy);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
   }
-  .delegate-box h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.35rem;
-    color: var(--bark);
-    margin-bottom: 0.4rem;
+  .quick-btn:hover { border-color: var(--red); color: var(--red); background: var(--red-light); }
+
+  /* INPUT */
+  .input-area {
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    padding: 1rem 1.5rem;
+    flex-shrink: 0;
   }
-  .delegate-box p {
-    font-size: 0.87rem;
-    color: var(--bark-light);
-    line-height: 1.6;
-    margin-bottom: 0.5rem;
-  }
-  .delegate-box .include-list {
-    font-size: 0.84rem;
-    color: var(--bark-light);
-    line-height: 1.7;
-    margin-bottom: 1.4rem;
-  }
-  .delegate-btns {
+
+  .input-row {
     display: flex;
     gap: 0.75rem;
-    flex-wrap: wrap;
+    align-items: flex-end;
+    max-width: 720px;
+    margin: 0 auto;
   }
-  .delegate-btn-wa {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: #25D366;
-    color: white;
-    border-radius: 10px;
-    padding: 0.7rem 1.3rem;
-    font-size: 0.88rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background 0.2s;
-  }
-  .delegate-btn-wa:hover { background: #1ea854; }
-  .delegate-btn-email {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--bark);
-    color: white;
-    border: 1.5px solid var(--bark);
-    border-radius: 10px;
-    padding: 0.7rem 1.3rem;
-    font-size: 0.88rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-  .delegate-btn-email:hover { background: var(--bark-light); border-color: var(--bark-light); }
 
-  /* ── DIVIDER ── */
-  .divider {
+  .input-row textarea {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--navy);
+    background: var(--bg);
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s;
+    min-height: 44px;
+    max-height: 120px;
+    line-height: 1.5;
+  }
+  .input-row textarea:focus { border-color: var(--red); background: white; }
+  .input-row textarea::placeholder { color: var(--muted); }
+
+  .send-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--red);
     border: none;
-    border-top: 1px solid var(--border);
-    margin: 3rem 0;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+    font-size: 1rem;
+  }
+  .send-btn:hover { opacity: 0.85; }
+  .send-btn:disabled { opacity: 0.4; cursor: default; }
+
+  /* FOOTER */
+  .chat-footer {
+    text-align: center;
+    padding: 0.5rem 1rem 0.75rem;
+    font-size: 0.68rem;
+    color: var(--muted);
+    flex-shrink: 0;
+    background: var(--card);
   }
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 600px) {
-    .hero { padding: 3rem 1.5rem 2.5rem; }
-    .content { padding: 2rem 1rem 4rem; }
-    .top-nav { padding: 0.8rem 1rem; }
-    .password-box { padding: 1.3rem 1.4rem; }
-    .contact-box { padding: 2rem 1.2rem; }
+  /* LOGIN OVERLAY */
+  #login-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 2rem;
+  }
+
+  .login-card {
+    background: var(--card);
+    border-radius: 28px;
+    padding: 3rem 2.5rem;
+    max-width: 340px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 32px var(--shadow);
+  }
+
+  .login-card h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.25rem; }
+  .login-card p { font-size: 0.85rem; color: var(--muted); margin-bottom: 2rem; }
+  .login-card input {
+    width: 100%;
+    padding: 0.85rem 1.1rem;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--navy);
+    background: var(--bg);
+    margin-bottom: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .login-card input:focus { border-color: var(--red); background: white; }
+  .login-card button {
+    width: 100%;
+    padding: 0.85rem;
+    background: var(--red);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .login-card button:hover { opacity: 0.88; }
+  .login-error { color: var(--peach); font-size: 0.8rem; margin-top: 0.75rem; display: none; }
+
+  @media (max-width: 500px) {
+    .chat-area { padding: 1rem; }
+    .quick-replies { padding: 0 1rem; }
+    .input-area { padding: 0.75rem 1rem; }
+    .msg-bubble { max-width: 90%; }
   }
 </style>
 </head>
 <body>
 
-<!-- GUIDE -->
-<div id="guide">
-
-  <!-- NAV -->
-  <nav class="top-nav">
-    <div class="nav-brand">
-      <span>📖</span>
-      <div>
-        <h1>Redwood Sessions Guide</h1>
-        <small>Teacher Guide</small>
-      </div>
-    </div>
-    <a class="nav-link" href="https://redwood.lunamargherita.com/teacher" target="_blank">Start booking your sessions ↗</a>
-  </nav>
-
-  <!-- HERO -->
-  <div class="hero">
-    <span class="hero-tree">📖</span>
-    <h2>Everything you need to know in one page</h2>
-    <p class="hero-sub">Book a slot, add your Zoom link, and you're done. Any Redwood child can join any session.</p>
-    <div class="steps-row">
-      <div class="step-chip"><b>1.</b> Log in</div>
-      <div class="step-chip"><b>2.</b> Pick a slot</div>
-      <div class="step-chip"><b>3.</b> Add your Zoom link</div>
-      <div class="step-chip"><b>4.</b> Done</div>
-    </div>
-  </div>
-
-  <!-- CONTENT -->
-  <div class="content">
-
-    <!-- DELEGATE CTA -->
-    <div class="delegate-box">
-      <h3>Not comfortable booking yourself?</h3>
-      <p>No problem. Send your activities via WhatsApp or email and see them appear on the schedule in a few minutes.</p>
-      <div class="include-list">
-        Include: your name · starting time (Dubai time) · duration · your Zoom link · what you're planning (optional but a nice touch)
-      </div>
-      <p style="font-size:0.82rem;font-weight:800;color:var(--bark-light);margin-bottom:1.2rem;">Don't see your name in the teacher list? Get in touch and it will be added right away.</p>
-      <div class="delegate-btns">
-        <a class="delegate-btn-wa" href="https://wa.me/447463978471?text=Hi%20Luna%2C%20I%27d%20like%20to%20add%20a%20session%3A%0A%0AMy%20name%3A%20%0AStarting%20time%20(Dubai%20time)%3A%20%0ADuration%3A%20%0AZoom%20link%3A%20%0ADescription%3A%20" target="_blank">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-          WhatsApp
-        </a>
-        <a class="delegate-btn-email" href="/cdn-cgi/l/email-protection#caa6bfa4aba7abb8ada2afb8a3beab8aada7aba3a6e4a9a5a7f5b9bfa8a0afa9bef798afaebda5a5aeeff8fab9afb9b9a3a5a4eff8fab8afbbbfafb9beeca8a5aeb3f787b3eff8faa4aba7afeff98beff8faeffa8b8ba9bea3bca3beb3eff8fab9beabb8bea3a4adeff8fabea3a7afeff8fae28ebfa8aba3eff8fabea3a7afe3eff98beff8faeffa8b8ebfb8abbea3a5a4eff98beff8faeffa8b90a5a5a7eff8faa6a3a4a1eff98beff8faeffa8b8eafb9a9b8a3babea3a5a4eff98beff8fa" target="_blank">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg> Email
-        </a>
-      </div>
-    </div>
-
-<!-- WHY THIS EXISTS -->
-<div class="section" id="s0">
-  <div class="section-label">Why this exists</div>
-  <h3>Most children aren't joining.</h3>
-  <p class="section-intro">Informal polls across four Redwood classes showed that roughly 70% of parents said they hadn't been joining the Zoom sessions. Not because they didn't want to, but because of three specific reasons: <strong> Timing didn't work. Toddlers have unpredictable schedules. Access friction.</strong></p>
-
-  <div class="steps">
-    <div class="step">
-      <div class="step-num" style="background:none;border:1.5px solid var(--border);color:var(--bark-light);">🌍</div>
-      <div class="step-body">
-        <h4>Time zones</h4>
-        <p>A significant number of Redwood families are temporarily abroad, many in the UK and Europe. A 10am Dubai session is 7 or 8am for them. They're not disengaged. The time just doesn't work.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num" style="background:none;border:1.5px solid var(--border);color:var(--bark-light);">🌙</div>
-      <div class="step-body">
-        <h4>Toddler schedules</h4>
-        <p>You can't tell a 2 year old that Zoom starts in five minutes. Some children are still sleeping. Others are in the middle of focussed play. Fixed session times and toddler schedules don't always align.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num" style="background:none;border:1.5px solid var(--border);color:var(--bark-light);">🔗</div>
-      <div class="step-body">
-        <h4>Finding the link</h4>
-        <p>Parents were asking in WhatsApp groups at 9:36am: "Is the call on?" and "Has anyone got the link?" The session was already starting. No matter how simple it is, people are stressed, tired and even the tiniest friction can be insurmountable.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="tip-box">
-    <span class="ti">💡</span>
-    <p>This system doesn't replace your existing sessions. Teachers can keep their regular class calls can. Tthe current system works for children who show up. This is for the ones who don't, and the reasons they don't are fixable..</p>
+<!-- LOGIN OVERLAY -->
+<div id="login-overlay" style="display:none;">
+  <div class="login-card">
+    <div style="font-size:2.5rem;margin-bottom:1rem;">👵</div>
+    <h1>Maria</h1>
+    <p>Enter your teacher password to continue.</p>
+    <input type="password" id="login-pw" placeholder="Password" autocomplete="current-password" />
+    <button onclick="doLogin()">Enter</button>
+    <div class="login-error" id="login-error">Wrong password</div>
   </div>
 </div>
 
-<hr class="divider">
-    
-    <!-- WHAT IS THIS -->
-    <div class="section" id="s1">
-      <div class="section-label">What is this?</div>
-      <h3>A drop in schedule for remote learning days</h3>
-      <p class="section-intro">Think of it as the Redwood common area, online. You offer a 15 minute session whenever it works for you. Parents check the live schedule and join what fits their day.</p>
-
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-body">
-            <h4>Pick any 15 minute slot</h4>
-            <p>Morning, afternoon, or a later slot for families who are abroad. According to feedback, parents would like to join the sessions but sometimes the times don't work for them or 30 minutes is too much of a commitment.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-body">
-            <h4>You host whatever feels natural</h4>
-            <p>A song, a story, some phonics, a dance break. Keep it light. 15 minutes of genuine engagement with a familiar face is what children need right now.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-body">
-            <h4>Any Redwood child can join, not just your class</h4>
-            <p>Siblings can attend together. Children whose teacher isn't available can still see a familiar Redwood face. Parents choose the sessions that fits their day. The schedule is open to the whole school.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">4</div>
-          <div class="step-body">
-            <h4>No coordination needed</h4>
-            <p>You don't need to check with anyone before booking. If two teachers pick the same slot, that's fine - parents just have more options to choose from. The schedule updates in real time.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="tip-box">
-        <span class="ti">💡</span>
-        <p><strong>On names:</strong> Ask parents to rename their Zoom display to their child's name before joining. When children join from outside your usual class, hearing their name called out will increase their sense of belonging.</p>
-      </div>
+<!-- HEADER -->
+<header>
+  <div class="header-left">
+    <div class="maria-avatar">👵</div>
+    <div>
+      <div class="header-name">Maria</div>
+      <div class="header-status"><span class="status-dot"></span>Ready to help</div>
     </div>
+  </div>
+  <a href="teachers.html" class="back-btn">← Teachers hub</a>
+</header>
 
-    <hr class="divider">
+<!-- CHAT -->
+<div class="chat-area" id="chat-area"></div>
 
-    <!-- HOW TO BOOK YOUR SESSIONS -->
-    <div class="section" id="s2">
-      <div class="section-label">How to book</div>
-      <h3>Four fields. Under two minutes.</h3>
-      <p class="section-intro">Open the booking page, log in with your teacher password, and fill in the form.</p>
+<!-- QUICK REPLIES -->
+<div class="quick-replies" id="quick-replies"></div>
 
-      <div class="password-box">
-        <div class="pw-label">this is the password</div>
-        <div class="pw-val" id="pw-display">15minJOY</div>
-        <button class="pw-copy-btn" id="copy-btn" onclick="copyPassword()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          <span id="copy-label">Copy password</span>
-        </button>
-        <div class="pw-url"><a href="https://redwood.lunamargherita.com/teacher" target="_blank">START BOOKING YOUR SESSIONS NOW ↗</a></div>
-      </div>
-
-      <p style="font-size:0.87rem;color:var(--bark-light);margin-bottom:1.5rem;line-height:1.6;">Once you're in, click <strong style="color:var(--bark);">+ Add session</strong> in the top right, or tap any empty slot in the schedule directly. A booking form opens.</p>
-
-      <div class="form-mock">
-        <div class="form-mock-title">Booking form. what you'll see</div>
-
-        <div class="mock-field">
-          <div class="fl">Your name</div>
-          <div class="fv">Ms Ghita</div>
-        </div>
-        <div class="mock-field">
-          <div class="fl">Day</div>
-          <div class="fv">Tue 31 Mar</div>
-        </div>
-        <div class="mock-field">
-          <div class="fl">Time slot</div>
-          <div class="fv">09:30</div>
-        </div>
-        <div class="mock-field focus">
-          <div class="fl">Activity</div>
-          <div class="fv">Morning songs</div>
-        </div>
-        <div class="mock-field focus">
-          <div class="fl">Zoom link</div>
-          <div class="fv">https://zoom.us/j/123456789</div>
-        </div>
-      </div>
-
-      <div class="example-box">
-        <div class="ex-label">Activity ideas</div>
-        <p>Morning songs · Goodbye song · Story time · Phonics with actions · Stretch your body · Show and tell · What's in the bag? · Counting with toys · Colour hunt around the house</p>
-      </div>
-
-      <div class="tip-box">
-        <span class="ti">🕐</span>
-        <p><strong>All times are Dubai time (GMT+4).</strong> If you're abroad, the schedule has a timezone selector so you can see everything converted to your local time. Slots after 4pm Dubai time are marked with 🌍 Those are perfect morning slots for teachers and parents in Europe.</p>
-      </div>
-    </div>
-
-    <hr class="divider">
-
-    <!-- MANAGING SESSIONS -->
-    <div class="section" id="s3">
-      <div class="section-label">Managing your sessions</div>
-      <h3>Edit, cancel, go live</h3>
-      <p class="section-intro">Once booked, your sessions appear on the schedule. You can manage them any time before they start.</p>
-
-      <div class="schedule-mock">
-        <div class="mock-time-row">
-          <div class="mock-time">09:30</div>
-          <div class="mock-cards">
-            <div class="mock-card">
-              <div>
-                <div class="mc-name">Ms Ghita</div>
-                <div class="mc-act">Morning songs</div>
-              </div>
-              <div class="mc-btns">
-                <span class="mc-btn zoom">Start Zoom ↗</span>
-                <span class="mc-btn">Edit</span>
-                <span class="mc-btn cancel">Cancel</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="mock-time-row">
-          <div class="mock-time">09:45</div>
-          <div class="mock-cards">
-            <div class="mock-card live">
-              <div>
-                <div class="mc-name">Ms Nour <span class="live-badge"><span class="live-dot"></span>LIVE</span></div>
-                <div class="mc-act">Story time</div>
-              </div>
-              <div class="mc-btns">
-                <span class="mc-btn zoom">Start Zoom ↗</span>
-                <span class="mc-btn">Edit</span>
-                <span class="mc-btn cancel">Cancel</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="mock-time-row">
-          <div class="mock-time">10:00</div>
-          <div class="mock-cards">
-            <div class="mock-empty">+ Add session</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="steps">
-        <div class="step">
-          <div class="step-num" style="background:none;border:1.5px solid var(--border);color:var(--bark-light);font-size:0.9rem;">✏</div>
-          <div class="step-body">
-            <h4>Edit a session</h4>
-            <p>Changed your Zoom link or want to update what you're planning? Click Edit on any upcoming session. Changes appear immediately on the parent schedule.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num" style="background:none;border:1.5px solid var(--border);color:var(--bark-light);">✕</div>
-          <div class="step-body">
-            <h4>Cancel a session</h4>
-            <p>Something came up? Click Cancel.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num" style="background:none;border:1.5px solid var(--border);color:var(--bark-light);font-size:0.85rem;">▶</div>
-          <div class="step-body">
-            <h4>When it's time to go live</h4>
-            <p>Click <strong style="color:var(--bark);">Start Zoom</strong> from your session card to open your meeting (or from wherever). During your 15 minute window, your session shows a red LIVE badge on the parent schedule.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <hr class="divider">
-
-    <!-- FAQ -->
-    <div class="section" id="s4">
-      <div class="section-label">Questions</div>
-      <h3>Questions you might have</h3>
-      <p class="section-intro" style="margin-bottom:1.5rem;">If something isn't answered here, use the WhatsApp button below.</p>
-
-      <div class="faq">
-
-        <details class="faq-item">
-          <summary class="faq-q">
-            Do I need to book in advance?
-            <span class="faq-icon">+</span>
-          </summary>
-          <p class="faq-a">No. You can book five minutes before your session. The schedule updates in real time. Of course the sooner, the better.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary class="faq-q">
-            What if I book the same time as another teacher?
-            <span class="faq-icon">+</span>
-          </summary>
-          <p class="faq-a">That's completely fine. Both sessions appear on the parent schedule and families choose whichever works for them. More options is better for parents.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary class="faq-q">
-            Can children outside my class join?
-            <span class="faq-icon">+</span>
-          </summary>
-          <p class="faq-a">Yes, and that's the point. Any Redwood child can attend any session. You don't need to do anything differently, just treat everyone who joins as a Redwood child, because they are.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary class="faq-q">
-            What if I don't know a child's name?
-            <span class="faq-icon">+</span>
-          </summary>
-          <p class="faq-a">Parents are asked to rename their Zoom display to their child's name before joining. If someone hasn't done that, just ask them or ask the child "what's your name?". It's a perfectly fine way to start.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary class="faq-q">
-            How long should a session be?
-            <span class="faq-icon">+</span>
-          </summary>
-          <p class="faq-a">15 minutes and that's intentional. It matches toddler attention spans and keeps the commitment manageable for you and for the parents. If the energy is good and you want to run a little over, that's your call. If you had already planned classes of 30 minutes, just add the same zoom link twice: once for the first 15 minutes, and once for the last 15 minutes.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary class="faq-q">
-            Can I book multiple slots in one day?
-            <span class="faq-icon">+</span>
-          </summary>
-          <p class="faq-a">Yes. Book as many as you like. One is already a contribution. Two or three gives parents more options throughout the day.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary class="faq-q">
-            I'm abroad. Can I still participate?
-            <span class="faq-icon">+</span>
-          </summary>
-          <p class="faq-a">Absolutely. The schedule has a timezone selector. Afternoon slots in Dubai (marked 🌍) may be perfect morning slots wherever you are. Families abroad are in the same situation and have been asking for later sessions.</p>
-        </details>
-
-      </div>
-    </div>
-
-    <!-- CONTACT -->
-    <div class="section" id="s5">
-      <div class="contact-box">
-        <span class="wa-icon">💬</span>
-        <h3>Something not working?</h3>
-        <p>There's a "Need support?" button on the booking page that goes straight to Luna, who can help you with questions or solving problems with the system. Feedback always welcome.</p>
-        <a class="wa-btn-link" href="https://wa.me/447463978471?text=Hi%20Luna%2C%20I%27m%20a%20Redwood%20teacher%20and%20I%20need%20help%20with%20the%20sessions%20page%3A%20" target="_blank">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-          WhatsApp Support
-        </a>
-      </div>
-    </div>
-
+<!-- INPUT -->
+<div class="input-area">
+  <div class="input-row">
+    <textarea id="user-input" placeholder="Ask Maria anything..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+    <button class="send-btn" id="send-btn" onclick="sendMessage()">↑</button>
   </div>
 </div>
+
+<div class="chat-footer">Built by Eshanka and Luna. Maria is powered by AI and may occasionally err.</div>
 
 <script>
-  function copyPassword() {
-    const pw = document.getElementById('pw-display').textContent;
-    navigator.clipboard.writeText(pw).then(() => {
-      const btn = document.getElementById('copy-btn');
-      const label = document.getElementById('copy-label');
-      btn.classList.add('copied');
-      label.textContent = 'Copied!';
-      setTimeout(() => {
-        btn.classList.remove('copied');
-        label.textContent = 'Copy password';
-      }, 2000);
+const WORKER_URL = 'https://redwood-api.lunamargherita.com';
+
+const SYSTEM_PROMPT = `You are Maria, named after Maria Montessori. You help Redwood Nursery Jumeirah Park teachers use the Redwood Sessions platform — a 15-minute drop-in Zoom session booking system built by two parents, Eshanka and Luna, during a school closure period in Dubai.
+
+YOUR CHARACTER:
+You are warm, calm, and quietly confident. You have devoted your life to child development and you believe deeply in what this platform is trying to do. You have a slight raised eyebrow at the occasionally chaotic energy of the two parents who built you — Eshanka (the Indian influencer, social spark) and Luna (the Italian nerd, social question mark) — but you are fond of them. You are not annoyed by teachers' questions, even basic ones, but you are gently efficient. You do not overexplain. You trust that teachers are capable. You nudge people toward independence rather than doing everything for them.
+
+You occasionally — not always, only when it genuinely fits — share a Montessori quote. It should land naturally, not feel forced.
+
+YOUR TONE:
+- Warm but not gushing
+- Direct, never meandering
+- Dry wit when it fits; never slapstick
+- Never use em dashes
+- Never say "great question", "certainly", "absolutely", "straightforward", or "of course"
+- Short paragraphs. Breathe.
+
+ABOUT THE PLATFORM:
+The platform is at redwood.lunamargherita.com. Teachers access it via the /teachers hub using the password Reggio26JP. From there they can:
+- Book a session (/booksessions)
+- Read the explainer (/explainer) — why 15-minute drop-in sessions exist
+- Ask Maria (/guide — that's you)
+- View stats (/stats — coming soon)
+
+HOW TO BOOK:
+1. Go to redwood.lunamargherita.com/teachers
+2. Enter password: Reggio26JP
+3. Click "Book a session"
+4. Click "+ Add session" or tap an empty slot
+5. Fill in: your name, day, time slot (12:00 to 14:45 Dubai time, 15-minute intervals), activity description, Zoom link
+6. Hit "Book slot" — it appears live on the parent schedule instantly
+
+Sessions run 12:00 to 15:00 Dubai time only. Last bookable slot is 14:45.
+
+HOW TO EDIT A SESSION:
+Find your session card in the schedule, click the edit (pencil) icon. Change whatever needs changing. Save.
+
+HOW TO CANCEL:
+Find your session card, click the delete (bin) icon. It's removed immediately from the parent view.
+
+WHAT SESSIONS ARE:
+15-minute drop-in sessions. Any Redwood child can join any session, not just the teacher's own class. Sessions are informal: songs, stories, phonics, movement, show and tell. No prep required. Teachers are asked to keep it light and playful. This is not curriculum.
+
+WHY THIS EXISTS:
+Around 70% of parents were not joining standard remote learning sessions due to: time zones (many Redwood families were abroad), toddler schedules (you cannot schedule a 2-year-old), and link friction (parents couldn't find the Zoom link in time). This platform solves all three. Sessions are spread across the day, visible on a live schedule, with Zoom links one tap away.
+
+WHO BUILT THIS:
+Luna (Italian, parent, the technical one — "the nerd") and Eshanka (Indian, parent, the community builder — "the influencer"). They built it from scratch during a school closure. Suroor Ansari is the Nursery Director. Fares Hamade is Group Director at KFG.
+
+IF SOMETHING IS BROKEN:
+Suggest teachers contact Luna via WhatsApp or use the teachers hub to navigate to the booking page directly. You can acknowledge when something sounds like a bug without catastrophising.
+
+GOODBYE MESSAGES you might use:
+- "Go well. The environment is prepared."
+- "Off you go. You have everything you need."
+- "See you next session. Trust the process."
+
+ERROR FRAMING:
+- "Something did not work as expected. Observe, adjust, proceed."
+- "Like a child who drops the jar, we simply try again."
+
+Respond only in English. Keep replies concise. Do not invent features or policies that are not described above.`;
+
+const LOADING_MESSAGES = [
+  "Stacking wooden blocks...",
+  "Pouring water carefully...",
+  "Sorting by colour and size...",
+  "Threading the beads...",
+  "Sweeping the floor...",
+  "Tracing letters in the sand...",
+  "Folding the cloth...",
+  "Walking the line...",
+  "Counting the shells...",
+  "Pressing flowers...",
+];
+
+const QUICK_REPLIES_INITIAL = [
+  "How do I book a session?",
+  "How do I edit a session?",
+  "How do I cancel?",
+  "What should I do in 15 minutes?",
+  "Why does this exist?",
+];
+
+let messages = [];
+let isThinking = false;
+
+// AUTH
+async function doLogin() {
+  const val = document.getElementById('login-pw').value.trim();
+  try {
+    const res = await fetch(`${WORKER_URL}/stats-auth`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: val })
     });
+    if (res.ok) {
+      const data = await res.json();
+      sessionStorage.setItem('rw_auth', 'true');
+      sessionStorage.setItem('rw_token', data.token);
+      document.getElementById('login-overlay').style.display = 'none';
+      init();
+    } else {
+      document.getElementById('login-error').style.display = 'block';
+    }
+  } catch {
+    document.getElementById('login-error').style.display = 'block';
+  }
+}
+
+document.getElementById('login-pw')?.addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+function checkAuth() {
+  if (!sessionStorage.getItem('rw_auth')) {
+    document.getElementById('login-overlay').style.display = 'flex';
+  } else {
+    init();
+  }
+}
+
+// INIT
+function init() {
+  showQuickReplies(QUICK_REPLIES_INITIAL);
+  addMessage('maria', `Buongiorno. I'm Maria. I'm here to help you with the 15 minutes project. I can help you book, edit or cancel a session, or answer questions about how this works. In other words, I can help you trace letters in the sand. The choice is yours.`);
+}
+
+// RENDER
+function addMessage(role, text) {
+  messages.push({ role: role === 'maria' ? 'assistant' : 'user', content: text });
+
+  const area = document.getElementById('chat-area');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar';
+  avatar.textContent = role === 'maria' ? '👵' : '🌿';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  bubble.innerHTML = formatText(text);
+
+  div.appendChild(avatar);
+  div.appendChild(bubble);
+  area.appendChild(div);
+  scrollDown();
+
+  if (role === 'user') clearQuickReplies();
+}
+
+function formatText(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br>')
+    .replace(/^/, '<p>')
+    .replace(/$/, '</p>');
+}
+
+function showThinking() {
+  const area = document.getElementById('chat-area');
+  const div = document.createElement('div');
+  div.className = 'msg maria';
+  div.id = 'thinking-msg';
+
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar';
+  avatar.textContent = '👵';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'thinking-bubble';
+  const msg = LOADING_MESSAGES[Math.floor(Math.random() * LOADING_MESSAGES.length)];
+  bubble.innerHTML = `<span style="flex:1;font-style:italic;">${msg}</span><div class="thinking-dots"><span></span><span></span><span></span></div>`;
+
+  div.appendChild(avatar);
+  div.appendChild(bubble);
+  area.appendChild(div);
+  scrollDown();
+}
+
+function hideThinking() {
+  const el = document.getElementById('thinking-msg');
+  if (el) el.remove();
+}
+
+function scrollDown() {
+  const area = document.getElementById('chat-area');
+  area.scrollTop = area.scrollHeight;
+}
+
+function showQuickReplies(replies) {
+  const container = document.getElementById('quick-replies');
+  container.innerHTML = '';
+  replies.forEach(r => {
+    const btn = document.createElement('button');
+    btn.className = 'quick-btn';
+    btn.textContent = r;
+    btn.onclick = () => {
+      document.getElementById('user-input').value = r;
+      sendMessage();
+    };
+    container.appendChild(btn);
+  });
+}
+
+function clearQuickReplies() {
+  document.getElementById('quick-replies').innerHTML = '';
+}
+
+// SEND
+async function sendMessage() {
+  const input = document.getElementById('user-input');
+  const text = input.value.trim();
+  if (!text || isThinking) return;
+
+  input.value = '';
+  autoResize(input);
+  isThinking = true;
+  document.getElementById('send-btn').disabled = true;
+
+  addMessage('user', text);
+  showThinking();
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: messages.filter(m => m.role === 'user' || m.role === 'assistant')
+      })
+    });
+
+    const data = await response.json();
+    const reply = data.content?.[0]?.text || "Something did not work as expected. Observe, adjust, proceed.";
+
+    hideThinking();
+    addMessage('maria', reply);
+
+  } catch {
+    hideThinking();
+    addMessage('maria', "Like a child who drops the jar, we simply try again. Something went wrong on my end.");
   }
 
-  function initAnimations() {
-    const sections = document.querySelectorAll('.section');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.08 });
-    sections.forEach(s => observer.observe(s));
-  }
+  isThinking = false;
+  document.getElementById('send-btn').disabled = false;
+  input.focus();
+}
 
-  document.addEventListener('DOMContentLoaded', initAnimations);
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+checkAuth();
 </script>
 </body>
 </html>
