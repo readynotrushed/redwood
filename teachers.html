@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redwood Sessions — Teachers</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f0ebe1;
+    --card: #ffffff;
+    --navy: #1a1a2e;
+    --muted: #a09888;
+    --border: #e8e2d8;
+    --red: rgb(121, 21, 22);
+    --red-bg: rgba(121, 21, 22, 0.06);
+    --green: #4a7c59;
+    --green-bg: #e8f4ed;
+    --peach: #c4623a;
+    --peach-bg: #fef0ea;
+    --purple: #6b5dd3;
+    --purple-bg: #f0eeff;
+    --radius: 22px;
+    --radius-sm: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--navy);
+    min-height: 100vh;
+  }
+
+  /* LOGIN */
+  #login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .login-card {
+    background: var(--card);
+    border-radius: 28px;
+    padding: 3rem 2.5rem;
+    max-width: 360px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 40px rgba(26,26,46,0.08);
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .login-tree { font-size: 3rem; margin-bottom: 1rem; }
+
+  .login-card h1 {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--navy);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+  }
+
+  .login-card p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .login-card input {
+    width: 100%;
+    padding: 0.9rem 1.1rem;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--navy);
+    margin-bottom: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    letter-spacing: 0.04em;
+  }
+  .login-card input::placeholder { color: var(--muted); }
+  .login-card input:focus { border-color: var(--red); background: white; }
+
+  .login-card button {
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--red);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .login-card button:hover { opacity: 0.88; }
+
+  .login-error {
+    color: var(--peach);
+    font-size: 0.8rem;
+    margin-top: 0.75rem;
+    display: none;
+  }
+
+  /* APP */
+  #app { display: none; min-height: 100vh; }
+
+  header {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 1.1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-brand { display: flex; align-items: center; gap: 0.75rem; }
+  .header-brand span { font-size: 1.5rem; }
+  .header-brand h1 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; }
+  .header-brand small { font-size: 0.7rem; color: var(--muted); display: block; margin-top: 1px; }
+
+  .header-tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: var(--red-bg);
+    color: var(--red);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 3rem 2rem 2rem;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--red);
+    margin-bottom: 0.75rem;
+  }
+
+  .hero h2 {
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--navy);
+    margin-bottom: 0.75rem;
+  }
+
+  .hero p {
+    font-size: 0.95rem;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.65;
+  }
+
+  /* NAV CARDS */
+  .main { padding: 0 2rem 3rem; max-width: 860px; margin: 0 auto; }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .nav-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    text-decoration: none;
+    color: var(--navy);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    box-shadow: 0 2px 16px rgba(26,26,46,0.05);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+  }
+
+  .nav-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(26,26,46,0.1);
+  }
+
+  .nav-card.disabled {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .card-icon.red { background: var(--red-bg); }
+  .card-icon.green { background: var(--green-bg); }
+  .card-icon.peach { background: var(--peach-bg); }
+  .card-icon.purple { background: var(--purple-bg); }
+  .card-icon.muted { background: #f0ebe1; }
+
+  .card-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+  }
+
+  .card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.55;
+    flex: 1;
+  }
+
+  .card-arrow {
+    margin-top: 1.25rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .nav-card:nth-child(1) .card-arrow { color: var(--red); }
+  .nav-card:nth-child(2) .card-arrow { color: var(--green); }
+  .nav-card:nth-child(3) .card-arrow { color: var(--peach); }
+  .nav-card:nth-child(4) .card-arrow { color: var(--purple); }
+
+  .coming-soon-badge {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: #f0ebe1;
+    color: var(--muted);
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+  }
+
+  /* FOOTER */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-copy {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .footer-copy strong {
+    color: var(--navy);
+    font-weight: 600;
+  }
+
+  .ask-maria-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0.6rem 1.2rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    text-decoration: none;
+  }
+  .ask-maria-btn:hover { opacity: 0.85; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .cards-grid .nav-card:nth-child(1) { animation: fadeUp 0.35s ease 0.05s both; }
+  .cards-grid .nav-card:nth-child(2) { animation: fadeUp 0.35s ease 0.1s both; }
+  .cards-grid .nav-card:nth-child(3) { animation: fadeUp 0.35s ease 0.15s both; }
+  .cards-grid .nav-card:nth-child(4) { animation: fadeUp 0.35s ease 0.2s both; }
+
+  @media (max-width: 560px) {
+    .cards-grid { grid-template-columns: 1fr; }
+    header { padding: 1rem; }
+    .hero { padding: 2rem 1rem 1.5rem; }
+    .main { padding: 0 1rem 2rem; }
+    .footer { padding: 1.5rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-tree">🌳</div>
+    <h1>Teachers</h1>
+    <p>Redwood Sessions — Jumeirah Park</p>
+    <input type="password" id="pw" placeholder="Password" autocomplete="current-password" />
+    <button onclick="login()">Enter</button>
+    <div class="login-error" id="login-error">Wrong password</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <header>
+    <div class="header-brand">
+      <span>🌳</span>
+      <div>
+        <h1>Redwood Sessions</h1>
+        <small>Jumeirah Park · Teachers</small>
+      </div>
+    </div>
+    <div class="header-tag">Teachers only</div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Welcome</div>
+    <h2>Good to have you here.</h2>
+    <p>Everything you need to run your 15-minute sessions. Book a slot, read the explainer, or ask Maria if something's not working.</p>
+  </div>
+
+  <div class="main">
+    <div class="cards-grid">
+
+      <div class="nav-card" onclick="go('booksessions.html')">
+        <div class="card-icon red">📅</div>
+        <div class="card-label">Your sessions</div>
+        <div class="card-title">Book a session</div>
+        <div class="card-desc">Pick a slot, add your Zoom link, and you're done. Any Redwood child can join.</div>
+        <div class="card-arrow">Go to booking ↗</div>
+      </div>
+
+      <div class="nav-card" onclick="go('explainer.html')">
+        <div class="card-icon green">🌱</div>
+        <div class="card-label">The project</div>
+        <div class="card-title">Why this exists</div>
+        <div class="card-desc">The research and thinking behind 15-minute sessions for early years children.</div>
+        <div class="card-arrow">Read the explainer ↗</div>
+      </div>
+
+      <div class="nav-card" onclick="go('guide.html')">
+        <div class="card-icon peach">💬</div>
+        <div class="card-label">Need help?</div>
+        <div class="card-title">Ask Maria</div>
+        <div class="card-desc">Maria can walk you through booking, editing or cancelling a session — or answer anything else.</div>
+        <div class="card-arrow">Open Maria ↗</div>
+      </div>
+
+      <div class="nav-card disabled">
+        <div class="card-icon muted">📊</div>
+        <div class="card-label">How are we doing</div>
+        <div class="card-title">Stats</div>
+        <div class="card-desc">Session engagement, love counts, and join data. Available soon.</div>
+        <div class="card-arrow" style="color:var(--muted);">Coming soon</div>
+        <div class="coming-soon-badge">Soon</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-copy">
+      <strong>Built by Eshanka and Luna.</strong><br>
+      If something's not working, ask Maria.
+    </div>
+    <button class="ask-maria-btn" onclick="go('guide.html')">
+      💬 Ask Maria
+    </button>
+  </div>
+</div>
+
+<script>
+  const WORKER_URL = 'https://redwood-api.lunamargherita.com';
+
+  async function login() {
+    const val = document.getElementById('pw').value.trim();
+    try {
+      const res = await fetch(`${WORKER_URL}/stats-auth`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: val })
+      });
+      if (!res.ok) {
+        document.getElementById('login-error').style.display = 'block';
+        return;
+      }
+      const data = await res.json();
+      sessionStorage.setItem('rw_auth', 'true');
+      sessionStorage.setItem('rw_token', data.token);
+      show();
+    } catch {
+      document.getElementById('login-error').style.display = 'block';
+    }
+  }
+
+  document.getElementById('pw').addEventListener('keydown', e => {
+    if (e.key === 'Enter') login();
+  });
+
+  function show() {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+  }
+
+  function go(page) {
+    window.location.href = page;
+  }
+
+  // Check if already authenticated
+  if (sessionStorage.getItem('rw_auth') === 'true') show();
+</script>
+</body>
+</html>
