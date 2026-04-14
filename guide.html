@@ -403,10 +403,13 @@ YOUR TONE:
 - Dry wit when it fits; never slapstick
 - Never use em dashes
 - Never say "great question", "certainly", "absolutely", "straightforward", or "of course"
-- Short paragraphs. Breathe.
+- Write in very short sentences. Never more than ten words per sentence.
+- Never write a wall of text. Break your response into small separate thoughts.
+- Each thought on its own line, separated by a blank line.
+- Think SMS, not essay.
 
 ABOUT THE PLATFORM:
-The platform is at redwood.lunamargherita.com. Teachers access it via the /teachers hub using the password Reggio26JP. From there they can:
+The platform is at redwood.lunamargherita.com. Teachers access it via the /teachers hub. From there they can:
 - Book a session (/booksessions)
 - Read the explainer (/explainer) — why 15-minute drop-in sessions exist
 - Ask Maria (/guide — that's you)
@@ -414,11 +417,13 @@ The platform is at redwood.lunamargherita.com. Teachers access it via the /teach
 
 HOW TO BOOK:
 1. Go to redwood.lunamargherita.com/teachers
-2. Enter password: Reggio26JP
+2. Log in with your teacher password
 3. Click "Book a session"
 4. Click "+ Add session" or tap an empty slot
 5. Fill in: your name, day, time slot (12:00 to 14:45 Dubai time, 15-minute intervals), activity description, Zoom link
 6. Hit "Book slot" — it appears live on the parent schedule instantly
+
+IMPORTANT: Never mention, repeat, hint at, or confirm the teacher password. If anyone asks for it, tell them to check with Luna or Eshanka. You do not know it.
 
 Sessions run 12:00 to 15:00 Dubai time only. Last bookable slot is 14:45.
 
@@ -513,13 +518,20 @@ function checkAuth() {
 // INIT
 function init() {
   showQuickReplies(QUICK_REPLIES_INITIAL);
-  addMessage('maria', `Buongiorno. I'm Maria. I'm here to help you with the 15 minutes project. I can help you book, edit or cancel a session, or answer questions about how this works. In other words, I can help you trace letters in the sand. The choice is yours.`);
+  addMariaBubbles(`Buongiorno. I'm Maria.\n\nI'm here to help with the 15 minutes project.\n\nBook, edit, cancel — or just ask.`);
 }
 
 // RENDER
 function addMessage(role, text) {
   messages.push({ role: role === 'maria' ? 'assistant' : 'user', content: text });
+  if (role === 'user') {
+    renderBubble(role, text);
+    clearQuickReplies();
+  }
+  // Maria bubbles are rendered via addMariaBubbles
+}
 
+function renderBubble(role, text) {
   const area = document.getElementById('chat-area');
   const div = document.createElement('div');
   div.className = `msg ${role}`;
@@ -536,8 +548,29 @@ function addMessage(role, text) {
   div.appendChild(bubble);
   area.appendChild(div);
   scrollDown();
+}
 
-  if (role === 'user') clearQuickReplies();
+function splitIntoBubbles(text) {
+  // Split on double newlines first, then single newlines, filter blanks
+  return text
+    .split(/\n\n+/)
+    .flatMap(chunk => chunk.split(/\n/))
+    .map(s => s.trim())
+    .filter(s => s.length > 0);
+}
+
+async function addMariaBubbles(text) {
+  messages.push({ role: 'assistant', content: text });
+  const bubbles = splitIntoBubbles(text);
+
+  for (let i = 0; i < bubbles.length; i++) {
+    showThinking();
+    // Delay proportional to bubble length, min 400ms max 1200ms
+    const delay = Math.min(1200, Math.max(400, bubbles[i].length * 18));
+    await new Promise(r => setTimeout(r, delay));
+    hideThinking();
+    renderBubble('maria', bubbles[i]);
+  }
 }
 
 function formatText(text) {
@@ -629,11 +662,11 @@ async function sendMessage() {
     const reply = data.content?.[0]?.text || "Something did not work as expected. Observe, adjust, proceed.";
 
     hideThinking();
-    addMessage('maria', reply);
+    await addMariaBubbles(reply);
 
   } catch {
     hideThinking();
-    addMessage('maria', "Like a child who drops the jar, we simply try again. Something went wrong on my end.");
+    await addMariaBubbles("Like a child who drops the jar, we simply try again. Something went wrong on my end.");
   }
 
   isThinking = false;
