@@ -33,6 +33,17 @@
   }
 
   /* HEADER */
+  .chat-shell {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    max-width: 720px;
+    width: 100%;
+    margin: 0 auto;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    overflow: hidden;
+  }
   header {
     background: var(--card);
     border-bottom: 1px solid var(--border);
@@ -46,18 +57,22 @@
   .header-left { display: flex; align-items: center; gap: 0.75rem; }
 
   .maria-avatar {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    background: var(--red-light);
+    background: #1a1a2e;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.3rem;
+    font-size: 1.6rem;
     flex-shrink: 0;
   }
 
   .header-name { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
+  .header-status-text {
+    transition: opacity 0.5s ease;
+  }
+  .header-status-text.fading { opacity: 0; }
   .header-status {
     font-size: 0.72rem;
     color: var(--green);
@@ -67,9 +82,14 @@
     margin-top: 1px;
   }
   .status-dot {
-    width: 6px; height: 6px;
+    width: 7px; height: 7px;
     border-radius: 50%;
     background: var(--green);
+    animation: statusPulse 2s ease-in-out infinite;
+  }
+  @keyframes statusPulse {
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(74,124,89,0.4); }
+    50% { opacity: 0.9; transform: scale(1.15); box-shadow: 0 0 0 4px rgba(74,124,89,0); }
   }
 
   .back-btn {
@@ -99,6 +119,8 @@
     width: 100%;
     margin: 0 auto;
     align-self: stretch;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
   }
 
   /* MESSAGES */
@@ -166,7 +188,6 @@
     padding: 0.85rem 1.1rem;
     font-size: 0.82rem;
     color: var(--muted);
-    font-style: italic;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -196,9 +217,9 @@
   /* QUICK REPLIES */
   .quick-replies {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    padding: 0 1.5rem;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 0.5rem 1.5rem 0.75rem;
     max-width: 720px;
     width: 100%;
     margin: 0 auto;
@@ -207,16 +228,16 @@
 
   .quick-btn {
     background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 0.45rem 0.9rem;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 0.75rem 1.1rem;
     font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.78rem;
+    font-size: 0.85rem;
     font-weight: 500;
     color: var(--navy);
     cursor: pointer;
     transition: all 0.15s;
-    white-space: nowrap;
+    text-align: left;
   }
   .quick-btn:hover { border-color: var(--red); color: var(--red); background: var(--red-light); }
 
@@ -428,7 +449,7 @@
     <div class="maria-avatar">👵</div>
     <div>
       <div class="header-name">Maria</div>
-      <div class="header-status"><span class="status-dot"></span>Ready to help</div>
+      <div class="header-status"><span class="status-dot"></span><span class="header-status-text" id="header-status-text">Ready to help... but the essence of independence is to be able to do something for oneself</span></div>
     </div>
   </div>
 </header>
@@ -442,7 +463,7 @@
 <!-- INPUT -->
 <div class="input-area">
   <div class="input-row">
-    <textarea id="user-input" placeholder="Ask Maria anything..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+    <textarea id="user-input" placeholder="Freedom to choose, freedom to learn: ask Maria anything..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
     <button class="send-btn" id="send-btn" onclick="sendMessage()">↑</button>
   </div>
 </div>
@@ -462,6 +483,7 @@
   <div class="rw-footer-inner">
     <div class="rw-footer-left">
       <div class="rw-footer-copy"><strong>Built by Eshanka and Luna.</strong></div>
+      <a href="#" class="whats-new-link" onclick="return false;" style="font-size:0.78rem;color:#1a1a2e;font-weight:500;text-decoration:underline;text-underline-offset:3px;white-space:nowrap;">See what's new</a>
     </div>
     <div class="rw-footer-right">
       <span class="footer-have-questions">Have questions?</span>
@@ -610,11 +632,11 @@ const LOADING_MESSAGES = [
 ];
 
 const QUICK_REPLIES_INITIAL = [
-  "How do I book a session?",
-  "How do I edit a session?",
-  "How do I cancel?",
+  "How do I add a session?",
+  "Can sessions be cancelled?",
+  "What if I need to edit the zoom link?",
   "What should I do in 15 minutes?",
-  "Why does this exist?",
+  "Why does this thing even exist?",
 ];
 
 let messages = [];
@@ -706,7 +728,7 @@ async function addMariaBubbles(text) {
   for (let i = 0; i < bubbles.length; i++) {
     showThinking();
     // Delay proportional to bubble length, min 400ms max 1200ms
-    const delay = Math.min(1200, Math.max(400, bubbles[i].length * 18));
+    const delay = Math.min(2200, Math.max(900, bubbles[i].length * 32));
     await new Promise(r => setTimeout(r, delay));
     hideThinking();
     renderBubble('maria', bubbles[i]);
@@ -734,8 +756,7 @@ function showThinking() {
 
   const bubble = document.createElement('div');
   bubble.className = 'thinking-bubble';
-  const msg = LOADING_MESSAGES[Math.floor(Math.random() * LOADING_MESSAGES.length)];
-  bubble.innerHTML = `<span style="flex:1;font-style:italic;">${msg}</span><div class="thinking-dots"><span></span><span></span><span></span></div>`;
+  bubble.innerHTML = `<div class="thinking-dots"><span></span><span></span><span></span></div>`;
 
   div.appendChild(avatar);
   div.appendChild(bubble);
@@ -825,6 +846,30 @@ function autoResize(el) {
   el.style.height = 'auto';
   el.style.height = Math.min(el.scrollHeight, 120) + 'px';
 }
+
+
+// ── STATUS CYCLING ──
+const STATUS_MESSAGES = [
+  "Ready to help... but the essence of independence is to be able to do something for oneself",
+  "Observing quietly...",
+  "Following the child's lead...",
+  "Preparing the environment...",
+  "Listening carefully...",
+  "Walking the line...",
+  "Tending to the work...",
+];
+let statusIdx = 0;
+function cycleStatus() {
+  const el = document.getElementById('header-status-text');
+  if (!el) return;
+  el.classList.add('fading');
+  setTimeout(() => {
+    statusIdx = (statusIdx + 1) % STATUS_MESSAGES.length;
+    el.textContent = STATUS_MESSAGES[statusIdx];
+    el.classList.remove('fading');
+  }, 500);
+}
+setInterval(cycleStatus, 10000);
 
 checkAuth();
 </script>
