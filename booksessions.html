@@ -1041,12 +1041,7 @@
     let html = '';
     const tzLabel = tzOffset === DUBAI_OFFSET ? 'Dubai time' : `your local time (GMT${tzOffset >= 0 ? '+' : ''}${tzOffset})`;
 
-    html += `<div style="font-size:0.75rem;font-weight:600;color:var(--bark-light);text-transform:uppercase;letter-spacing:0.08em;padding:0.5rem 0 0.25rem 88px">Morning · ${tzLabel}</div>`;
-    MORNING_SLOTS.forEach(slot => {
-      html += renderSlotRow(slot, byTime[slot] || [], day.date);
-    });
-
-    html += `<div style="font-size:0.75rem;font-weight:600;color:var(--bark-light);text-transform:uppercase;letter-spacing:0.08em;padding:1rem 0 0.25rem 88px">Afternoon · ${tzLabel}</div>`;
+    html += `<div style="font-size:0.75rem;font-weight:600;color:var(--bark-light);text-transform:uppercase;letter-spacing:0.08em;padding:0.5rem 0 0.25rem 88px">12:00 – 15:00 · ${tzLabel}</div>`;
     AFTERNOON_SLOTS.forEach(slot => {
       html += renderSlotRow(slot, byTime[slot] || [], day.date);
     });
