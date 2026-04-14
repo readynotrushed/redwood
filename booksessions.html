@@ -67,7 +67,7 @@
     display: flex; align-items: center; justify-content: space-between;
     height: 52px;
   }
-  /* Left group: regular nav links spread out */
+  /* Left group */
   .nav-links {
     display: flex; align-items: stretch; gap: 0; flex: 1;
     overflow-x: auto;
@@ -75,32 +75,31 @@
   .nav-link {
     display: inline-flex; align-items: center; gap: 0.4rem;
     padding: 0 1rem; height: 52px;
-    font-size: 0.82rem; font-weight: 500; color: var(--muted);
+    font-size: 0.82rem; font-weight: 500; color: var(--navy);
     text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap;
     transition: color 0.15s, border-color 0.15s; background: none;
     border-top: none; border-left: none; border-right: none;
     font-family: 'Plus Jakarta Sans', sans-serif; cursor: pointer;
   }
-  .nav-link:hover { color: var(--navy); }
-  .nav-link.active { color: var(--red); border-bottom-color: var(--red); font-weight: 600; }
+  .nav-link:hover { color: var(--navy); border-bottom-color: var(--navy); }
+  .nav-link.active { color: var(--navy); border-bottom-color: var(--navy); font-weight: 700; }
   .nav-link-icon { display: inline-flex; align-items: center; flex-shrink: 0; }
   .nav-link-icon svg { width: 14px; height: 14px; fill: currentColor; }
 
-  /* Right group: Ask Maria button + WA link */
+  /* Right group: Ask Maria + WA */
   .nav-right {
     display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; padding-left: 1rem;
     border-left: 1px solid var(--border); margin-left: 0.5rem;
   }
-  /* Ask Maria — pill button with NEW badge */
   .nav-maria-wrap { position: relative; display: inline-flex; }
   .nav-maria-btn {
     display: inline-flex; align-items: center; gap: 0.4rem;
-    background: var(--red); color: white; border: none; border-radius: 20px;
+    background: var(--navy); color: white; border: none; border-radius: 20px;
     padding: 0.45rem 1rem; font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 0.82rem; font-weight: 600; cursor: pointer;
     text-decoration: none; transition: opacity 0.2s; white-space: nowrap;
   }
-  .nav-maria-btn:hover { opacity: 0.88; }
+  .nav-maria-btn:hover { opacity: 0.82; }
   .nav-new-badge {
     position: absolute; top: -5px; right: -5px;
     background: var(--peach); color: white;
@@ -113,21 +112,15 @@
     0%, 100% { opacity: 0.75; transform: scale(0.95); }
     50%       { opacity: 1;   transform: scale(1.08); }
   }
-  /* WA link in nav-right */
   .nav-wa-link {
     display: inline-flex; align-items: center; gap: 0.4rem;
-    font-size: 0.78rem; font-weight: 500; color: var(--muted);
-    text-decoration: none; white-space: nowrap; transition: color 0.15s;
+    font-size: 0.78rem; font-weight: 500; color: var(--navy);
+    text-decoration: none; white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+    border-bottom: 2px solid transparent; padding-bottom: 1px;
   }
-  .nav-wa-link:hover { color: #25D366; }
+  .nav-wa-link:hover { border-bottom-color: var(--navy); }
   .nav-wa-link svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
-
-  /* Maria glow on footer btn */
-  @keyframes mariaGlow {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(196, 98, 58, 0); }
-    50%       { box-shadow: 0 0 0 5px rgba(196, 98, 58, 0.2); }
-  }
-  .ask-maria-glow { animation: mariaGlow 2.8s ease-in-out infinite; border-radius: 20px; }
 
   /* HERO */
   .hero {
@@ -375,9 +368,12 @@
 
   /* TOAST */
   .toast {
-    position: fixed; bottom: 5rem; left: 50%; transform: translateX(-50%) translateY(100px);
+    position: fixed; bottom: 5rem;
+    left: 50%; transform: translateX(-50%) translateY(100px);
     background: var(--navy); color: white; padding: 0.8rem 1.5rem; border-radius: 20px;
-    font-size: 0.9rem; font-weight: 500; transition: transform 0.3s; z-index: 300; white-space: nowrap;
+    font-size: 0.88rem; font-weight: 500; transition: transform 0.3s; z-index: 400;
+    white-space: normal; max-width: calc(100vw - 2rem); text-align: center;
+    box-shadow: 0 4px 24px rgba(26,26,46,0.2);
   }
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast.success { background: var(--green); }
@@ -426,11 +422,20 @@
   .rw-footer-link { font-size: 0.78rem; color: var(--muted); text-decoration: none; font-weight: 500; }
   .rw-footer-link:hover { color: var(--navy); }
   .rw-footer-btn {
+    position: relative;
     display: inline-flex; align-items: center; gap: 0.4rem; background: var(--navy); color: white;
     border: none; border-radius: 20px; padding: 0.5rem 1rem; font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 0.78rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: opacity 0.2s;
   }
   .rw-footer-btn:hover { opacity: 0.85; }
+  .rw-footer-btn .footer-new-badge {
+    position: absolute; top: -5px; right: -5px;
+    background: var(--peach); color: white;
+    font-size: 0.44rem; font-weight: 800; letter-spacing: 0.06em;
+    border-radius: 20px; padding: 2px 5px; line-height: 1;
+    animation: newPulse 2.2s ease-in-out infinite;
+    pointer-events: none;
+  }
 
   @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -698,7 +703,7 @@
       <button class="whats-new-btn" onclick="document.getElementById('changelog').classList.add('open')">What's new</button>
     </div>
     <div class="rw-footer-right">
-      <a href="guide.html" class="rw-footer-btn ask-maria-glow">👵 Ask Maria</a>
+      <a href="guide.html" class="rw-footer-btn">👵 Ask Maria<span class="footer-new-badge">NEW</span></a>
     </div>
   </div>
 </div>
@@ -923,7 +928,9 @@
 
   function buildModalDayOptions() {
     const sel = document.getElementById('modal-day-select');
+    const todayDate = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Dubai' });
     CORRECT_DAYS.forEach((day, i) => {
+      if (day.date < todayDate) return; // skip past days
       const opt = document.createElement('option');
       opt.value = i; opt.textContent = day.label; sel.appendChild(opt);
     });
@@ -952,9 +959,28 @@
     const container = document.getElementById('schedule');
     const byTime = {};
     daySessions.forEach(s => { if (!byTime[s.time]) byTime[s.time] = []; byTime[s.time].push(s); });
+
+    // Work out "now" in Dubai time to hide fully-past slots
+    const dubaiNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Dubai' }));
+    const todayDate = dubaiNow.toLocaleDateString('en-CA', { timeZone: 'Asia/Dubai' });
+    const isToday = day.date === todayDate;
+
     let html = '';
-    AFTERNOON_SLOTS.forEach((slot, slotIdx) => {
+    let slotIdx = 0;
+    AFTERNOON_SLOTS.forEach((slot) => {
+      // For today's view, hide slots whose 15-min window has already ended
+      if (isToday) {
+        const [h, m] = slot.split(':').map(Number);
+        const slotEnd = new Date(dubaiNow);
+        slotEnd.setHours(h, m + 15, 0, 0);
+        if (dubaiNow >= slotEnd && !(byTime[slot] && byTime[slot].length > 0)) {
+          // Past slot with no sessions — skip entirely
+          slotIdx++;
+          return;
+        }
+      }
       html += renderSlotRow(slot, byTime[slot] || [], day.date, activeDayIndex, slotIdx);
+      slotIdx++;
     });
     container.innerHTML = html;
     scrollToCurrentTime();
@@ -1120,7 +1146,14 @@
         let errText = '';
         try { errText = await res.text(); } catch {}
         console.error('Worker error', res.status, errText);
-        showToast(`Error ${res.status}. Check console for details.`, 'error');
+        if (res.status === 401) {
+          // Token stale or wrong — clear and force re-login
+          sessionStorage.removeItem('rw_auth');
+          sessionStorage.removeItem('rw_token');
+          showToast('Session expired. Please reload and log in again.', 'error');
+        } else {
+          showToast(`Error ${res.status}. Please try again.`, 'error');
+        }
         return;
       }
       showToast(editingSessionId ? 'Session updated!' : 'Session booked!', 'success');
