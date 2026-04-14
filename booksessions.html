@@ -366,18 +366,104 @@
   }
   .btn-secondary:hover { border-color: var(--navy); color: var(--navy); }
 
-  /* TOAST */
+  /* ── CELEBRATION BANNER ── */
+  .celebration-banner {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    background: var(--navy); color: white;
+    display: flex; align-items: center; justify-content: center; gap: 1rem;
+    padding: 0; height: 0; overflow: hidden;
+    transition: height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .celebration-banner.show { height: 64px; }
+  .celebration-inner {
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .celebration-label {
+    font-size: 0.75rem; font-weight: 800; letter-spacing: 0.2em;
+    text-transform: uppercase; color: white;
+  }
+  .celebration-confetti { font-size: 1.5rem; }
+  .celebration-progress {
+    position: absolute; bottom: 0; left: 0; height: 3px;
+    background: var(--peach); width: 100%;
+    transform-origin: left;
+    animation: progressDrain 4s linear forwards;
+  }
+  @keyframes progressDrain { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+  /* ── MARIA NOTIFICATION ── */
+  .maria-notif {
+    position: fixed; bottom: 5.5rem; right: 1.5rem; z-index: 400;
+    background: white; border: 1.5px solid var(--border);
+    border-radius: 20px; padding: 1rem 1.25rem 1rem 1rem; max-width: 260px;
+    box-shadow: 0 8px 32px rgba(26,26,46,0.14);
+    display: flex; gap: 0.75rem; align-items: flex-start;
+    transform: translateX(300px); opacity: 0;
+    transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .maria-notif.show { transform: translateX(0); opacity: 1; pointer-events: auto; }
+  .maria-notif-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--peach-bg); display: flex; align-items: center;
+    justify-content: center; font-size: 1.4rem; flex-shrink: 0; margin-top: 1px;
+  }
+  .maria-notif-body { flex: 1; min-width: 0; }
+  .maria-notif-name {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--red); margin-bottom: 0.2rem;
+  }
+  .maria-notif-text { font-size: 0.82rem; color: var(--navy); line-height: 1.4; font-weight: 500; }
+  .maria-notif-close {
+    position: absolute; top: 0.6rem; right: 0.8rem;
+    background: none; border: none; font-size: 0.85rem; color: var(--muted);
+    cursor: pointer; line-height: 1; padding: 0;
+  }
+
+  /* ── TOAST (errors only) ── */
   .toast {
     position: fixed; bottom: 5rem;
     left: 50%; transform: translateX(-50%) translateY(100px);
-    background: var(--navy); color: white; padding: 0.8rem 1.5rem; border-radius: 20px;
+    background: var(--red); color: white; padding: 0.8rem 1.5rem; border-radius: 20px;
     font-size: 0.88rem; font-weight: 500; transition: transform 0.3s; z-index: 400;
     white-space: normal; max-width: calc(100vw - 2rem); text-align: center;
     box-shadow: 0 4px 24px rgba(26,26,46,0.2);
   }
   .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast.success { background: var(--green); }
-  .toast.error { background: var(--red); }
+
+  /* ── AFTER-3PM EMPTY STATE + PUZZLE ── */
+  .empty-day-state {
+    display: none; flex-direction: column; align-items: center;
+    padding: 3rem 2rem; text-align: center;
+  }
+  .empty-day-state.visible { display: flex; }
+  .empty-day-title {
+    font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em;
+    color: var(--navy); margin-bottom: 0.4rem;
+  }
+  .empty-day-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 2rem; line-height: 1.5; }
+  .puzzle-board {
+    display: grid; grid-template-columns: repeat(3, 72px); grid-template-rows: repeat(3, 72px);
+    gap: 4px; background: var(--border); border-radius: 16px; overflow: hidden; padding: 4px;
+    margin: 0 auto 1rem;
+  }
+  .puzzle-tile {
+    width: 72px; height: 72px; background: var(--card); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.7rem; cursor: pointer; user-select: none;
+    transition: background 0.12s, transform 0.1s;
+  }
+  .puzzle-tile:active:not(.puzzle-empty) { transform: scale(0.93); }
+  .puzzle-tile:hover:not(.puzzle-empty) { background: var(--green-bg); }
+  .puzzle-tile.puzzle-empty { background: var(--bg); cursor: default; }
+  .puzzle-tile.puzzle-solved { background: var(--green-bg); cursor: default; }
+  .puzzle-status { font-size: 0.78rem; color: var(--muted); font-weight: 500; min-height: 1.2em; }
+  .puzzle-reset {
+    margin-top: 0.75rem; background: none; border: 1.5px solid var(--border);
+    border-radius: 20px; padding: 0.35rem 1rem; font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.78rem; color: var(--muted); cursor: pointer; transition: all 0.15s;
+  }
+  .puzzle-reset:hover { border-color: var(--navy); color: var(--navy); }
 
   /* CHANGELOG */
   .changelog-overlay {
@@ -416,8 +502,18 @@
   .rw-footer-left { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
   .rw-footer-copy { font-size: 0.82rem; color: var(--muted); }
   .rw-footer-copy strong { color: var(--navy); font-weight: 600; }
-  .whats-new-btn { background: none; border: none; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.78rem; color: var(--muted); cursor: pointer; text-decoration: underline; padding: 0; white-space: nowrap; }
-  .whats-new-btn:hover { color: var(--navy); }
+  .whats-new-link {
+    font-size: 0.82rem; color: var(--navy); font-weight: 500;
+    text-decoration: underline; text-underline-offset: 3px;
+    text-decoration-color: var(--border); cursor: pointer;
+    transition: text-decoration-color 0.15s;
+    white-space: nowrap;
+  }
+  .whats-new-link:hover { text-decoration-color: var(--navy); }
+  .footer-have-questions {
+    font-size: 0.78rem; font-weight: 600; color: var(--navy);
+    white-space: nowrap;
+  }
   .rw-footer-right { display: flex; gap: 0.75rem; align-items: center; }
   .rw-footer-link { font-size: 0.78rem; color: var(--muted); text-decoration: none; font-weight: 500; }
   .rw-footer-link:hover { color: var(--navy); }
@@ -486,14 +582,14 @@
         </a>
       </div>
       <div class="nav-right">
-        <div class="nav-maria-wrap">
-          <a href="guide.html" class="nav-maria-btn">👵 Ask Maria</a>
-          <span class="nav-new-badge">NEW</span>
-        </div>
         <a href="https://wa.me/447463978471?text=Hi%20Luna%2C%20this%20is%20%5Bname%5D%20I%27m%20having%20an%20issue%20with%20the%20Redwood%20sessions%20page%3A%20" target="_blank" class="nav-wa-link">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
           <span>Need human support?</span>
         </a>
+        <div class="nav-maria-wrap">
+          <a href="guide.html" class="nav-maria-btn">👵 Ask Maria</a>
+          <span class="nav-new-badge">NEW</span>
+        </div>
       </div>
     </div>
   </nav>
@@ -595,6 +691,15 @@
     <div class="schedule" id="schedule">
       <div style="font-size:0.9rem;color:var(--muted);padding:1rem 0;">Loading sessions…</div>
     </div>
+
+    <!-- AFTER-3PM EMPTY STATE -->
+    <div class="empty-day-state" id="empty-day-state">
+      <div class="empty-day-title">All sessions wrapped for today 🌅</div>
+      <div class="empty-day-sub">While you wait for tomorrow, slide the tiles into order.<br>Tap any tile next to the empty space to move it.</div>
+      <div class="puzzle-board" id="puzzle-board"></div>
+      <div class="puzzle-status" id="puzzle-status">Moves: 0</div>
+      <button class="puzzle-reset" onclick="initPuzzle()">Shuffle again</button>
+    </div>
   </div>
 </div>
 
@@ -693,16 +798,35 @@
   </div>
 </div>
 
+<div class="celebration-banner" id="celebration-banner">
+  <div class="celebration-inner">
+    <span class="celebration-confetti">🎉</span>
+    <span class="celebration-label" id="celebration-label">New session booked</span>
+    <span class="celebration-confetti">🌳</span>
+  </div>
+  <div class="celebration-progress" id="celebration-progress"></div>
+</div>
+
+<div class="maria-notif" id="maria-notif">
+  <div class="maria-notif-avatar">👵</div>
+  <div class="maria-notif-body">
+    <div class="maria-notif-name">Maria</div>
+    <div class="maria-notif-text" id="maria-notif-text">Hurray! A new session just opened up.</div>
+  </div>
+  <button class="maria-notif-close" onclick="hideMariaNotif()">×</button>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <!-- FOOTER -->
 <div class="rw-footer">
   <div class="rw-footer-inner">
     <div class="rw-footer-left">
-      <div class="rw-footer-copy"><strong>Built by Eshanka and Luna.</strong> Have questions? Ask Maria.</div>
-      <button class="whats-new-btn" onclick="document.getElementById('changelog').classList.add('open')">What's new</button>
+      <div class="rw-footer-copy"><strong>Built by Eshanka and Luna.</strong></div>
+      <a href="#" class="whats-new-link" onclick="document.getElementById('changelog').classList.add('open'); return false;">See what's new</a>
     </div>
     <div class="rw-footer-right">
+      <span class="footer-have-questions">Have questions?</span>
       <a href="guide.html" class="rw-footer-btn">👵 Ask Maria<span class="footer-new-badge">NEW</span></a>
     </div>
   </div>
@@ -798,6 +922,8 @@
   let editingSessionId = null;
   let selectedTeacher = '';
   let pastSessionsVisible = false;
+  let lastKnownSessionIds = new Set();
+  let pollingStarted = false;
 
   function getTodayIndex() {
     const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Dubai' });
@@ -858,7 +984,14 @@
     document.getElementById('password-input').focus();
   }
 
-  function init() { buildDayTabs(); buildModalDayOptions(); loadSessions(); }
+  function init() {
+    buildDayTabs();
+    buildModalDayOptions();
+    loadSessions().then(() => {
+      startPolling();
+      checkEmptyDayState();
+    });
+  }
 
   // PAST SESSIONS TOGGLE
   function togglePastSessions() {
@@ -941,9 +1074,11 @@
       const res = await fetch(`${WORKER_URL}/sessions`, { headers: authHeaders() });
       if (!res.ok) { console.error('loadSessions failed', res.status); return; }
       sessions = await res.json();
+      lastKnownSessionIds = new Set(sessions.map(s => s.id));
       renderSchedule();
       buildDayTabs();
       if (pastSessionsVisible) renderArchive();
+      checkEmptyDayState();
     } catch (err) {
       console.error('loadSessions network error:', err);
       document.getElementById('schedule').innerHTML = '<div style="font-size:0.9rem;color:var(--muted);padding:1rem 0;">Could not load sessions. Check your connection.</div>';
@@ -1125,7 +1260,7 @@
     const activity = document.getElementById('activity-input').value.trim();
     let zoom_link = document.getElementById('zoom-input').value.trim();
     if (zoom_link && !zoom_link.startsWith('http://') && !zoom_link.startsWith('https://')) zoom_link = 'https://' + zoom_link;
-    if (!teacher || dayIdx === '' || !time || !zoom_link) { showToast('Please fill in all required fields.', 'error'); return; }
+    if (!teacher || dayIdx === '' || !time || !zoom_link) { showToast('Please fill in all required fields.'); return; }
     const date = CORRECT_DAYS[dayIdx].date;
     const btn = document.getElementById('submit-btn');
     btn.disabled = true; btn.textContent = editingSessionId ? 'Saving…' : 'Booking…';
@@ -1147,20 +1282,40 @@
         try { errText = await res.text(); } catch {}
         console.error('Worker error', res.status, errText);
         if (res.status === 401) {
-          // Token stale or wrong — clear and force re-login
           sessionStorage.removeItem('rw_auth');
           sessionStorage.removeItem('rw_token');
-          showToast('Session expired. Please reload and log in again.', 'error');
+          showToast('Session expired. Please reload and log in again.');
         } else {
-          showToast(`Error ${res.status}. Please try again.`, 'error');
+          showToast(`Error ${res.status}. Please try again.`);
         }
         return;
       }
-      showToast(editingSessionId ? 'Session updated!' : 'Session booked!', 'success');
-      closeModal(); await loadSessions();
+      closeModal();
+      await loadSessions();
+      if (!editingSessionId) {
+        showCelebration(teacher, date, time);
+        // Scroll to the newly booked slot
+        setTimeout(() => {
+          const dayIdx2 = CORRECT_DAYS.findIndex(d => d.date === date);
+          if (dayIdx2 >= 0) {
+            activeDayIndex = dayIdx2;
+            buildDayTabs();
+            renderSchedule();
+            setTimeout(() => {
+              document.querySelectorAll('.slot-time').forEach((el, i) => {
+                if (el.textContent.trim().startsWith(displayTime(time))) {
+                  el.closest('.slot-row')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+              });
+            }, 300);
+          }
+        }, 200);
+      } else {
+        showToast('Session updated!');
+      }
     } catch (err) {
       console.error('Network error submitting session:', err);
-      showToast('Connection error. Check your network and try again.', 'error');
+      showToast('Connection error. Check your network and try again.');
     } finally { btn.disabled = false; btn.textContent = editingSessionId ? 'Save changes' : 'Book slot'; }
   }
 
@@ -1168,17 +1323,91 @@
     if (!confirm('Cancel this session?')) return;
     try {
       const res = await fetch(`${WORKER_URL}/session/${id}`, { method: 'DELETE', headers: authHeaders() });
-      if (!res.ok) { console.error('Cancel failed', res.status); showToast('Could not cancel. Try again.', 'error'); return; }
-      showToast('Session cancelled.', 'success'); await loadSessions();
-    } catch (err) { console.error('Cancel error:', err); showToast('Connection error. Try again.', 'error'); }
+      if (!res.ok) { console.error('Cancel failed', res.status); showToast('Could not cancel. Try again.'); return; }
+      showToast('Session cancelled.'); await loadSessions();
+    } catch (err) { console.error('Cancel error:', err); showToast('Connection error. Try again.'); }
   }
 
-  function showToast(msg, type = '') {
+  // ── ERROR TOAST (errors only) ──
+  function showToast(msg) {
     const t = document.getElementById('toast');
-    t.textContent = msg; t.className = `toast ${type} show`;
-    setTimeout(() => t.classList.remove('show'), 3000);
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 4000);
   }
 
+  // ── CELEBRATION BANNER ──
+  let celebrationTimer = null;
+  function showCelebration(teacher, date, time) {
+    const banner = document.getElementById('celebration-banner');
+    const label  = document.getElementById('celebration-label');
+    const prog   = document.getElementById('celebration-progress');
+
+    label.textContent = `✦ New session booked · ${teacher} · ${time} ✦`;
+
+    // Reset progress bar animation
+    prog.style.animation = 'none';
+    prog.offsetHeight; // reflow
+    prog.style.animation = '';
+
+    banner.classList.add('show');
+    if (celebrationTimer) clearTimeout(celebrationTimer);
+    celebrationTimer = setTimeout(() => banner.classList.remove('show'), 4200);
+
+    // Show Maria notification after a beat
+    setTimeout(() => showMariaNotif(teacher), 600);
+  }
+
+  // ── MARIA NOTIFICATION ──
+  let mariaTimer = null;
+  function showMariaNotif(teacher) {
+    const notif = document.getElementById('maria-notif');
+    const text  = document.getElementById('maria-notif-text');
+    const msgs = [
+      `Hurray! ${teacher} just opened a session. Pass the word!`,
+      `${teacher} just added a slot. The children will love it!`,
+      `A new session from ${teacher}! Every 15 minutes counts.`,
+      `${teacher} is ready for the little ones. How wonderful!`,
+    ];
+    text.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+    notif.classList.add('show');
+    if (mariaTimer) clearTimeout(mariaTimer);
+    mariaTimer = setTimeout(() => notif.classList.remove('show'), 6000);
+  }
+
+  function hideMariaNotif() {
+    document.getElementById('maria-notif').classList.remove('show');
+    if (mariaTimer) clearTimeout(mariaTimer);
+  }
+
+  // ── POLLING — show Maria notif for other users when new sessions appear ──
+  let lastKnownSessionIds = new Set();
+  let pollingStarted = false;
+
+  function startPolling() {
+    if (pollingStarted) return;
+    pollingStarted = true;
+    // Seed with current sessions so we only notify about new ones
+    lastKnownSessionIds = new Set(sessions.map(s => s.id));
+    setInterval(async () => {
+      try {
+        const res = await fetch(`${WORKER_URL}/sessions`, { headers: authHeaders() });
+        if (!res.ok) return;
+        const fresh = await res.json();
+        const newOnes = fresh.filter(s => !lastKnownSessionIds.has(s.id));
+        if (newOnes.length > 0) {
+          sessions = fresh;
+          renderSchedule();
+          buildDayTabs();
+          // Show notification for the first new session
+          const s = newOnes[0];
+          showMariaNotif(s.teacher);
+          newOnes.forEach(s => lastKnownSessionIds.add(s.id));
+        }
+      } catch { /* silent */ }
+    }, 15000);
+  }
+
+  // ── LOVE ──
   const LOVE_EMOJIS = ['💛','🦖','🌟','🍄','🐌','💫','🍀','☀️','🫶','🐙','🛝','🐞','🦕','✨','🥰','🌻','🍉','🌱','🥇','🖍️','🎠','🔵','🪐','💚','🦸🏽‍♀️','🐪','☺️','🌸','🥑','🎈','🏆','🦒','🐥'];
 
   async function showLove(sessionId, event) {
@@ -1202,6 +1431,92 @@
     el.style.left = `${x}px`; el.style.top = `${y}px`;
     document.body.appendChild(el);
     el.addEventListener('animationend', () => el.remove());
+  }
+
+  // ── AFTER-3PM EMPTY STATE + SLIDING PUZZLE ──
+  const PUZZLE_EMOJIS = ['🌳','🌱','📚','🎵','🎨','🦒','🐥','🌻'];
+  let puzzleTiles = [];
+  let puzzleMoves = 0;
+  let puzzleSolved = false;
+
+  function initPuzzle() {
+    puzzleSolved = false;
+    puzzleMoves = 0;
+    const goal = [0,1,2,3,4,5,6,7,8]; // 8 = empty
+    // Shuffle with guaranteed solvability: make random valid moves
+    let state = [...goal];
+    let emptyIdx = 8;
+    for (let i = 0; i < 200; i++) {
+      const neighbors = getNeighbors(emptyIdx);
+      const pick = neighbors[Math.floor(Math.random() * neighbors.length)];
+      state[emptyIdx] = state[pick];
+      state[pick] = 8;
+      emptyIdx = pick;
+    }
+    puzzleTiles = state;
+    renderPuzzle();
+    document.getElementById('puzzle-status').textContent = 'Moves: 0';
+  }
+
+  function getNeighbors(idx) {
+    const row = Math.floor(idx / 3), col = idx % 3, n = [];
+    if (row > 0) n.push(idx - 3);
+    if (row < 2) n.push(idx + 3);
+    if (col > 0) n.push(idx - 1);
+    if (col < 2) n.push(idx + 1);
+    return n;
+  }
+
+  function renderPuzzle() {
+    const board = document.getElementById('puzzle-board');
+    if (!board) return;
+    board.innerHTML = '';
+    puzzleTiles.forEach((val, idx) => {
+      const tile = document.createElement('div');
+      const isSolved = puzzleTiles.every((v,i) => i === 8 ? v === 8 : v === i);
+      tile.className = 'puzzle-tile' + (val === 8 ? ' puzzle-empty' : '') + (isSolved && val !== 8 ? ' puzzle-solved' : '');
+      tile.textContent = val === 8 ? '' : PUZZLE_EMOJIS[val];
+      if (val !== 8 && !isSolved) tile.onclick = () => moveTile(idx);
+      board.appendChild(tile);
+    });
+  }
+
+  function moveTile(idx) {
+    if (puzzleSolved) return;
+    const emptyIdx = puzzleTiles.indexOf(8);
+    if (!getNeighbors(emptyIdx).includes(idx)) return;
+    puzzleTiles[emptyIdx] = puzzleTiles[idx];
+    puzzleTiles[idx] = 8;
+    puzzleMoves++;
+    renderPuzzle();
+    const solved = puzzleTiles.every((v,i) => i === 8 ? v === 8 : v === i);
+    if (solved) {
+      puzzleSolved = true;
+      document.getElementById('puzzle-status').textContent = `Solved in ${puzzleMoves} moves! 🎉`;
+    } else {
+      document.getElementById('puzzle-status').textContent = `Moves: ${puzzleMoves}`;
+    }
+  }
+
+  function checkEmptyDayState() {
+    const dubaiNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Dubai' }));
+    const today = dubaiNow.toLocaleDateString('en-CA', { timeZone: 'Asia/Dubai' });
+    const isToday = CORRECT_DAYS[activeDayIndex]?.date === today;
+    const isPast3pm = dubaiNow.getHours() >= 15;
+    const hasSessions = sessions.some(s => s.date === CORRECT_DAYS[activeDayIndex]?.date);
+
+    const scheduleEl = document.getElementById('schedule');
+    const emptyEl = document.getElementById('empty-day-state');
+    if (!scheduleEl || !emptyEl) return;
+
+    if (isToday && isPast3pm && !hasSessions) {
+      scheduleEl.style.display = 'none';
+      emptyEl.classList.add('visible');
+      if (puzzleTiles.length === 0) initPuzzle();
+    } else {
+      scheduleEl.style.display = '';
+      emptyEl.classList.remove('visible');
+    }
   }
 
   document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
