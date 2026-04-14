@@ -24,7 +24,7 @@
 
   body {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    background: var(--bg);
+    background: #ffffff;
     color: var(--navy);
     height: 100vh;
     display: flex;
@@ -74,22 +74,24 @@
   }
   .header-status-text.fading { opacity: 0; }
   .header-status {
-    font-size: 0.72rem;
-    color: var(--green);
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #3a6b49;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
     margin-top: 1px;
   }
   .status-dot {
-    width: 7px; height: 7px;
+    width: 8px; height: 8px;
     border-radius: 50%;
-    background: var(--green);
-    animation: statusPulse 2s ease-in-out infinite;
+    background: #4a7c59;
+    animation: statusPulse 1.8s ease-in-out infinite;
+    flex-shrink: 0;
   }
   @keyframes statusPulse {
-    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(74,124,89,0.4); }
-    50% { opacity: 0.9; transform: scale(1.15); box-shadow: 0 0 0 4px rgba(74,124,89,0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(74,124,89,0.6); transform: scale(1); }
+    50% { box-shadow: 0 0 0 5px rgba(74,124,89,0); transform: scale(1.2); }
   }
 
   .back-btn {
@@ -121,6 +123,7 @@
     align-self: stretch;
     border-left: 1px solid var(--border);
     border-right: 1px solid var(--border);
+    background: #ffffff;
   }
 
   /* MESSAGES */
@@ -138,14 +141,14 @@
   .msg.user { flex-direction: row-reverse; }
 
   .msg-avatar {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background: var(--red-light);
+    background: #1a1a2e;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 1.1rem;
     flex-shrink: 0;
     margin-top: 2px;
   }
@@ -218,19 +221,23 @@
   .quick-replies {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: 0.55rem;
     padding: 0.5rem 1.5rem 0.75rem;
     max-width: 720px;
     width: 100%;
     margin: 0 auto;
     flex-shrink: 0;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    background: #ffffff;
   }
 
   .quick-btn {
     background: var(--card);
     border: 1.5px solid var(--border);
-    border-radius: 14px;
-    padding: 0.75rem 1.1rem;
+    border-radius: 20px;
+    padding: 0.65rem 1.25rem;
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 0.85rem;
     font-weight: 500;
@@ -238,8 +245,15 @@
     cursor: pointer;
     transition: all 0.15s;
     text-align: left;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 90%;
+    box-shadow: 0 1px 4px rgba(26,26,46,0.06);
   }
+  .quick-btn::before { content: "↩"; font-size: 0.75rem; color: var(--muted); flex-shrink: 0; }
   .quick-btn:hover { border-color: var(--red); color: var(--red); background: var(--red-light); }
+  .quick-btn:hover::before { color: var(--red); }
 
   /* INPUT */
   .input-area {
@@ -418,15 +432,12 @@
         <span class="nav-link-icon"><svg clip-rule="evenodd" fill-rule="evenodd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm-.747 9.25h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z" fill-rule="nonzero"/></svg></span> Add a session
       </a>
     </div>
-    <div class="nav-right">
+    <div class="nav-right" style="border-left:none;margin-left:0;padding-left:0;">
       <a href="https://wa.me/447463978471?text=Hi%20Luna%2C%20this%20is%20%5Bname%5D%20I%27m%20having%20an%20issue%20with%20the%20Redwood%20sessions%20page%3A%20" target="_blank" class="nav-wa-link">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
         <span>Need human support?</span>
       </a>
-      <div class="nav-maria-wrap">
-        <a href="guide.html" class="nav-maria-btn">👵 Ask Maria</a>
-        <span class="nav-new-badge">NEW</span>
-      </div>
+
     </div>
   </div>
 </nav>
@@ -483,12 +494,9 @@
   <div class="rw-footer-inner">
     <div class="rw-footer-left">
       <div class="rw-footer-copy"><strong>Built by Eshanka and Luna.</strong></div>
-      <a href="#" class="whats-new-link" onclick="return false;" style="font-size:0.78rem;color:#1a1a2e;font-weight:500;text-decoration:underline;text-underline-offset:3px;white-space:nowrap;">See what's new</a>
+      <a href="#" class="whats-new-link" onclick="document.getElementById('changelog-overlay').style.display='flex'; return false;" style="font-size:0.78rem;color:#1a1a2e;font-weight:500;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px;text-decoration-color:#b0a898;white-space:nowrap;">See what's new</a>
     </div>
-    <div class="rw-footer-right">
-      <span class="footer-have-questions">Have questions?</span>
-      <a href="guide.html" class="rw-footer-btn">👵 Ask Maria<span class="footer-new-badge">NEW</span></a>
-    </div>
+    <div class="rw-footer-right"></div>
   </div>
 </div>
 
@@ -632,11 +640,8 @@ const LOADING_MESSAGES = [
 ];
 
 const QUICK_REPLIES_INITIAL = [
+  "Maria who?",
   "How do I add a session?",
-  "Can sessions be cancelled?",
-  "What if I need to edit the zoom link?",
-  "What should I do in 15 minutes?",
-  "Why does this thing even exist?",
 ];
 
 let messages = [];
@@ -851,12 +856,18 @@ function autoResize(el) {
 // ── STATUS CYCLING ──
 const STATUS_MESSAGES = [
   "Ready to help... but the essence of independence is to be able to do something for oneself",
+  "Unfolding the mat...",
+  "In life you can choose to be spoon, tong or tweezer...",
+  "Pouring...",
+  "Tracing...",
+  "Counting with the math beads...",
+  "Online life doesn’t make any sensorial sense to me",
+  "The continents song on repeat to start the day",
   "Observing quietly...",
-  "Following the child's lead...",
+  "Following the child’s lead...",
   "Preparing the environment...",
   "Listening carefully...",
   "Walking the line...",
-  "Tending to the work...",
 ];
 let statusIdx = 0;
 function cycleStatus() {
@@ -869,7 +880,7 @@ function cycleStatus() {
     el.classList.remove('fading');
   }, 500);
 }
-setInterval(cycleStatus, 10000);
+setInterval(cycleStatus, 15000);
 
 checkAuth();
 </script>
