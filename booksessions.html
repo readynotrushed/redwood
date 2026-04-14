@@ -1380,9 +1380,6 @@
   }
 
   // ── POLLING — show Maria notif for other users when new sessions appear ──
-  let lastKnownSessionIds = new Set();
-  let pollingStarted = false;
-
   function startPolling() {
     if (pollingStarted) return;
     pollingStarted = true;
