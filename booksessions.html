@@ -19,7 +19,6 @@
     --peach: #c4623a;
     --peach-bg: #fef0ea;
     --shadow: rgba(26,26,46,0.07);
-    /* legacy aliases for JS-generated HTML */
     --cream: #f0ebe1;
     --bark: #1a1a2e;
     --bark-light: #6b6055;
@@ -30,614 +29,314 @@
     --red-light: rgba(121, 21, 22, 0.07);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background: var(--bg);
-    color: var(--navy);
-    min-height: 100vh;
-  }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--navy); min-height: 100vh; }
 
   /* LOGIN */
-  #login-screen {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-  }
+  #login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
   .login-card {
-    background: var(--card);
-    border-radius: 28px;
-    padding: 3rem 2.5rem;
-    max-width: 380px;
-    width: 100%;
-    box-shadow: 0 4px 32px var(--shadow);
-    text-align: center;
-    animation: fadeUp 0.4s ease both;
+    background: var(--card); border-radius: 28px; padding: 3rem 2.5rem;
+    max-width: 380px; width: 100%; box-shadow: 0 4px 32px var(--shadow);
+    text-align: center; animation: fadeUp 0.4s ease both;
   }
   .login-card .tree { font-size: 3rem; margin-bottom: 1rem; }
-  .login-card h1 {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--navy);
-    letter-spacing: -0.02em;
-    margin-bottom: 0.25rem;
-  }
+  .login-card h1 { font-size: 1.6rem; font-weight: 700; color: var(--navy); letter-spacing: -0.02em; margin-bottom: 0.25rem; }
   .login-card p { color: var(--muted); font-size: 0.85rem; margin-bottom: 2rem; }
   .login-card input {
-    width: 100%;
-    padding: 0.9rem 1.2rem;
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 1rem;
-    color: var(--navy);
-    background: var(--bg);
-    margin-bottom: 1rem;
-    outline: none;
-    transition: border-color 0.2s;
+    width: 100%; padding: 0.9rem 1.2rem; border: 1.5px solid var(--border); border-radius: 12px;
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem; color: var(--navy);
+    background: var(--bg); margin-bottom: 1rem; outline: none; transition: border-color 0.2s;
   }
   .login-card input:focus { border-color: var(--red); background: white; }
   .login-card button {
-    width: 100%;
-    padding: 0.9rem;
-    background: var(--red);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.2s;
+    width: 100%; padding: 0.9rem; background: var(--red); color: white; border: none;
+    border-radius: 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem;
+    font-weight: 600; cursor: pointer; transition: opacity 0.2s;
   }
   .login-card button:hover { opacity: 0.88; }
   .login-error { color: var(--peach); font-size: 0.85rem; margin-top: 0.75rem; display: none; }
 
-  /* HEADER */
+  /* NAV BAR */
   #app { display: none; }
-  header {
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-    padding: 1rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    gap: 1rem;
+  .top-nav { background: var(--card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+  .top-nav-inner {
+    max-width: 960px; margin: 0 auto; padding: 0 2rem;
+    display: flex; align-items: center;
   }
-  .header-left { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
-  .header-left span { font-size: 1.5rem; }
-  .header-left h1 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; color: var(--navy); }
-  .header-left small { font-size: 0.72rem; color: var(--muted); display: block; margin-top: 1px; }
-  .header-actions { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; justify-content: flex-end; }
+  .nav-brand {
+    font-size: 0.88rem; font-weight: 700; color: var(--navy); letter-spacing: -0.01em;
+    padding: 1rem 1.25rem 1rem 0; border-right: 1px solid var(--border);
+    margin-right: 0.5rem; white-space: nowrap; flex-shrink: 0;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .nav-links { display: flex; align-items: center; overflow-x: auto; }
+  .nav-link {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    padding: 1rem 0.85rem; font-size: 0.82rem; font-weight: 500; color: var(--muted);
+    text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s; background: none;
+    border-top: none; border-left: none; border-right: none;
+    font-family: 'Plus Jakarta Sans', sans-serif; cursor: pointer;
+  }
+  .nav-link:hover { color: var(--navy); }
+  .nav-link.active { color: var(--red); border-bottom-color: var(--red); font-weight: 600; }
+  .nav-link-icon { font-size: 0.9rem; }
 
-  .add-btn {
-    background: var(--red);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 0.55rem 1.2rem;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    white-space: nowrap;
+  /* Maria glow animation */
+  @keyframes mariaGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(196, 98, 58, 0); }
+    50%       { box-shadow: 0 0 0 5px rgba(196, 98, 58, 0.2); }
   }
-  .add-btn:hover { opacity: 0.88; }
-
-  .wa-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: none;
-    border: 1.5px solid var(--border);
-    border-radius: 20px;
-    padding: 0.45rem 1rem;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 500;
-    color: var(--muted);
-    text-decoration: none;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .wa-btn:hover { border-color: #25D366; color: #25D366; background: #f0fdf4; }
+  .ask-maria-glow { animation: mariaGlow 2.8s ease-in-out infinite; border-radius: 8px; }
 
   /* HERO */
   .hero {
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-    padding: 3.5rem 2rem 3rem;
-    text-align: center;
+    background: var(--card); border-bottom: 1px solid var(--border);
+    padding: 3.5rem 2rem 3rem; text-align: center;
   }
   .hero-eyebrow {
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--red);
-    margin-bottom: 1.1rem;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--red); margin-bottom: 1.1rem;
   }
   .hero h2 {
-    font-weight: 700;
-    font-size: clamp(2rem, 5vw, 3rem);
-    line-height: 1.08;
-    letter-spacing: -0.03em;
-    color: var(--navy);
-    max-width: 640px;
+    font-weight: 700; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.08;
+    letter-spacing: -0.03em; color: var(--navy); max-width: 640px;
     margin: 0 auto 1.2rem;
   }
   .hero h2 .accent { color: var(--peach); }
   .hero-sub {
-    font-size: 1.05rem;
-    color: var(--muted);
-    max-width: 460px;
-    margin: 0 auto 2rem;
-    font-weight: 400;
-    line-height: 1.6;
+    font-size: 1.05rem; color: var(--muted); max-width: 500px;
+    margin: 0 auto 2rem; font-weight: 400; line-height: 1.6;
   }
   .hero-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--red);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 0.75rem 1.6rem;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.2s;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--red); color: white; border: none; border-radius: 20px;
+    padding: 0.75rem 1.6rem; font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s;
   }
   .hero-cta:hover { opacity: 0.88; }
 
   /* APP BODY */
-  .app-body {
-    padding: 2.5rem 2rem;
-    max-width: 900px;
-    margin: 0 auto;
-  }
+  .app-body { padding: 2.5rem 2rem; max-width: 960px; margin: 0 auto; }
 
-  /* CALENDAR DAY SELECTOR */
+  /* SECTION LABELS */
   .section-label {
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 0.9rem;
+    font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--navy); margin-bottom: 1rem;
   }
 
+  /* DAY PILL TRACK */
   .day-pill-track {
-    background: var(--card);
-    border: 1.5px solid var(--border);
-    border-radius: 28px;
-    padding: 5px;
-    display: inline-flex;
-    gap: 2px;
-    margin-bottom: 2rem;
-    overflow-x: auto;
-    max-width: 100%;
+    background: var(--card); border: 2px solid var(--border); border-radius: 32px;
+    padding: 6px; display: flex; gap: 4px; margin-bottom: 2.5rem; overflow-x: auto;
   }
-
   .day-pill {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0.6rem 1rem;
-    border-radius: 22px;
-    cursor: pointer;
-    transition: background 0.18s ease, color 0.18s ease;
-    white-space: nowrap;
-    min-width: 72px;
-    border: none;
-    background: none;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    color: var(--muted);
-    gap: 1px;
+    position: relative; display: flex; flex-direction: column; align-items: center;
+    padding: 0.8rem 1rem 2.4rem; border-radius: 26px; cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease; white-space: nowrap;
+    flex: 1; min-width: 80px; border: none; background: none;
+    font-family: 'Plus Jakarta Sans', sans-serif; color: var(--muted); gap: 2px;
   }
-  .day-pill:hover:not(.active) {
-    background: var(--bg);
-    color: var(--navy);
-  }
-  .day-pill.active {
-    background: var(--navy);
-    color: white;
-  }
+  .day-pill:hover:not(.active) { background: var(--bg); color: var(--navy); }
+  .day-pill.active { background: var(--navy); color: white; }
   .day-pill-dow {
-    font-size: 0.65rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    opacity: 0.7;
+    font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.07em; opacity: 0.65;
   }
-  .day-pill.active .day-pill-dow { opacity: 0.6; }
-  .day-pill-num {
-    font-size: 1.15rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    line-height: 1;
+  .day-pill.active .day-pill-dow { opacity: 0.55; }
+  .day-pill-num { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+
+  /* ticker at bottom of each pill */
+  .day-pill-ticker {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 32px;
+    border-radius: 0 0 26px 26px; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 6px;
   }
-  .day-pill-badge {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    background: var(--red);
-    color: white;
-    font-size: 0.58rem;
-    font-weight: 700;
-    min-width: 15px;
-    height: 15px;
-    border-radius: 20px;
-    padding: 0 3px;
-    display: none;
-    align-items: center;
-    justify-content: center;
+  .ticker-sessions {
+    font-size: 0.58rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+    white-space: nowrap; color: var(--green);
+    animation: tickerScroll 7s linear infinite;
   }
-  .day-pill.active .day-pill-badge {
-    background: white;
-    color: var(--navy);
+  .day-pill.active .ticker-sessions { color: #7de8a8; }
+  @keyframes tickerScroll {
+    0%   { transform: translateX(70%); opacity: 0; }
+    10%  { opacity: 1; }
+    45%  { transform: translateX(0); opacity: 1; }
+    55%  { transform: translateX(0); opacity: 1; }
+    90%  { opacity: 1; }
+    100% { transform: translateX(-70%); opacity: 0; }
+  }
+  .ticker-needed {
+    font-size: 0.56rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--peach); animation: needPulse 2s ease-in-out infinite;
+  }
+  .day-pill.active .ticker-needed { color: #ffbf9e; }
+  @keyframes needPulse {
+    0%, 100% { opacity: 0.5; transform: scale(0.97); }
+    50%       { opacity: 1; transform: scale(1.03); }
   }
 
-  /* CONTROLS BAR */
-  .controls-bar {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    margin-bottom: 1.75rem;
-    padding: 1rem 1.25rem;
-    background: var(--card);
-    border: 1.5px solid var(--border);
-    border-radius: 20px;
+  /* FILTER STRIP */
+  .filter-strip {
+    display: flex; align-items: center; gap: 0.5rem;
+    flex-wrap: wrap; margin-bottom: 0.75rem;
   }
-  .control-group {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
+  .filter-chip {
+    display: inline-flex; align-items: center; gap: 0.45rem; height: 34px;
+    padding: 0 0.85rem; background: var(--card); border: 1.5px solid var(--border);
+    border-radius: 20px; font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.78rem; color: var(--muted); white-space: nowrap;
+    transition: border-color 0.15s;
   }
-  .control-label {
-    font-size: 0.75rem;
-    color: var(--muted);
-    white-space: nowrap;
-    font-weight: 500;
+  .filter-chip label { font-weight: 600; color: var(--navy); font-size: 0.75rem; cursor: default; }
+  .filter-chip select {
+    border: none; background: none; font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.78rem; color: var(--muted); outline: none; cursor: pointer;
+    padding: 0; max-width: 160px;
   }
-  .control-select {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.82rem;
-    color: var(--navy);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 0.35rem 0.6rem;
-    background: var(--bg);
-    cursor: pointer;
-    outline: none;
-    max-width: 180px;
-    transition: border-color 0.2s;
+  .eye-btn {
+    background: none; border: none; cursor: pointer; padding: 0;
+    display: flex; align-items: center; color: var(--muted); transition: color 0.15s; flex-shrink: 0;
   }
-  .control-select:focus { border-color: var(--red); }
-  .control-divider {
-    width: 1px;
-    height: 20px;
-    background: var(--border);
-    flex-shrink: 0;
-  }
-  .archive-toggle-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: none;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 0.35rem 0.75rem;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.82rem;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .archive-toggle-btn:hover { border-color: var(--navy); color: var(--navy); }
-  .archive-toggle-btn.open { background: var(--navy); color: white; border-color: var(--navy); }
+  .eye-btn:hover { color: var(--navy); }
+  .eye-btn svg { width: 16px; height: 16px; fill: currentColor; }
+  .filter-chip.eye-active { border-color: var(--navy); }
+  .filter-chip.eye-active .eye-btn { color: var(--navy); }
 
   /* ARCHIVE */
   #archive-section { display: none; }
   #archive-list { margin-bottom: 1.5rem; display: none; }
-  .archive-day { margin-bottom: 1rem; }
-  .archive-day-label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--bark-light);
-    margin-bottom: 0.4rem;
+  .archive-empty-quote {
+    padding: 1.5rem 2rem; background: var(--card); border: 1.5px solid var(--border);
+    border-radius: 20px; text-align: center; margin-bottom: 1.5rem; display: none;
   }
+  .archive-empty-quote p { font-size: 0.9rem; font-style: italic; color: var(--muted); line-height: 1.6; }
+  .archive-empty-quote span { display: block; font-size: 0.72rem; font-weight: 600; color: var(--red); margin-top: 0.5rem; letter-spacing: 0.04em; }
+  .archive-day { margin-bottom: 1rem; }
+  .archive-day-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--bark-light); margin-bottom: 0.4rem; }
   .archive-card {
-    background: white;
-    border: 1.5px solid var(--border);
-    border-radius: 14px;
-    padding: 0.6rem 0.9rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 0.35rem;
-    opacity: 0.75;
+    background: white; border: 1.5px solid var(--border); border-radius: 14px;
+    padding: 0.6rem 0.9rem; display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; margin-bottom: 0.35rem; opacity: 0.75;
   }
   .archive-card-info { display: flex; gap: 0.75rem; align-items: center; flex: 1; flex-wrap: wrap; }
   .archive-time { font-size: 0.78rem; font-weight: 600; color: var(--bark-light); }
   .archive-teacher { font-size: 0.82rem; font-weight: 500; color: var(--bark); }
   .archive-activity { font-size: 0.78rem; color: var(--bark-light); }
 
+  /* TIME SLOT SECTION HEADER */
+  .slot-section-header { margin-bottom: 1rem; }
+  .slot-section-label {
+    font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--navy); margin-bottom: 0.3rem;
+  }
+  .slot-tz-label {
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
   /* SCHEDULE */
   .schedule { display: flex; flex-direction: column; gap: 0.5rem; }
-  .slot-row {
-    display: grid;
-    grid-template-columns: 72px 1fr;
-    gap: 0.75rem;
-    align-items: start;
-  }
-  .slot-time {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--muted);
-    padding-top: 0.7rem;
-    text-align: right;
-    letter-spacing: -0.01em;
-  }
+  .slot-row { display: grid; grid-template-columns: 72px 1fr; gap: 0.75rem; align-items: start; }
+  .slot-time { font-size: 0.95rem; font-weight: 700; color: var(--navy); padding-top: 0.7rem; text-align: right; letter-spacing: -0.02em; }
   .slot-sessions { display: flex; flex-direction: column; gap: 0.4rem; }
 
   /* SESSION CARDS */
   .session-card {
-    background: white;
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
-    padding: 0.85rem 1.1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    transition: box-shadow 0.2s;
-    flex-wrap: wrap;
+    background: white; border: 1.5px solid var(--border); border-radius: 16px;
+    padding: 0.85rem 1.1rem; display: flex; align-items: center;
+    justify-content: space-between; gap: 1rem; transition: box-shadow 0.2s; flex-wrap: wrap;
   }
   .session-card:hover { box-shadow: 0 4px 20px rgba(26,26,46,0.08); }
   .session-card.is-live { border-color: var(--red); box-shadow: 0 0 0 3px rgba(121,21,22,0.08); }
   .session-card.is-past { opacity: 0.5; filter: grayscale(0.4); }
   .live-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    background: var(--red);
-    color: white;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    padding: 0.15rem 0.5rem;
-    border-radius: 20px;
-    margin-left: 0.4rem;
-    vertical-align: middle;
+    display: inline-flex; align-items: center; gap: 0.3rem; background: var(--red); color: white;
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; padding: 0.15rem 0.5rem;
+    border-radius: 20px; margin-left: 0.4rem; vertical-align: middle;
   }
-  .live-dot {
-    width: 5px; height: 5px;
-    background: white;
-    border-radius: 50%;
-    animation: pulse 1.2s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.7); }
-  }
+  .live-dot { width: 5px; height: 5px; background: white; border-radius: 50%; animation: pulse 1.2s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
   .session-info { flex: 1; }
   .session-teacher { font-weight: 600; font-size: 0.92rem; color: var(--navy); }
   .session-activity { font-size: 0.8rem; color: var(--muted); margin-top: 0.15rem; }
-  .session-zoom {
-    font-size: 0.78rem;
-    color: var(--red);
-    text-decoration: none;
-    font-weight: 600;
-    white-space: nowrap;
-  }
+  .session-zoom { font-size: 0.78rem; color: var(--red); text-decoration: none; font-weight: 600; white-space: nowrap; }
   .session-zoom:hover { text-decoration: underline; }
   .card-actions { display: flex; gap: 0.4rem; }
   .cancel-btn, .edit-btn {
-    background: none;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 0.3rem 0.65rem;
-    font-size: 0.75rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    white-space: nowrap;
+    background: none; border: 1.5px solid var(--border); border-radius: 10px;
+    padding: 0.3rem 0.65rem; font-size: 0.75rem; cursor: pointer;
+    transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; white-space: nowrap;
   }
   .cancel-btn { color: var(--red); }
   .cancel-btn:hover { background: var(--red-bg); border-color: var(--red); }
   .edit-btn { color: var(--muted); }
   .edit-btn:hover { background: var(--sun-light); border-color: var(--sun); color: var(--sun); }
-
-  /* LOVE */
   .love-replay-btn {
-    background: none;
-    border: 1.5px solid var(--border);
-    border-radius: 20px;
-    padding: 0.3rem 0.8rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--muted);
-    cursor: pointer;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    transition: all 0.15s;
-    margin-top: 0.35rem;
-    display: inline-block;
+    background: none; border: 1.5px solid var(--border); border-radius: 20px;
+    padding: 0.3rem 0.8rem; font-size: 0.75rem; font-weight: 500; color: var(--muted);
+    cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s;
+    margin-top: 0.35rem; display: inline-block;
   }
   .love-replay-btn:hover { border-color: var(--red); color: var(--red); }
 
   /* EMPTY SLOT */
   .empty-slot {
-    border: 2px dashed var(--border);
-    border-radius: 16px;
-    padding: 0.85rem 1.1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    color: var(--muted);
+    border: 2px dashed rgba(107,96,85,0.4);
+    border-radius: 16px; padding: 0.9rem 1.1rem;
+    display: flex; align-items: flex-start; gap: 0.9rem;
+    cursor: pointer; transition: all 0.2s; color: var(--muted); background: transparent;
   }
-  .empty-slot:hover {
-    border-color: var(--red);
-    background: var(--red-bg);
-    color: var(--red);
-  }
+  .empty-slot:hover { border-color: var(--red); background: var(--red-bg); color: var(--red); }
   .empty-slot-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
-    background: var(--bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    flex-shrink: 0;
-    transition: background 0.2s;
-    font-weight: 300;
+    width: 32px; height: 32px; border-radius: 8px; background: rgba(107,96,85,0.1);
+    display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    flex-shrink: 0; transition: background 0.2s; font-weight: 300; margin-top: 2px;
   }
   .empty-slot:hover .empty-slot-icon { background: rgba(121,21,22,0.1); }
-  .empty-slot-text { font-size: 0.82rem; font-weight: 600; }
-  .empty-slot-sub { font-size: 0.72rem; font-weight: 400; opacity: 0.7; }
-
-  /* TIME RANGE LABEL */
-  .time-range-label {
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding: 0.5rem 0 0.5rem 80px;
-    margin-bottom: 0.25rem;
-  }
+  .empty-slot-main { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+  .empty-slot-quote { font-size: 0.74rem; font-weight: 400; font-style: italic; color: var(--muted); opacity: 0.8; line-height: 1.45; margin-top: 0.2rem; }
+  .empty-slot:hover .empty-slot-quote { color: var(--red); opacity: 0.7; }
 
   /* MODAL */
   .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(26,26,46,0.4);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 200;
-    padding: 1rem;
-    backdrop-filter: blur(2px);
+    position: fixed; inset: 0; background: rgba(26,26,46,0.4);
+    display: none; align-items: center; justify-content: center;
+    z-index: 200; padding: 1rem; backdrop-filter: blur(2px);
   }
   .modal-overlay.open { display: flex; }
-  .modal {
-    background: white;
-    border-radius: 24px;
-    padding: 2rem;
-    width: 100%;
-    max-width: 420px;
-    box-shadow: 0 24px 64px rgba(26,26,46,0.18);
-  }
-  .modal-eyebrow {
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--red);
-    margin-bottom: 0.4rem;
-  }
-  .modal h2 {
-    font-size: 1.45rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: var(--navy);
-    margin-bottom: 0.3rem;
-  }
-  .modal .slot-label {
-    font-size: 0.82rem;
-    color: var(--muted);
-    margin-bottom: 1.5rem;
-    line-height: 1.5;
-  }
+  .modal { background: white; border-radius: 24px; padding: 2rem; width: 100%; max-width: 420px; box-shadow: 0 24px 64px rgba(26,26,46,0.18); }
+  .modal-eyebrow { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); margin-bottom: 0.4rem; }
+  .modal h2 { font-size: 1.45rem; font-weight: 700; letter-spacing: -0.02em; color: var(--navy); margin-bottom: 0.3rem; }
+  .modal .slot-label { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.5; }
   .form-group { margin-bottom: 1rem; }
-  .form-group label {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--muted);
-    margin-bottom: 0.4rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+  .form-group label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--muted); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .form-group select, .form-group input {
+    width: 100%; padding: 0.8rem 1rem; border: 1.5px solid var(--border); border-radius: 12px;
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem; color: var(--navy);
+    background: var(--bg); outline: none; transition: border-color 0.2s;
   }
-  .form-group select,
-  .form-group input {
-    width: 100%;
-    padding: 0.8rem 1rem;
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.95rem;
-    color: var(--navy);
-    background: var(--bg);
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .form-group select:focus,
-  .form-group input:focus { border-color: var(--red); background: white; }
+  .form-group select:focus, .form-group input:focus { border-color: var(--red); background: white; }
   .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
   .btn-primary {
-    flex: 1;
-    padding: 0.85rem;
-    background: var(--red);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.2s;
+    flex: 1; padding: 0.85rem; background: var(--red); color: white; border: none;
+    border-radius: 20px; font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s;
   }
   .btn-primary:hover { opacity: 0.88; }
   .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
   .btn-secondary {
-    padding: 0.85rem 1.5rem;
-    background: none;
-    color: var(--muted);
-    border: 1.5px solid var(--border);
-    border-radius: 20px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all 0.2s;
+    padding: 0.85rem 1.5rem; background: none; color: var(--muted);
+    border: 1.5px solid var(--border); border-radius: 20px;
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem; cursor: pointer; transition: all 0.2s;
   }
   .btn-secondary:hover { border-color: var(--navy); color: var(--navy); }
 
   /* TOAST */
   .toast {
-    position: fixed;
-    bottom: 5rem;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: var(--navy);
-    color: white;
-    padding: 0.8rem 1.5rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: transform 0.3s;
-    z-index: 300;
-    white-space: nowrap;
+    position: fixed; bottom: 5rem; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: var(--navy); color: white; padding: 0.8rem 1.5rem; border-radius: 20px;
+    font-size: 0.9rem; font-weight: 500; transition: transform 0.3s; z-index: 300; white-space: nowrap;
   }
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast.success { background: var(--green); }
@@ -645,171 +344,63 @@
 
   /* CHANGELOG */
   .changelog-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(26,26,46,0.4);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 300;
-    padding: 1rem;
-    backdrop-filter: blur(2px);
+    position: fixed; inset: 0; background: rgba(26,26,46,0.4);
+    display: none; align-items: center; justify-content: center;
+    z-index: 300; padding: 1rem; backdrop-filter: blur(2px);
   }
   .changelog-overlay.open { display: flex; }
   .changelog-modal {
-    background: white;
-    border-radius: 24px;
-    width: 100%;
-    max-width: 420px;
-    max-height: 80vh;
-    box-shadow: 0 24px 64px rgba(26,26,46,0.18);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+    background: white; border-radius: 24px; width: 100%; max-width: 420px;
+    max-height: 80vh; box-shadow: 0 24px 64px rgba(26,26,46,0.18);
+    display: flex; flex-direction: column; overflow: hidden;
   }
-  .changelog-modal-header {
-    padding: 1.75rem 2rem 1rem;
-    flex-shrink: 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .changelog-modal-header .eyebrow {
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--red);
-    margin-bottom: 0.3rem;
-  }
-  .changelog-modal-header h2 {
-    font-size: 1.3rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: var(--navy);
-  }
+  .changelog-modal-header { padding: 1.75rem 2rem 1rem; flex-shrink: 0; border-bottom: 1px solid var(--border); }
+  .cl-eyebrow { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); margin-bottom: 0.3rem; }
+  .changelog-modal-header h2 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em; color: var(--navy); }
   .changelog-body { overflow-y: auto; padding: 1.5rem 2rem; flex: 1; }
   .changelog-footer { padding: 1rem 2rem 1.5rem; flex-shrink: 0; border-top: 1px solid var(--border); }
   .changelog-close {
-    width: 100%;
-    padding: 0.75rem;
-    background: var(--navy);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.2s;
+    width: 100%; padding: 0.75rem; background: var(--navy); color: white; border: none;
+    border-radius: 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s;
   }
   .changelog-close:hover { opacity: 0.85; }
   .changelog-entry { margin-bottom: 1.5rem; }
-  .changelog-version {
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--red);
-    margin-bottom: 0.15rem;
-  }
+  .changelog-version { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red); margin-bottom: 0.15rem; }
   .changelog-date { font-size: 0.72rem; color: var(--muted); margin-bottom: 0.5rem; }
-  .changelog-entry ul {
-    padding-left: 1.1rem;
-    font-size: 0.82rem;
-    color: var(--navy);
-    line-height: 1.65;
-  }
+  .changelog-entry ul { padding-left: 1.1rem; font-size: 0.82rem; color: var(--navy); line-height: 1.65; }
 
-  /* LOVE PARTICLES */
-  .love-particle {
-    position: fixed;
-    pointer-events: none;
-    font-size: 2.6rem;
-    z-index: 9999;
-    animation: floatUp 1.6s ease-out forwards;
-  }
-  @keyframes floatUp {
-    0%   { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
-    100% { opacity: 0; transform: translateY(-260px) scale(1.5) rotate(25deg); }
-  }
+  /* LOVE */
+  .love-particle { position: fixed; pointer-events: none; font-size: 2.6rem; z-index: 9999; animation: floatUp 1.6s ease-out forwards; }
+  @keyframes floatUp { 0% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); } 100% { opacity: 0; transform: translateY(-260px) scale(1.5) rotate(25deg); } }
 
   /* FOOTER */
-  .rw-footer {
-    border-top: 1px solid var(--border);
-    background: var(--card);
-    padding: 1.25rem 2rem;
-    position: sticky;
-    bottom: 0;
-    z-index: 50;
-  }
-  .rw-footer-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-  .rw-footer-left {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
+  .rw-footer { border-top: 1px solid var(--border); background: var(--card); padding: 1.25rem 2rem; position: sticky; bottom: 0; z-index: 50; }
+  .rw-footer-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .rw-footer-left { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
   .rw-footer-copy { font-size: 0.82rem; color: var(--muted); }
   .rw-footer-copy strong { color: var(--navy); font-weight: 600; }
-  .whats-new-btn {
-    background: none;
-    border: none;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.78rem;
-    color: var(--muted);
-    cursor: pointer;
-    text-decoration: underline;
-    padding: 0;
-    white-space: nowrap;
-  }
+  .whats-new-btn { background: none; border: none; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.78rem; color: var(--muted); cursor: pointer; text-decoration: underline; padding: 0; white-space: nowrap; }
   .whats-new-btn:hover { color: var(--navy); }
   .rw-footer-right { display: flex; gap: 0.75rem; align-items: center; }
-  .rw-footer-link {
-    font-size: 0.78rem;
-    color: var(--muted);
-    text-decoration: none;
-    font-weight: 500;
-  }
+  .rw-footer-link { font-size: 0.78rem; color: var(--muted); text-decoration: none; font-weight: 500; }
   .rw-footer-link:hover { color: var(--navy); }
   .rw-footer-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: var(--navy);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 0.5rem 1rem;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    transition: opacity 0.2s;
+    display: inline-flex; align-items: center; gap: 0.4rem; background: var(--navy); color: white;
+    border: none; border-radius: 20px; padding: 0.5rem 1rem; font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.78rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: opacity 0.2s;
   }
   .rw-footer-btn:hover { opacity: 0.85; }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-  @media (max-width: 600px) {
-    header { flex-wrap: wrap; gap: 0.6rem; padding: 0.8rem 1rem; }
-    .header-left { flex: 1 1 100%; }
-    .header-actions { flex: 1 1 100%; justify-content: flex-start; }
+  @media (max-width: 700px) {
+    .top-nav-inner { padding: 0 1rem; }
+    .nav-brand { display: none; }
+    .nav-link { padding: 0.85rem 0.6rem; font-size: 0.76rem; }
     .app-body { padding: 1.5rem 1rem; }
     .hero { padding: 2.5rem 1rem 2rem; }
     .slot-row { grid-template-columns: 56px 1fr; }
-    .controls-bar { gap: 0.5rem; }
-    .day-pill { min-width: 60px; padding: 0.5rem 0.75rem; }
+    .day-pill { min-width: 64px; padding: 0.7rem 0.8rem 2.2rem; }
     .rw-footer { padding: 1rem; }
     .rw-footer-inner { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
   }
@@ -831,28 +422,26 @@
 
 <!-- MAIN APP -->
 <div id="app">
-  <header>
-    <div class="header-left">
-      <span>🌳</span>
-      <div>
-        <h1>Redwood Sessions</h1>
-        <small>Teacher booking</small>
+
+  <!-- NAV -->
+  <nav class="top-nav">
+    <div class="top-nav-inner">
+      <div class="nav-brand">🌳 Redwood Sessions</div>
+      <div class="nav-links">
+        <a href="teachers.html" class="nav-link"><span class="nav-link-icon">🏠</span> Home</a>
+        <a href="explainer.html" class="nav-link"><span class="nav-link-icon">🌱</span> The research</a>
+        <a href="booksessions.html" class="nav-link active"><span class="nav-link-icon">📅</span> Book a session</a>
+        <a href="guide.html" class="nav-link ask-maria-glow"><span class="nav-link-icon">👵</span> Ask Maria</a>
+        <a href="https://wa.me/447463978471?text=Hi%20Luna%2C%20this%20is%20%5Bname%5D%20I%27m%20having%20an%20issue%20with%20the%20Redwood%20sessions%20page%3A%20" target="_blank" class="nav-link"><span class="nav-link-icon">💬</span> Need human support?</a>
       </div>
     </div>
-    <div class="header-actions">
-      <a class="wa-btn" href="https://wa.me/447463978471?text=Hi%20Luna%2C%20this%20is%20%5Bname%5D%20I%27m%20having%20an%20issue%20with%20the%20Redwood%20sessions%20page%3A%20" target="_blank">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        Need human support?
-      </a>
-      <button class="add-btn" onclick="openModal()">＋ Add session</button>
-    </div>
-  </header>
+  </nav>
 
   <!-- HERO -->
   <div class="hero">
-    <div class="hero-eyebrow">Redwood Sessions · Jumeirah Park</div>
-    <h2>Every child is welcome<br>at <span class="accent">every session.</span></h2>
-    <p class="hero-sub">Pick a slot that works for you. 15 minutes, any topic — songs, a story, phonics, free play. Your session goes live the moment you save it.</p>
+    <div class="hero-eyebrow">Redwood Jumeirah Park 15 minutes sessions</div>
+    <h2><span class="accent">Every child</span> is welcome<br>at <span class="accent">every session.</span></h2>
+    <p class="hero-sub">Pick any slot that works for you. 15 minutes to connect through songs, a story, phonics, free play, joy. Start by adding a session now. Then add more&nbsp;:)</p>
     <button class="hero-cta" onclick="openModal()">＋ Add your session</button>
   </div>
 
@@ -862,27 +451,53 @@
     <div class="section-label">Select a day</div>
     <div class="day-pill-track" id="day-tabs"></div>
 
-    <!-- CONTROLS BAR -->
-    <div class="controls-bar">
-      <div id="archive-section">
-        <button class="archive-toggle-btn" id="archive-toggle">📁 Past sessions</button>
+    <!-- FILTER STRIP -->
+    <div class="filter-strip">
+
+      <!-- Past sessions eye toggle -->
+      <div class="filter-chip" id="past-chip">
+        <label>Past sessions</label>
+        <button class="eye-btn" id="eye-toggle" onclick="togglePastSessions()" title="Show / hide past sessions">
+          <!-- eye OFF (default) -->
+          <svg id="eye-icon-off" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M11.885 14.988l3.104-3.098.011.11c0 1.654-1.346 3-3 3l-.115-.012zm8.048-8.032l-3.274 3.268c.212.554.341 1.149.341 1.776 0 2.757-2.243 5-5 5-.631 0-1.229-.13-1.785-.344l-2.377 2.372c1.276.588 2.671.972 4.177.972 7.733 0 11.985-8.449 11.985-8.449s-1.415-2.478-4.067-4.595zm1.431-3.536l-18.619 18.58-1.382-1.422 3.455-3.447c-3.022-2.45-4.818-5.58-4.818-5.58s4.446-7.551 12.015-7.551c1.825 0 3.456.426 4.886 1.075l3.081-3.075 1.382 1.42zm-13.751 10.922l1.519-1.515c-.077-.264-.132-.538-.132-.827 0-1.654 1.346-3 3-3 .291 0 .567.055.833.134l1.518-1.515c-.704-.382-1.496-.619-2.351-.619-2.757 0-5 2.243-5 5 0 .852.235 1.641.613 2.342z"/>
+          </svg>
+          <!-- eye ON -->
+          <svg id="eye-icon-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display:none;">
+            <path d="M15 12c0 1.654-1.346 3-3 3s-3-1.346-3-3 1.346-3 3-3 3 1.346 3 3zm9-.449s-4.252 8.449-11.985 8.449c-7.18 0-12.015-8.449-12.015-8.449s4.446-7.551 12.015-7.551c7.694 0 11.985 7.551 11.985 7.551zm-7 .449c0-2.757-2.243-5-5-5s-5 2.243-5 5 2.243 5 5 5 5-2.243 5-5z"/>
+          </svg>
+        </button>
       </div>
-      <div class="control-divider"></div>
-      <div class="control-group">
-        <span class="control-label">Filter by teacher</span>
-        <select class="control-select" id="teacher-filter" onchange="onFilterChange()">
+
+      <!-- Show: teacher filter -->
+      <div class="filter-chip">
+        <label>Show:</label>
+        <select id="teacher-filter" onchange="onFilterChange()">
           <option value="">All teachers</option>
-          <option>Ms Ghita</option>
-          <option>Ms Nour</option>
-          <option>Ms Emy</option>
+          <option>Ms Banan</option>
           <option>Ms Ashley</option>
-          <option>Ms Divya</option>
+          <option>Ms Anusheh</option>
+          <option>Ms Ashieqa</option>
+          <option>Ms Divy</option>
+          <option>Ms Ghita</option>
+          <option>Ms Emy</option>
+          <option>Ms Karina</option>
+          <option>Ms Leanne</option>
+          <option>Ms Mahdeim</option>
+          <option>Ms Nadia</option>
+          <option>Ms Nour</option>
+          <option>Ms Rachel</option>
+          <option>Ms Rebecca</option>
+          <option>Ms Samia</option>
+          <option>Sinu</option>
+          <option>Zaina</option>
         </select>
       </div>
-      <div class="control-divider"></div>
-      <div class="control-group">
-        <span class="control-label">🕐 Time zone</span>
-        <select class="control-select" id="tz-select" onchange="onTzChange()">
+
+      <!-- Time zone -->
+      <div class="filter-chip">
+        <label>Your time zone:</label>
+        <select id="tz-select" onchange="onTzChange()">
           <option value="4">Dubai (GMT+4)</option>
           <option value="0">London (GMT+0)</option>
           <option value="1">Paris / Rome (GMT+1)</option>
@@ -897,10 +512,23 @@
           <option value="-8">Los Angeles (GMT-8)</option>
         </select>
       </div>
+
     </div>
 
-    <!-- ARCHIVE LIST -->
-    <div id="archive-list"></div>
+    <!-- ARCHIVE (revealed by eye toggle) -->
+    <div id="archive-section">
+      <div class="archive-empty-quote" id="archive-empty-quote">
+        <p>"A great teacher is one who learns alongside the child."</p>
+        <span>— Maria Montessori</span>
+      </div>
+      <div id="archive-list"></div>
+    </div>
+
+    <!-- TIME SLOT HEADER -->
+    <div class="slot-section-header">
+      <div class="slot-section-label">Select a time slot</div>
+      <div class="slot-tz-label" id="tz-display-label">Time zone: Dubai (GMT+4)</div>
+    </div>
 
     <!-- SCHEDULE -->
     <div class="schedule" id="schedule">
@@ -918,20 +546,24 @@
     <div class="form-group">
       <label>Your name</label>
       <select id="teacher-select" onchange="selectedTeacher = this.value">
-        <option value="">Select teacher… (not listed? get in touch)</option>
-        <option>Ms Ghita</option>
-        <option>Ms Nour</option>
-        <option>Ms Emy</option>
-        <option>Ms Ashley</option>
-        <option>Ms Divya</option>
+        <option value="">Select your name… (not listed? get in touch)</option>
         <option>Ms Banan</option>
-        <option>Ms Ashieqah</option>
-        <option>Ms Leanne</option>
+        <option>Ms Ashley</option>
+        <option>Ms Anusheh</option>
+        <option>Ms Ashieqa</option>
+        <option>Ms Divy</option>
+        <option>Ms Ghita</option>
+        <option>Ms Emy</option>
         <option>Ms Karina</option>
-        <option>Ms Maddie</option>
-        <option>Ms Rebecca</option>
+        <option>Ms Leanne</option>
+        <option>Ms Mahdeim</option>
         <option>Ms Nadia</option>
+        <option>Ms Nour</option>
+        <option>Ms Rachel</option>
+        <option>Ms Rebecca</option>
         <option>Ms Samia</option>
+        <option>Sinu</option>
+        <option>Zaina</option>
       </select>
     </div>
     <div class="form-group">
@@ -942,9 +574,7 @@
     </div>
     <div class="form-group">
       <label>Time slot</label>
-      <select id="modal-time-select">
-        <option value="">Select time…</option>
-      </select>
+      <select id="modal-time-select"><option value="">Select time…</option></select>
       <div style="font-size:0.75rem;color:var(--muted);margin-top:0.4rem;">All times are Dubai time (GMT+4)</div>
     </div>
     <div class="form-group">
@@ -962,63 +592,38 @@
   </div>
 </div>
 
-<!-- CHANGELOG MODAL -->
+<!-- CHANGELOG -->
 <div class="changelog-overlay" id="changelog">
   <div class="changelog-modal">
     <div class="changelog-modal-header">
-      <div class="eyebrow">Platform updates</div>
+      <div class="cl-eyebrow">Platform updates</div>
       <h2>What's new 🎉</h2>
     </div>
     <div class="changelog-body">
       <div class="changelog-entry">
         <div class="changelog-version">v1.3 | improvements + bug fixes</div>
         <div class="changelog-date">31 Mar 2026</div>
-        <ul>
-          <li>Past sessions are now stored in visible archive</li>
-          <li>Allowed extra days according to new MOE announcement</li>
-          <li>Added SEE LOVE functionality — kids can send emojis to teachers</li>
-          <li>Debugging</li>
-        </ul>
+        <ul><li>Past sessions are now stored in visible archive</li><li>Allowed extra days according to new MOE announcement</li><li>Added SEE LOVE functionality — kids can send emojis to teachers</li><li>Debugging</li></ul>
       </div>
       <div class="changelog-entry">
         <div class="changelog-version">v1.3 | tweaks</div>
         <div class="changelog-date">31 Mar 2026</div>
-        <ul>
-          <li>Schedule opens on today's date automatically</li>
-          <li>Scrolls to the current time slot on load</li>
-          <li>Session count badges on day tabs</li>
-          <li>What's new popup added</li>
-        </ul>
+        <ul><li>Schedule opens on today's date automatically</li><li>Scrolls to the current time slot on load</li><li>Session count badges on day tabs</li><li>What's new popup added</li></ul>
       </div>
       <div class="changelog-entry">
         <div class="changelog-version">v1.2 | improvements</div>
         <div class="changelog-date">30 Mar 2026</div>
-        <ul>
-          <li>LIVE badge on sessions happening now</li>
-          <li>Past sessions shown but greyed out, no actions</li>
-          <li>Start Zoom button replaces Join Zoom</li>
-          <li>Zoom links without https:// are fixed automatically</li>
-          <li>Filter resets after booking a session</li>
-        </ul>
+        <ul><li>LIVE badge on sessions happening now</li><li>Past sessions shown but greyed out, no actions</li><li>Start Zoom button replaces Join Zoom</li><li>Zoom links without https:// are fixed automatically</li><li>Filter resets after booking a session</li></ul>
       </div>
       <div class="changelog-entry">
         <div class="changelog-version">v1.1 | improvements</div>
         <div class="changelog-date">29 Mar 2026</div>
-        <ul>
-          <li>Book, edit and cancel sessions</li>
-          <li>WhatsApp support button</li>
-          <li>🌍 on slots from 16:00 for international teachers</li>
-          <li>Timezone selector</li>
-          <li>Filter by teacher</li>
-        </ul>
+        <ul><li>Book, edit and cancel sessions</li><li>WhatsApp support button</li><li>🌍 on slots from 16:00 for international teachers</li><li>Timezone selector</li><li>Filter by teacher</li></ul>
       </div>
       <div class="changelog-entry">
         <div class="changelog-version">v1.0 | Launch</div>
         <div class="changelog-date">28 Mar 2026</div>
-        <ul>
-          <li>Teacher booking portal with daily schedule view</li>
-          <li>Password-protected access</li>
-        </ul>
+        <ul><li>Teacher booking portal with daily schedule view</li><li>Password-protected access</li></ul>
       </div>
     </div>
     <div class="changelog-footer">
@@ -1033,12 +638,12 @@
 <div class="rw-footer">
   <div class="rw-footer-inner">
     <div class="rw-footer-left">
-      <div class="rw-footer-copy"><strong>Built by Eshanka and Luna.</strong> If something's not working, ask Maria.</div>
+      <div class="rw-footer-copy"><strong>Built by Eshanka and Luna.</strong> Have questions? Ask Maria.</div>
       <button class="whats-new-btn" onclick="document.getElementById('changelog').classList.add('open')">What's new</button>
     </div>
     <div class="rw-footer-right">
       <a href="teachers.html" class="rw-footer-link">← Teachers hub</a>
-      <a href="guide.html" class="rw-footer-btn">👵 Ask Maria</a>
+      <a href="guide.html" class="rw-footer-btn ask-maria-glow">👵 Ask Maria</a>
     </div>
   </div>
 </div>
@@ -1047,6 +652,37 @@
   const WORKER_URL = 'https://redwood-api.lunamargherita.com';
   const DUBAI_OFFSET = 4;
   let tzOffset = 4;
+
+  const MARIA_QUOTES = [
+    "To aid life, leaving it free — that is the basic task of the educator.",
+    "Never help a child with a task at which he feels he can succeed.",
+    "The goal of early childhood education should be to activate the child's own natural desire to learn.",
+    "The child, making use of all that he finds around him, shapes himself for the future.",
+    "What the hand does the mind remembers.",
+    "Freedom to choose, freedom to learn.",
+    "Independence is not doing your own thing, but discovering your own thing.",
+    "Respect for the child is respect for the future of humanity.",
+    "The true basis of imagination is reality.",
+    "Teaching is not just a profession; it's a lifelong journey of learning and growing together.",
+    "When children come in contact with nature, they reveal their strength.",
+    "Education is the best weapon for peace.",
+    "The things they see are not just remembered; they form part of their soul.",
+    "The education of even a small child does not aim at preparing him for school, but for life.",
+    "The greatest gifts we can give our children are the roots of responsibility and the wings of independence.",
+    "How much fuller life would be if we saw the child in all his greatness, all his beauty.",
+  ];
+
+  function getQuoteForSlot(dayIndex, slotIndex) {
+    const idx = (dayIndex * 7 + slotIndex * 3) % MARIA_QUOTES.length;
+    return MARIA_QUOTES[idx];
+  }
+
+  const TZ_LABELS = {
+    '4':'Dubai (GMT+4)','0':'London (GMT+0)','1':'Paris / Rome (GMT+1)',
+    '2':'Cairo / Athens (GMT+2)','3':'Moscow (GMT+3)','5':'Karachi (GMT+5)',
+    '5.5':'Mumbai (GMT+5:30)','6':'Dhaka (GMT+6)','7':'Bangkok (GMT+7)',
+    '8':'Singapore (GMT+8)','-5':'New York (GMT-5)','-8':'Los Angeles (GMT-8)',
+  };
 
   function convertTime(timeStr, fromOffset, toOffset) {
     const [h, m] = timeStr.split(':').map(Number);
@@ -1064,6 +700,8 @@
 
   function onTzChange() {
     tzOffset = parseFloat(document.getElementById('tz-select').value);
+    const label = TZ_LABELS[String(tzOffset)] || `GMT+${tzOffset}`;
+    document.getElementById('tz-display-label').textContent = `Time zone: ${label}`;
     renderSchedule();
   }
 
@@ -1099,6 +737,7 @@
   let activeDayIndex = 0;
   let editingSessionId = null;
   let selectedTeacher = '';
+  let pastSessionsVisible = false;
 
   function getTodayIndex() {
     const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Dubai' });
@@ -1116,17 +755,16 @@
     return CORRECT_DAYS.slice(0, todayIdx).reverse();
   }
 
+  // AUTH
   let authToken = sessionStorage.getItem('rw_token') || sessionStorage.getItem('redwood-teacher-token') || null;
 
   async function checkPassword() {
     const val = document.getElementById('password-input').value;
     const btn = document.getElementById('login-btn');
-    btn.disabled = true;
-    btn.textContent = 'Checking…';
+    btn.disabled = true; btn.textContent = 'Checking…';
     try {
       const res = await fetch(`${WORKER_URL}/stats-auth`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password: val }),
       });
       if (res.ok) {
@@ -1141,15 +779,10 @@
     } catch {
       document.getElementById('login-error').textContent = 'Connection error. Try again.';
       document.getElementById('login-error').style.display = 'block';
-    } finally {
-      btn.disabled = false;
-      btn.textContent = 'Enter';
-    }
+    } finally { btn.disabled = false; btn.textContent = 'Enter'; }
   }
 
-  function authHeaders() {
-    return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` };
-  }
+  function authHeaders() { return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` }; }
 
   function showApp() {
     document.getElementById('login-screen').style.display = 'none';
@@ -1158,70 +791,36 @@
     init();
   }
 
-  if (authToken) {
-    showApp();
-  } else {
+  if (authToken) { showApp(); }
+  else {
     document.getElementById('login-btn').addEventListener('click', checkPassword);
-    document.getElementById('password-input').addEventListener('keydown', e => {
-      if (e.key === 'Enter') checkPassword();
-    });
+    document.getElementById('password-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
     document.getElementById('password-input').focus();
   }
 
-  function init() {
-    buildDayTabs();
-    buildModalDayOptions();
-    loadSessions();
+  function init() { buildDayTabs(); buildModalDayOptions(); loadSessions(); }
+
+  // PAST SESSIONS TOGGLE
+  function togglePastSessions() {
+    pastSessionsVisible = !pastSessionsVisible;
+    document.getElementById('eye-icon-off').style.display = pastSessionsVisible ? 'none' : 'block';
+    document.getElementById('eye-icon-on').style.display  = pastSessionsVisible ? 'block' : 'none';
+    document.getElementById('past-chip').classList.toggle('eye-active', pastSessionsVisible);
+    const section = document.getElementById('archive-section');
+    if (!pastSessionsVisible) { section.style.display = 'none'; return; }
+    section.style.display = 'block';
+    renderArchive();
   }
 
-  function buildDayTabs() {
-    const container = document.getElementById('day-tabs');
-    container.innerHTML = '';
-    const visible = getVisibleDays();
-    visible.forEach((day) => {
-      const globalIdx = CORRECT_DAYS.indexOf(day);
-      const parts = day.label.split(' ');
-      const dow = parts[0];
-      const num = parts[1];
-      const btn = document.createElement('button');
-      btn.className = 'day-pill' + (globalIdx === activeDayIndex ? ' active' : '');
-      btn.innerHTML = `
-        <span class="day-pill-dow">${dow}</span>
-        <span class="day-pill-num">${num}</span>
-        <span class="day-pill-badge" id="badge-${globalIdx}"></span>
-      `;
-      btn.onclick = () => { activeDayIndex = globalIdx; buildDayTabs(); renderSchedule(); };
-      container.appendChild(btn);
-    });
-    buildArchive();
-  }
-
-  function buildArchive() {
+  function renderArchive() {
     const pastDays = getPastDays();
-    const archiveSection = document.getElementById('archive-section');
     const list = document.getElementById('archive-list');
-    const toggle = document.getElementById('archive-toggle');
-
-    if (pastDays.length === 0) {
-      archiveSection.style.display = 'none';
-      return;
-    }
+    const emptyQ = document.getElementById('archive-empty-quote');
     const pastWithSessions = pastDays.filter(d => sessions.some(s => s.date === d.date));
     if (pastWithSessions.length === 0) {
-      archiveSection.style.display = 'none';
-      return;
+      emptyQ.style.display = 'block'; list.style.display = 'none'; list.innerHTML = ''; return;
     }
-
-    archiveSection.style.display = 'block';
-
-    toggle.onclick = () => {
-      const open = list.style.display !== 'none';
-      list.style.display = open ? 'none' : 'block';
-      toggle.textContent = open ? '📁 Past sessions' : '📂 Past sessions';
-      toggle.classList.toggle('open', !open);
-    };
-
-    list.innerHTML = '';
+    emptyQ.style.display = 'none'; list.style.display = 'block'; list.innerHTML = '';
     pastWithSessions.forEach(day => {
       const daySessions = sessions.filter(s => s.date === day.date).sort((a, b) => a.time.localeCompare(b.time));
       const dayEl = document.createElement('div');
@@ -1243,13 +842,35 @@
     });
   }
 
+  // DAY TABS
+  function buildDayTabs() {
+    const container = document.getElementById('day-tabs');
+    container.innerHTML = '';
+    const visible = getVisibleDays();
+    visible.forEach((day) => {
+      const globalIdx = CORRECT_DAYS.indexOf(day);
+      const parts = day.label.split(' ');
+      const dow = parts[0]; const num = parts[1];
+      const count = sessions.filter(s => s.date === day.date).length;
+      const tickerHtml = count === 0
+        ? `<span class="ticker-needed">Teacher help needed</span>`
+        : `<span class="ticker-sessions">${count} session${count !== 1 ? 's' : ''} booked</span>`;
+      const btn = document.createElement('button');
+      btn.className = 'day-pill' + (globalIdx === activeDayIndex ? ' active' : '');
+      btn.innerHTML = `
+        <span class="day-pill-dow">${dow}</span>
+        <span class="day-pill-num">${num}</span>
+        <div class="day-pill-ticker">${tickerHtml}</div>`;
+      btn.onclick = () => { activeDayIndex = globalIdx; buildDayTabs(); renderSchedule(); };
+      container.appendChild(btn);
+    });
+  }
+
   function buildModalDayOptions() {
     const sel = document.getElementById('modal-day-select');
     CORRECT_DAYS.forEach((day, i) => {
       const opt = document.createElement('option');
-      opt.value = i;
-      opt.textContent = day.label;
-      sel.appendChild(opt);
+      opt.value = i; opt.textContent = day.label; sel.appendChild(opt);
     });
   }
 
@@ -1258,50 +879,28 @@
       const res = await fetch(`${WORKER_URL}/sessions`, { headers: authHeaders() });
       sessions = await res.json();
       renderSchedule();
-      buildArchive();
-    } catch (e) {
+      buildDayTabs();
+      if (pastSessionsVisible) renderArchive();
+    } catch {
       document.getElementById('schedule').innerHTML = '<div style="font-size:0.9rem;color:var(--muted);padding:1rem 0;">Could not load sessions. Check Worker URL.</div>';
     }
   }
 
-  function onFilterChange() {
-    selectedTeacher = document.getElementById('teacher-filter').value;
-    renderSchedule();
-  }
+  function onFilterChange() { selectedTeacher = document.getElementById('teacher-filter').value; renderSchedule(); }
 
   function renderSchedule() {
     const day = CORRECT_DAYS[activeDayIndex];
     let daySessions = sessions.filter(s => s.date === day.date);
-    if (selectedTeacher) {
-      daySessions = daySessions.filter(s => s.teacher === selectedTeacher);
-    }
+    if (selectedTeacher) daySessions = daySessions.filter(s => s.teacher === selectedTeacher);
     const container = document.getElementById('schedule');
     const byTime = {};
-    daySessions.forEach(s => {
-      if (!byTime[s.time]) byTime[s.time] = [];
-      byTime[s.time].push(s);
-    });
-    const tzLabel = tzOffset === DUBAI_OFFSET ? 'Dubai time' : `your local time (GMT${tzOffset >= 0 ? '+' : ''}${tzOffset})`;
-    let html = `<div class="time-range-label">12:00 – 15:00 · ${tzLabel}</div>`;
-    AFTERNOON_SLOTS.forEach(slot => {
-      html += renderSlotRow(slot, byTime[slot] || [], day.date);
+    daySessions.forEach(s => { if (!byTime[s.time]) byTime[s.time] = []; byTime[s.time].push(s); });
+    let html = '';
+    AFTERNOON_SLOTS.forEach((slot, slotIdx) => {
+      html += renderSlotRow(slot, byTime[slot] || [], day.date, activeDayIndex, slotIdx);
     });
     container.innerHTML = html;
-    updateDayBadges();
     scrollToCurrentTime();
-  }
-
-  function updateDayBadges() {
-    const visible = getVisibleDays();
-    visible.forEach((day) => {
-      const globalIdx = CORRECT_DAYS.indexOf(day);
-      const count = sessions.filter(s => s.date === day.date).length;
-      const badge = document.getElementById(`badge-${globalIdx}`);
-      if (badge) {
-        badge.textContent = count > 0 ? count : '';
-        badge.style.display = count > 0 ? 'inline-flex' : 'none';
-      }
-    });
   }
 
   function scrollToCurrentTime() {
@@ -1317,53 +916,38 @@
     const slotRows = document.querySelectorAll('.slot-row');
     for (let i = 0; i < slotTimes.length; i++) {
       if (slotTimes[i].textContent.trim().startsWith(displayTime(targetSlot))) {
-        slotRows[i].scrollIntoView({ behavior: 'smooth', block: 'center' });
-        break;
+        slotRows[i].scrollIntoView({ behavior: 'smooth', block: 'center' }); break;
       }
     }
   }
 
-  function renderSlotRow(slot, slotSessions, date) {
+  function renderSlotRow(slot, slotSessions, date, dayIndex, slotIndex) {
     let sessionsHtml = '';
     slotSessions.forEach(s => {
       const live = isSessionLive(s);
       const past = isSessionPast(s);
-      const joinBtn = !past
-        ? `<a class="session-zoom" href="${s.zoom_link && !s.zoom_link.startsWith('http') ? 'https://' + s.zoom_link : s.zoom_link}" target="_blank">Start Zoom ↗</a>`
-        : '';
-      const actions = !past
-        ? `<div class="card-actions">
-             <button class="edit-btn" onclick="openEditModal('${s.id}')">Edit</button>
-             <button class="cancel-btn" onclick="cancelSession('${s.id}')">Cancel</button>
-           </div>`
-        : '';
-      const loveArea = (live || past)
-        ? `<button class="love-replay-btn" onclick="showLove('${s.id}', event)" id="love-btn-${s.id}">💛 See the love</button>`
-        : '';
+      const joinBtn = !past ? `<a class="session-zoom" href="${s.zoom_link && !s.zoom_link.startsWith('http') ? 'https://' + s.zoom_link : s.zoom_link}" target="_blank">Start Zoom ↗</a>` : '';
+      const actions = !past ? `<div class="card-actions"><button class="edit-btn" onclick="openEditModal('${s.id}')">Edit</button><button class="cancel-btn" onclick="cancelSession('${s.id}')">Cancel</button></div>` : '';
+      const loveArea = (live || past) ? `<button class="love-replay-btn" onclick="showLove('${s.id}', event)" id="love-btn-${s.id}">💛 See the love</button>` : '';
       sessionsHtml += `
         <div class="session-card${live ? ' is-live' : ''}${past ? ' is-past' : ''}">
           <div class="session-info">
-            <div class="session-teacher">
-              ${s.teacher}
-              ${live ? '<span class="live-badge"><span class="live-dot"></span>LIVE</span>' : ''}
-            </div>
+            <div class="session-teacher">${s.teacher}${live ? '<span class="live-badge"><span class="live-dot"></span>LIVE</span>' : ''}</div>
             <div class="session-activity">${s.activity || 'No activity listed'}</div>
             ${loveArea}
           </div>
-          ${joinBtn}
-          ${actions}
+          ${joinBtn}${actions}
         </div>`;
     });
-
+    const quote = getQuoteForSlot(dayIndex, slotIndex);
     sessionsHtml += `
       <div class="empty-slot" onclick="openModal('${date}','${slot}')">
         <div class="empty-slot-icon">＋</div>
         <div>
-          <div class="empty-slot-text">Add your session</div>
-          <div class="empty-slot-sub">Any Redwood child can join</div>
+          <div class="empty-slot-main">Add your session</div>
+          <div class="empty-slot-quote">"${quote}"</div>
         </div>
       </div>`;
-
     return `
       <div class="slot-row">
         <div class="slot-time">${displayTime(slot)}${slot >= '16:00' ? ' 🌍' : ''}</div>
@@ -1372,22 +956,18 @@
   }
 
   function isSessionLive(s) {
-    const now = new Date();
-    const dubaiNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Dubai' }));
+    const dubaiNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Dubai' }));
     const [year, month, day] = s.date.split('-').map(Number);
     const [h, m] = s.time.split(':').map(Number);
-    const sessionStart = new Date(year, month - 1, day, h, m, 0);
-    const sessionEnd = new Date(sessionStart.getTime() + 15 * 60 * 1000);
-    return dubaiNow >= sessionStart && dubaiNow < sessionEnd;
+    const start = new Date(year, month - 1, day, h, m, 0);
+    return dubaiNow >= start && dubaiNow < new Date(start.getTime() + 15 * 60 * 1000);
   }
 
   function isSessionPast(s) {
-    const now = new Date();
-    const dubaiNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Dubai' }));
+    const dubaiNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Dubai' }));
     const [year, month, day] = s.date.split('-').map(Number);
     const [h, m] = s.time.split(':').map(Number);
-    const sessionEnd = new Date(year, month - 1, day, h, m + 15, 0);
-    return dubaiNow >= sessionEnd;
+    return dubaiNow >= new Date(year, month - 1, day, h, m + 15, 0);
   }
 
   function openModal(date, time) {
@@ -1398,8 +978,7 @@
         document.getElementById('modal-day-select').value = dayIdx;
         updateModalSlots();
         document.getElementById('modal-time-select').value = time;
-        document.getElementById('modal-slot-label').textContent =
-          `${CORRECT_DAYS[dayIdx].label} at ${time} · any child can join`;
+        document.getElementById('modal-slot-label').textContent = `${CORRECT_DAYS[dayIdx].label} at ${time} · any child can join`;
       }
     } else {
       document.getElementById('modal-day-select').value = activeDayIndex;
@@ -1410,11 +989,9 @@
 
   function closeModal() {
     document.getElementById('modal').classList.remove('open');
-    document.getElementById('teacher-select').value = '';
-    document.getElementById('activity-input').value = '';
-    document.getElementById('zoom-input').value = '';
-    document.getElementById('modal-time-select').value = '';
-    document.getElementById('modal-day-select').value = '';
+    ['teacher-select','activity-input','zoom-input','modal-time-select','modal-day-select'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
     document.getElementById('modal-slot-label').textContent = '15 minutes. Any topic. Any child can join.';
     document.getElementById('submit-btn').textContent = 'Book slot';
     document.querySelector('#modal h2').textContent = 'Add your session';
@@ -1448,55 +1025,35 @@
     sel.innerHTML = '<option value="">Select time…</option>';
     ALL_SLOTS.forEach(slot => {
       const opt = document.createElement('option');
-      opt.value = slot;
-      opt.textContent = slot >= '16:00' ? slot + ' 🌍' : slot;
+      opt.value = slot; opt.textContent = slot >= '16:00' ? slot + ' 🌍' : slot;
       sel.appendChild(opt);
     });
   }
 
   async function submitSession() {
     const teacher = document.getElementById('teacher-select').value;
-    const dayIdx = document.getElementById('modal-day-select').value;
-    const time = document.getElementById('modal-time-select').value;
+    const dayIdx  = document.getElementById('modal-day-select').value;
+    const time    = document.getElementById('modal-time-select').value;
     const activity = document.getElementById('activity-input').value.trim();
     let zoom_link = document.getElementById('zoom-input').value.trim();
-    if (zoom_link && !zoom_link.startsWith('http://') && !zoom_link.startsWith('https://')) {
-      zoom_link = 'https://' + zoom_link;
-    }
-    if (!teacher || dayIdx === '' || !time || !zoom_link) {
-      showToast('Please fill in all required fields.', 'error');
-      return;
-    }
+    if (zoom_link && !zoom_link.startsWith('http://') && !zoom_link.startsWith('https://')) zoom_link = 'https://' + zoom_link;
+    if (!teacher || dayIdx === '' || !time || !zoom_link) { showToast('Please fill in all required fields.', 'error'); return; }
     const date = CORRECT_DAYS[dayIdx].date;
     const btn = document.getElementById('submit-btn');
-    btn.disabled = true;
-    btn.textContent = editingSessionId ? 'Saving…' : 'Booking…';
+    btn.disabled = true; btn.textContent = editingSessionId ? 'Saving…' : 'Booking…';
     try {
       if (editingSessionId) {
-        const res = await fetch(`${WORKER_URL}/session/${editingSessionId}`, {
-          method: 'PATCH',
-          headers: authHeaders(),
-          body: JSON.stringify({ date, time, teacher, activity, zoom_link }),
-        });
+        const res = await fetch(`${WORKER_URL}/session/${editingSessionId}`, { method: 'PATCH', headers: authHeaders(), body: JSON.stringify({ date, time, teacher, activity, zoom_link }) });
         if (!res.ok) throw new Error();
         showToast('Session updated!', 'success');
       } else {
-        const res = await fetch(`${WORKER_URL}/session`, {
-          method: 'POST',
-          headers: authHeaders(),
-          body: JSON.stringify({ date, time, teacher, activity, zoom_link }),
-        });
+        const res = await fetch(`${WORKER_URL}/session`, { method: 'POST', headers: authHeaders(), body: JSON.stringify({ date, time, teacher, activity, zoom_link }) });
         if (!res.ok) throw new Error();
         showToast('Session booked!', 'success');
       }
-      closeModal();
-      await loadSessions();
-    } catch {
-      showToast('Something went wrong. Try again.', 'error');
-    } finally {
-      btn.disabled = false;
-      btn.textContent = editingSessionId ? 'Save changes' : 'Book slot';
-    }
+      closeModal(); await loadSessions();
+    } catch { showToast('Something went wrong. Try again.', 'error'); }
+    finally { btn.disabled = false; btn.textContent = editingSessionId ? 'Save changes' : 'Book slot'; }
   }
 
   async function cancelSession(id) {
@@ -1504,17 +1061,13 @@
     try {
       const res = await fetch(`${WORKER_URL}/session/${id}`, { method: 'DELETE', headers: authHeaders() });
       if (!res.ok) throw new Error();
-      showToast('Session cancelled.', 'success');
-      await loadSessions();
-    } catch {
-      showToast('Could not cancel. Try again.', 'error');
-    }
+      showToast('Session cancelled.', 'success'); await loadSessions();
+    } catch { showToast('Could not cancel. Try again.', 'error'); }
   }
 
   function showToast(msg, type = '') {
     const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className = `toast ${type} show`;
+    t.textContent = msg; t.className = `toast ${type} show`;
     setTimeout(() => t.classList.remove('show'), 3000);
   }
 
@@ -1525,20 +1078,11 @@
     try {
       const res = await fetch(`${WORKER_URL}/love/${sessionId}`, { headers: { 'Authorization': `Bearer ${authToken}` } });
       const data = await res.json();
-      if (data.count === 0) {
-        if (btn) btn.textContent = '💛 No love yet';
-        return;
-      }
+      if (data.count === 0) { if (btn) btn.textContent = '💛 No love yet'; return; }
       if (btn) btn.textContent = `💛 ${data.count} hearts received`;
-      replayLove(data.count, event);
+      const bursts = Math.min(data.count, 30);
+      for (let i = 0; i < bursts; i++) setTimeout(() => spawnLoveParticle(event), i * 60);
     } catch { /* silent */ }
-  }
-
-  function replayLove(count, event) {
-    const bursts = Math.min(count, 30);
-    for (let i = 0; i < bursts; i++) {
-      setTimeout(() => spawnLoveParticle(event), i * 60);
-    }
   }
 
   function spawnLoveParticle(event) {
@@ -1547,18 +1091,13 @@
     el.textContent = LOVE_EMOJIS[Math.floor(Math.random() * LOVE_EMOJIS.length)];
     const x = (event.clientX || window.innerWidth / 2) + (Math.random() - 0.5) * 120;
     const y = (event.clientY || window.innerHeight / 2) + (Math.random() - 0.5) * 40;
-    el.style.left = `${x}px`;
-    el.style.top = `${y}px`;
+    el.style.left = `${x}px`; el.style.top = `${y}px`;
     document.body.appendChild(el);
     el.addEventListener('animationend', () => el.remove());
   }
 
-  document.getElementById('modal').addEventListener('click', function(e) {
-    if (e.target === this) closeModal();
-  });
-  document.getElementById('changelog').addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('open');
-  });
+  document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+  document.getElementById('changelog').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('open'); });
 </script>
 </body>
 </html>
