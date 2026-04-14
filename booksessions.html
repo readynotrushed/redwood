@@ -13,12 +13,13 @@
     --muted: #6b6055;
     --border: #e8e2d8;
     --red: rgb(121, 21, 22);
-    --red-light: rgba(121, 21, 22, 0.07);
+    --red-bg: rgba(121, 21, 22, 0.06);
     --green: #4a7c59;
     --green-bg: #e8f4ed;
     --peach: #c4623a;
+    --peach-bg: #fef0ea;
     --shadow: rgba(26,26,46,0.07);
-    /* legacy aliases for existing JS-generated HTML */
+    /* legacy aliases for JS-generated HTML */
     --cream: #f0ebe1;
     --bark: #1a1a2e;
     --bark-light: #6b6055;
@@ -26,8 +27,7 @@
     --leaf-light: rgba(121, 21, 22, 0.07);
     --sun: #c47a10;
     --sun-light: #fef3e0;
-    --red-err: #c0392b;
-    --red-light-err: #fdecea;
+    --red-light: rgba(121, 21, 22, 0.07);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -53,6 +53,7 @@
     width: 100%;
     box-shadow: 0 4px 32px var(--shadow);
     text-align: center;
+    animation: fadeUp 0.4s ease both;
   }
   .login-card .tree { font-size: 3rem; margin-bottom: 1rem; }
   .login-card h1 {
@@ -83,7 +84,7 @@
     background: var(--red);
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 20px;
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 1rem;
     font-weight: 600;
@@ -93,7 +94,7 @@
   .login-card button:hover { opacity: 0.88; }
   .login-error { color: var(--peach); font-size: 0.85rem; margin-top: 0.75rem; display: none; }
 
-  /* MAIN APP */
+  /* HEADER */
   #app { display: none; }
   header {
     background: var(--card);
@@ -105,45 +106,32 @@
     position: sticky;
     top: 0;
     z-index: 100;
+    gap: 1rem;
   }
-  .header-left { display: flex; align-items: center; gap: 0.75rem; }
+  .header-left { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
   .header-left span { font-size: 1.5rem; }
-  .header-left h1 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    color: var(--navy);
-  }
+  .header-left h1 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; color: var(--navy); }
   .header-left small { font-size: 0.72rem; color: var(--muted); display: block; margin-top: 1px; }
+  .header-actions { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; justify-content: flex-end; }
+
   .add-btn {
     background: var(--red);
     color: white;
     border: none;
     border-radius: 20px;
-    padding: 0.5rem 1.1rem;
+    padding: 0.55rem 1.2rem;
     font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.82rem;
+    font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
     transition: opacity 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
   }
   .add-btn:hover { opacity: 0.88; }
-  .header-actions { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
-  .tz-wrapper { display: flex; align-items: center; gap: 0.4rem; }
-  .tz-label { font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
-  .tz-select {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.8rem;
-    color: var(--navy);
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    padding: 0.35rem 0.6rem;
-    background: var(--bg);
-    cursor: pointer;
-    outline: none;
-    max-width: 160px;
-  }
-  .tz-select:focus { border-color: var(--red); }
+
   .wa-btn {
     display: inline-flex;
     align-items: center;
@@ -161,80 +149,260 @@
     white-space: nowrap;
   }
   .wa-btn:hover { border-color: #25D366; color: #25D366; background: #f0fdf4; }
-  @media (max-width: 500px) { .wa-btn span { display: none; } }
 
-  /* DAY TABS */
-  .day-tabs {
-    display: flex;
+  /* HERO */
+  .hero {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 3.5rem 2rem 3rem;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 1.1rem;
+  }
+  .hero h2 {
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    color: var(--navy);
+    max-width: 640px;
+    margin: 0 auto 1.2rem;
+  }
+  .hero h2 .accent { color: var(--peach); }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 460px;
+    margin: 0 auto 2rem;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
     gap: 0.5rem;
+    background: var(--red);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0.75rem 1.6rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .hero-cta:hover { opacity: 0.88; }
+
+  /* APP BODY */
+  .app-body {
+    padding: 2.5rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* CALENDAR DAY SELECTOR */
+  .section-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.9rem;
+  }
+
+  .day-pill-track {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 28px;
+    padding: 5px;
+    display: inline-flex;
+    gap: 2px;
     margin-bottom: 2rem;
     overflow-x: auto;
-    padding-top: 8px;
-    padding-bottom: 0.25rem;
+    max-width: 100%;
   }
-  .day-tab {
-    position: relative;
-    padding: 0.5rem 1.2rem;
-    border-radius: 20px;
-    border: 1.5px solid var(--border);
-    background: white;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 500;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s;
-    color: var(--bark-light);
-  }
-  .day-tab.active {
-    background: var(--leaf);
-    color: white;
-    border-color: var(--leaf);
-  }
-  .day-tab:hover:not(.active) { border-color: var(--bark-light); color: var(--bark);
-  }
-  .tab-badge {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  background: #e74c3c;
-  color: white;
-  font-size: 0.6rem;
-  font-weight: 400;
-  min-width: 16px;
-  height: 16px;
-  border-radius: 20px;
-  padding: 0 4px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-.day-tab.active .tab-badge {
-  background: white;
-  color: var(--leaf);
-}
 
-  /* SCHEDULE GRID */
+  .day-pill {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    border-radius: 22px;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease;
+    white-space: nowrap;
+    min-width: 72px;
+    border: none;
+    background: none;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--muted);
+    gap: 1px;
+  }
+  .day-pill:hover:not(.active) {
+    background: var(--bg);
+    color: var(--navy);
+  }
+  .day-pill.active {
+    background: var(--navy);
+    color: white;
+  }
+  .day-pill-dow {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.7;
+  }
+  .day-pill.active .day-pill-dow { opacity: 0.6; }
+  .day-pill-num {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .day-pill-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: var(--red);
+    color: white;
+    font-size: 0.58rem;
+    font-weight: 700;
+    min-width: 15px;
+    height: 15px;
+    border-radius: 20px;
+    padding: 0 3px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .day-pill.active .day-pill-badge {
+    background: white;
+    color: var(--navy);
+  }
+
+  /* CONTROLS BAR */
+  .controls-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.75rem;
+    padding: 1rem 1.25rem;
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+  }
+  .control-group {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .control-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .control-select {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--navy);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 0.35rem 0.6rem;
+    background: var(--bg);
+    cursor: pointer;
+    outline: none;
+    max-width: 180px;
+    transition: border-color 0.2s;
+  }
+  .control-select:focus { border-color: var(--red); }
+  .control-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+  .archive-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: none;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 0.35rem 0.75rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .archive-toggle-btn:hover { border-color: var(--navy); color: var(--navy); }
+  .archive-toggle-btn.open { background: var(--navy); color: white; border-color: var(--navy); }
+
+  /* ARCHIVE */
+  #archive-section { display: none; }
+  #archive-list { margin-bottom: 1.5rem; display: none; }
+  .archive-day { margin-bottom: 1rem; }
+  .archive-day-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--bark-light);
+    margin-bottom: 0.4rem;
+  }
+  .archive-card {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 0.6rem 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.35rem;
+    opacity: 0.75;
+  }
+  .archive-card-info { display: flex; gap: 0.75rem; align-items: center; flex: 1; flex-wrap: wrap; }
+  .archive-time { font-size: 0.78rem; font-weight: 600; color: var(--bark-light); }
+  .archive-teacher { font-size: 0.82rem; font-weight: 500; color: var(--bark); }
+  .archive-activity { font-size: 0.78rem; color: var(--bark-light); }
+
+  /* SCHEDULE */
   .schedule { display: flex; flex-direction: column; gap: 0.5rem; }
   .slot-row {
     display: grid;
-    grid-template-columns: 80px 1fr;
+    grid-template-columns: 72px 1fr;
     gap: 0.75rem;
     align-items: start;
   }
   .slot-time {
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--bark-light);
-    padding-top: 0.6rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--muted);
+    padding-top: 0.7rem;
     text-align: right;
+    letter-spacing: -0.01em;
   }
   .slot-sessions { display: flex; flex-direction: column; gap: 0.4rem; }
+
+  /* SESSION CARDS */
   .session-card {
     background: white;
     border: 1.5px solid var(--border);
-    border-radius: 12px;
-    padding: 0.75rem 1rem;
+    border-radius: 16px;
+    padding: 0.85rem 1.1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -242,16 +410,16 @@
     transition: box-shadow 0.2s;
     flex-wrap: wrap;
   }
-  .session-card:hover { box-shadow: 0 2px 12px var(--shadow); }
-  .session-card.is-live { border-color: #e74c3c; box-shadow: 0 0 0 3px rgba(231,76,60,0.08); }
+  .session-card:hover { box-shadow: 0 4px 20px rgba(26,26,46,0.08); }
+  .session-card.is-live { border-color: var(--red); box-shadow: 0 0 0 3px rgba(121,21,22,0.08); }
   .session-card.is-past { opacity: 0.5; filter: grayscale(0.4); }
   .live-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
-    background: #e74c3c;
+    background: var(--red);
     color: white;
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     padding: 0.15rem 0.5rem;
@@ -270,298 +438,32 @@
     50% { opacity: 0.4; transform: scale(0.7); }
   }
   .session-info { flex: 1; }
-  .session-teacher { font-weight: 500; font-size: 0.9rem; color: var(--bark); }
-  .session-activity { font-size: 0.8rem; color: var(--bark-light); margin-top: 0.1rem; }
+  .session-teacher { font-weight: 600; font-size: 0.92rem; color: var(--navy); }
+  .session-activity { font-size: 0.8rem; color: var(--muted); margin-top: 0.15rem; }
   .session-zoom {
-    font-size: 0.75rem;
-    color: var(--leaf);
+    font-size: 0.78rem;
+    color: var(--red);
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
+    white-space: nowrap;
   }
   .session-zoom:hover { text-decoration: underline; }
   .card-actions { display: flex; gap: 0.4rem; }
   .cancel-btn, .edit-btn {
     background: none;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.3rem 0.6rem;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 0.3rem 0.65rem;
     font-size: 0.75rem;
     cursor: pointer;
     transition: all 0.2s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     white-space: nowrap;
   }
   .cancel-btn { color: var(--red); }
-  .cancel-btn:hover { background: var(--red-light); border-color: var(--red); }
-  .edit-btn { color: var(--bark-light); }
+  .cancel-btn:hover { background: var(--red-bg); border-color: var(--red); }
+  .edit-btn { color: var(--muted); }
   .edit-btn:hover { background: var(--sun-light); border-color: var(--sun); color: var(--sun); }
-  .empty-slot {
-  border: 1.5px dashed var(--border);
-  border-radius: 12px;
-  padding: 0.6rem 1rem;
-  font-size: 0.8rem;
-  color: var(--border);
-  cursor: pointer;
-  transition: all 0.2s;
-  text-align: center;
-}
-.empty-slot:hover {
-  border-color: var(--leaf);
-  color: var(--leaf);
-  background: var(--leaf-light);
-}
-  /* MODAL */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(61,43,31,0.4);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 200;
-    padding: 1rem;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal {
-    background: white;
-    border-radius: 20px;
-    padding: 2rem;
-    width: 100%;
-    max-width: 420px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-  }
-  .modal h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.4rem;
-    margin-bottom: 0.25rem;
-  }
-  .modal .slot-label {
-    font-size: 0.85rem;
-    color: var(--bark-light);
-    margin-bottom: 1.5rem;
-  }
-  .form-group { margin-bottom: 1rem; }
-  .form-group label {
-    display: block;
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--bark-light);
-    margin-bottom: 0.4rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .form-group select,
-  .form-group input {
-    width: 100%;
-    padding: 0.8rem 1rem;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    color: var(--bark);
-    background: var(--cream);
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .form-group select:focus,
-  .form-group input:focus { border-color: var(--leaf); }
-  .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
-  .btn-primary {
-    flex: 1;
-    padding: 0.85rem;
-    background: var(--leaf);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .btn-primary:hover { background: #5a0f10; }
-  .btn-primary:disabled { background: var(--border); cursor: not-allowed; }
-  .btn-secondary {
-    padding: 0.85rem 1.5rem;
-    background: none;
-    color: var(--bark-light);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .btn-secondary:hover { border-color: var(--bark-light); color: var(--bark); }
-
-  .filter-bar {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1.25rem;
-  }
-  .toast {
-    position: fixed;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: var(--bark);
-    color: white;
-    padding: 0.8rem 1.5rem;
-    border-radius: 10px;
-    font-size: 0.9rem;
-    transition: transform 0.3s;
-    z-index: 300;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast.success { background: var(--leaf); }
-  .toast.error { background: var(--red); }
-
-  .app-body {
-    padding: 2rem;
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
-@media (max-width: 600px) {
-  header {
-    flex-wrap: wrap;
-    gap: 0.6rem;
-    padding: 0.8rem 1rem;
-  }
-  .header-left { flex: 1 1 100%; }
-  .header-actions {
-    flex: 1 1 100%;
-    justify-content: flex-start;
-  }
-  .tz-select { max-width: 140px; }
-  .wa-btn span { display: inline; }
-  .app-body { padding: 1rem; }
-  .slot-row { grid-template-columns: 60px 1fr; }
-}
-
-  /* WHAT'S NEW */
-  .whats-new-btn {
-    background: none;
-    border: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.75rem;
-    color: var(--bark-light);
-    cursor: pointer;
-    text-decoration: underline;
-    padding: 0;
-  }
-  .whats-new-btn:hover { color: var(--leaf); }
-  .changelog-entry { margin-bottom: 1.25rem; }
-  .changelog-version {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--leaf);
-    margin-bottom: 0.15rem;
-  }
-  .changelog-date {
-    font-size: 0.72rem;
-    color: var(--bark-light);
-    margin-bottom: 0.4rem;
-  }
-  .changelog-entry ul {
-    padding-left: 1.1rem;
-    font-size: 0.82rem;
-    color: var(--bark);
-    line-height: 1.6;
-  }
-  .changelog-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(61,43,31,0.4);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 300;
-    padding: 1rem;
-  }
-  .changelog-overlay.open { display: flex; }
-  .changelog-modal {
-  background: white;
-  border-radius: 20px;
-  width: 100%;
-  max-width: 420px;
-  max-height: 80vh;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-.changelog-modal h2 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.4rem;
-  color: var(--bark);
-  padding: 2rem 2rem 1rem;
-  flex-shrink: 0;
-}
-.changelog-body {
-  overflow-y: auto;
-  padding: 0 2rem;
-  flex: 1;
-}
-.changelog-footer {
-  padding: 1rem 2rem 1.5rem;
-  flex-shrink: 0;
-}
-.changelog-close {
-  width: 100%;
-  padding: 0.75rem;
-  background: var(--leaf);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-}
-.changelog-close:hover { background: #5a0f10; }
-  
-  /* ARCHIVE */
-  #archive-section { margin-bottom: 1.5rem; }
-  #archive-toggle {
-    background: none;
-    border: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.8rem;
-    color: var(--bark-light);
-    cursor: pointer;
-    padding: 0.3rem 0;
-    text-decoration: underline;
-  }
-  #archive-toggle:hover { color: var(--bark); }
-  #archive-list { margin-top: 0.75rem; }
-  .archive-day { margin-bottom: 1rem; }
-  .archive-day-label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--bark-light);
-    margin-bottom: 0.4rem;
-  }
-  .archive-card {
-    background: white;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 0.6rem 0.9rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 0.35rem;
-    opacity: 0.75;
-  }
-  .archive-card-info { display: flex; gap: 0.75rem; align-items: center; flex: 1; flex-wrap: wrap; }
-  .archive-time { font-size: 0.78rem; font-weight: 600; color: var(--bark-light); }
-  .archive-teacher { font-size: 0.82rem; font-weight: 500; color: var(--bark); }
-  .archive-activity { font-size: 0.78rem; color: var(--bark-light); }
 
   /* LOVE */
   .love-replay-btn {
@@ -571,14 +473,253 @@
     padding: 0.3rem 0.8rem;
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--bark-light);
+    color: var(--muted);
     cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     transition: all 0.15s;
-    margin-top: 0.3rem;
+    margin-top: 0.35rem;
     display: inline-block;
   }
-  .love-replay-btn:hover { border-color: #e74c3c; color: #e74c3c; }
+  .love-replay-btn:hover { border-color: var(--red); color: var(--red); }
+
+  /* EMPTY SLOT */
+  .empty-slot {
+    border: 2px dashed var(--border);
+    border-radius: 16px;
+    padding: 0.85rem 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--muted);
+  }
+  .empty-slot:hover {
+    border-color: var(--red);
+    background: var(--red-bg);
+    color: var(--red);
+  }
+  .empty-slot-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    transition: background 0.2s;
+    font-weight: 300;
+  }
+  .empty-slot:hover .empty-slot-icon { background: rgba(121,21,22,0.1); }
+  .empty-slot-text { font-size: 0.82rem; font-weight: 600; }
+  .empty-slot-sub { font-size: 0.72rem; font-weight: 400; opacity: 0.7; }
+
+  /* TIME RANGE LABEL */
+  .time-range-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.5rem 0 0.5rem 80px;
+    margin-bottom: 0.25rem;
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26,26,46,0.4);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 1rem;
+    backdrop-filter: blur(2px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: white;
+    border-radius: 24px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 24px 64px rgba(26,26,46,0.18);
+  }
+  .modal-eyebrow {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.4rem;
+  }
+  .modal h2 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+    margin-bottom: 0.3rem;
+  }
+  .modal .slot-label {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+  .form-group { margin-bottom: 1rem; }
+  .form-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .form-group select,
+  .form-group input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--navy);
+    background: var(--bg);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group select:focus,
+  .form-group input:focus { border-color: var(--red); background: white; }
+  .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+  .btn-primary {
+    flex: 1;
+    padding: 0.85rem;
+    background: var(--red);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-secondary {
+    padding: 0.85rem 1.5rem;
+    background: none;
+    color: var(--muted);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--navy); color: var(--navy); }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 5rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--navy);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: transform 0.3s;
+    z-index: 300;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.success { background: var(--green); }
+  .toast.error { background: var(--red); }
+
+  /* CHANGELOG */
+  .changelog-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26,26,46,0.4);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+    padding: 1rem;
+    backdrop-filter: blur(2px);
+  }
+  .changelog-overlay.open { display: flex; }
+  .changelog-modal {
+    background: white;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 420px;
+    max-height: 80vh;
+    box-shadow: 0 24px 64px rgba(26,26,46,0.18);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .changelog-modal-header {
+    padding: 1.75rem 2rem 1rem;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .changelog-modal-header .eyebrow {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.3rem;
+  }
+  .changelog-modal-header h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+  }
+  .changelog-body { overflow-y: auto; padding: 1.5rem 2rem; flex: 1; }
+  .changelog-footer { padding: 1rem 2rem 1.5rem; flex-shrink: 0; border-top: 1px solid var(--border); }
+  .changelog-close {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .changelog-close:hover { opacity: 0.85; }
+  .changelog-entry { margin-bottom: 1.5rem; }
+  .changelog-version {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--red);
+    margin-bottom: 0.15rem;
+  }
+  .changelog-date { font-size: 0.72rem; color: var(--muted); margin-bottom: 0.5rem; }
+  .changelog-entry ul {
+    padding-left: 1.1rem;
+    font-size: 0.82rem;
+    color: var(--navy);
+    line-height: 1.65;
+  }
+
+  /* LOVE PARTICLES */
   .love-particle {
     position: fixed;
     pointer-events: none;
@@ -590,6 +731,88 @@
     0%   { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
     100% { opacity: 0; transform: translateY(-260px) scale(1.5) rotate(25deg); }
   }
+
+  /* FOOTER */
+  .rw-footer {
+    border-top: 1px solid var(--border);
+    background: var(--card);
+    padding: 1.25rem 2rem;
+    position: sticky;
+    bottom: 0;
+    z-index: 50;
+  }
+  .rw-footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .rw-footer-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .rw-footer-copy { font-size: 0.82rem; color: var(--muted); }
+  .rw-footer-copy strong { color: var(--navy); font-weight: 600; }
+  .whats-new-btn {
+    background: none;
+    border: none;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.78rem;
+    color: var(--muted);
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+    white-space: nowrap;
+  }
+  .whats-new-btn:hover { color: var(--navy); }
+  .rw-footer-right { display: flex; gap: 0.75rem; align-items: center; }
+  .rw-footer-link {
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .rw-footer-link:hover { color: var(--navy); }
+  .rw-footer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .rw-footer-btn:hover { opacity: 0.85; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    header { flex-wrap: wrap; gap: 0.6rem; padding: 0.8rem 1rem; }
+    .header-left { flex: 1 1 100%; }
+    .header-actions { flex: 1 1 100%; justify-content: flex-start; }
+    .app-body { padding: 1.5rem 1rem; }
+    .hero { padding: 2.5rem 1rem 2rem; }
+    .slot-row { grid-template-columns: 56px 1fr; }
+    .controls-bar { gap: 0.5rem; }
+    .day-pill { min-width: 60px; padding: 0.5rem 0.75rem; }
+    .rw-footer { padding: 1rem; }
+    .rw-footer-inner { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  }
 </style>
 </head>
 <body>
@@ -598,9 +821,8 @@
 <div id="login-screen">
   <div class="login-card">
     <div class="tree">🌳</div>
-    <h1>Redwood 15 mins sessions</h1>
-    <p>Teacher booking portal</p>
-<p style="font-size:0.82rem;color:var(--bark-light);margin-top:-1rem;margin-bottom:2rem;line-height:1.5;">Book a slot, share your Zoom link, and you're done. Any Redwood child can join any session.</p>
+    <h1>Redwood Sessions</h1>
+    <p>Book a slot and connect with your kids</p>
     <input type="password" id="password-input" placeholder="Enter password" />
     <button id="login-btn">Enter</button>
     <div class="login-error" id="login-error">Incorrect password. Try again.</div>
@@ -614,13 +836,53 @@
       <span>🌳</span>
       <div>
         <h1>Redwood Sessions</h1>
-        <small>Teacher Schedule</small>
+        <small>Teacher booking</small>
       </div>
     </div>
     <div class="header-actions">
-      <div class="tz-wrapper">
-        <span class="tz-label">🕐 Time zone:</span>
-        <select class="tz-select" id="tz-select" onchange="onTzChange()">
+      <a class="wa-btn" href="https://wa.me/447463978471?text=Hi%20Luna%2C%20this%20is%20%5Bname%5D%20I%27m%20having%20an%20issue%20with%20the%20Redwood%20sessions%20page%3A%20" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Need human support?
+      </a>
+      <button class="add-btn" onclick="openModal()">＋ Add session</button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Redwood Sessions · Jumeirah Park</div>
+    <h2>Every child is welcome<br>at <span class="accent">every session.</span></h2>
+    <p class="hero-sub">Pick a slot that works for you. 15 minutes, any topic — songs, a story, phonics, free play. Your session goes live the moment you save it.</p>
+    <button class="hero-cta" onclick="openModal()">＋ Add your session</button>
+  </div>
+
+  <div class="app-body">
+
+    <!-- DAY PICKER -->
+    <div class="section-label">Select a day</div>
+    <div class="day-pill-track" id="day-tabs"></div>
+
+    <!-- CONTROLS BAR -->
+    <div class="controls-bar">
+      <div id="archive-section">
+        <button class="archive-toggle-btn" id="archive-toggle">📁 Past sessions</button>
+      </div>
+      <div class="control-divider"></div>
+      <div class="control-group">
+        <span class="control-label">Filter by teacher</span>
+        <select class="control-select" id="teacher-filter" onchange="onFilterChange()">
+          <option value="">All teachers</option>
+          <option>Ms Ghita</option>
+          <option>Ms Nour</option>
+          <option>Ms Emy</option>
+          <option>Ms Ashley</option>
+          <option>Ms Divya</option>
+        </select>
+      </div>
+      <div class="control-divider"></div>
+      <div class="control-group">
+        <span class="control-label">🕐 Time zone</span>
+        <select class="control-select" id="tz-select" onchange="onTzChange()">
           <option value="4">Dubai (GMT+4)</option>
           <option value="0">London (GMT+0)</option>
           <option value="1">Paris / Rome (GMT+1)</option>
@@ -635,37 +897,14 @@
           <option value="-8">Los Angeles (GMT-8)</option>
         </select>
       </div>
-      <a class="wa-btn" href="https://wa.me/447463978471?text=Hi%20Luna%2C%20this%20is%20%5Bname%5D%20I%27m%20having%20an%20issue%20with%20the%20Redwood%20sessions%20page%3A%20" target="_blank">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        <span>Need support?</span>
-      </a>
-      <button class="add-btn" onclick="openModal()">+ Add session</button>
-      <button class="whats-new-btn" onclick="document.getElementById('changelog').classList.add('open')">What's new</button>
     </div>
-  </header>
 
-  <div class="app-body">
-    <div class="schedule-col">
-      <p style="font-size:0.82rem;color:var(--bark-light);margin-bottom:1rem;line-height:1.5;">Every Redwood child is welcome at every session. Pick a slot that works for you.</p>
-<div class="day-tabs" id="day-tabs"></div>
-      <div id="archive-section" style="display:none;">
-        <button id="archive-toggle">📁 Past sessions</button>
-        <div id="archive-list"></div>
-      </div>
-      <div class="filter-bar">
-        <label style="font-size:0.78rem;color:var(--bark-light);white-space:nowrap;">Filter by teacher:</label>
-        <select class="tz-select" id="teacher-filter" onchange="onFilterChange()" style="max-width:200px;">
-          <option value="">All teachers</option>
-          <option>Ms Ghita</option>
-          <option>Ms Nour</option>
-          <option>Ms Emy</option>
-          <option>Ms Ashley</option>
-          <option>Ms Divya</option>
-        </select>
-      </div>
-      <div class="schedule" id="schedule">
-        <div class="loading">Loading sessions…</div>
-      </div>
+    <!-- ARCHIVE LIST -->
+    <div id="archive-list"></div>
+
+    <!-- SCHEDULE -->
+    <div class="schedule" id="schedule">
+      <div style="font-size:0.9rem;color:var(--muted);padding:1rem 0;">Loading sessions…</div>
     </div>
   </div>
 </div>
@@ -673,9 +912,9 @@
 <!-- BOOKING MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
-    <h2>Book a session</h2>
-    <p style="font-size:0.82rem;color:var(--bark-light);margin-bottom:1.25rem;line-height:1.5;">15 minutes, any topic. Songs, a story, some phonics, free play. Whatever feels right. Your session goes live on the parent schedule the moment you save it.</p>
-<div class="slot-label" id="modal-slot-label">Choose a slot below</div>
+    <div class="modal-eyebrow">Book a slot</div>
+    <h2>Add your session</h2>
+    <div class="slot-label" id="modal-slot-label">15 minutes. Any topic. Any child can join.</div>
     <div class="form-group">
       <label>Your name</label>
       <select id="teacher-select" onchange="selectedTeacher = this.value">
@@ -706,10 +945,10 @@
       <select id="modal-time-select">
         <option value="">Select time…</option>
       </select>
-      <div style="font-size:0.75rem;color:var(--bark-light);margin-top:0.4rem;">🕐 All times are Dubai time (GMT+4)</div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:0.4rem;">All times are Dubai time (GMT+4)</div>
     </div>
     <div class="form-group">
-      <label>Activity <span style="font-weight:300;text-transform:none">(e.g. Songs, Story, Phonics)</span></label>
+      <label>Activity <span style="font-weight:400;text-transform:none;letter-spacing:0;">(e.g. Songs, Story, Phonics)</span></label>
       <input type="text" id="activity-input" placeholder="What are you planning?" maxlength="60" />
     </div>
     <div class="form-group">
@@ -723,75 +962,86 @@
   </div>
 </div>
 
+<!-- CHANGELOG MODAL -->
 <div class="changelog-overlay" id="changelog">
   <div class="changelog-modal">
-    <h2>What's new 🎉</h2>
-      <div class="changelog-body">
-        <div class="changelog-entry">
-          <div class="changelog-version">v1.3 | improvements + bug fixes</div>
-          <div class="changelog-date">31 Mar 2026</div>
-            <ul>
-              <li>Past sessions are now stored in visible archive</li>
-              <li>Allowed extra days according to new MOE announcement</li>
-              <li>added SEE LOVE functionality, kids scan send emojis to teachers, teachers can see shower of emojis</li>
-              <li>Debugging</li>
-            </ul>
-          </div>
-          <div class="changelog-entry">
-            <div class="changelog-version">v1.3 | tweaks</div>
-            <div class="changelog-date">31 Mar 2026</div>
-              <ul>
-                <li>Schedule opens on today's date automatically</li>
-                <li>Scrolls to the current time slot on load</li>
-                <li>Session count badges on day tabs</li>
-                <li>What's new popup added</li>
-              </ul>
-          </div>
-          <div class="changelog-entry">
-            <div class="changelog-version">v1.2 | improvements</div>
-              <div class="changelog-date">30 Mar 2026</div>
-              <ul>
-                <li>LIVE badge on sessions happening now</li>
-                <li>Past sessions shown but greyed out, no actions</li>
-                <li>Start Zoom button replaces Join Zoom</li>
-                <li>Zoom links without https:// are fixed automatically</li>
-                <li>Filter resets after booking a session</li>
-              </ul>
-          </div>
-          <div class="changelog-entry">
-            <div class="changelog-version">v1.1 | improvements</div>
-            <div class="changelog-date">29 Mar 2026</div>
-              <ul>
-                <li>Book, edit and cancel sessions</li>
-                <li>WhatsApp support button</li>
-                <li>🌍 on slots from 16:00 for international teachers</li>
-                <li>Timezone selector</li>
-                <li>Filter by teacher</li>
-              </ul>
-          </div>
-          <div class="changelog-entry">
-            <div class="changelog-version">v1.0.1 | fixes</div>
-            <div class="changelog-date">28 Mar 2026</div>
-              <ul>
-                <li>debug</li>
-              </ul>
-          </div>
-          <div class="changelog-entry">
-            <div class="changelog-version">v1.0 | Launch</div>
-            <div class="changelog-date">28 Mar 2026</div>
-              <ul>
-                <li>Teacher booking portal with daily schedule view</li>
-                <li>Password-protected access</li>
-              </ul>
-          </div>
-       </div>
+    <div class="changelog-modal-header">
+      <div class="eyebrow">Platform updates</div>
+      <h2>What's new 🎉</h2>
+    </div>
+    <div class="changelog-body">
+      <div class="changelog-entry">
+        <div class="changelog-version">v1.3 | improvements + bug fixes</div>
+        <div class="changelog-date">31 Mar 2026</div>
+        <ul>
+          <li>Past sessions are now stored in visible archive</li>
+          <li>Allowed extra days according to new MOE announcement</li>
+          <li>Added SEE LOVE functionality — kids can send emojis to teachers</li>
+          <li>Debugging</li>
+        </ul>
+      </div>
+      <div class="changelog-entry">
+        <div class="changelog-version">v1.3 | tweaks</div>
+        <div class="changelog-date">31 Mar 2026</div>
+        <ul>
+          <li>Schedule opens on today's date automatically</li>
+          <li>Scrolls to the current time slot on load</li>
+          <li>Session count badges on day tabs</li>
+          <li>What's new popup added</li>
+        </ul>
+      </div>
+      <div class="changelog-entry">
+        <div class="changelog-version">v1.2 | improvements</div>
+        <div class="changelog-date">30 Mar 2026</div>
+        <ul>
+          <li>LIVE badge on sessions happening now</li>
+          <li>Past sessions shown but greyed out, no actions</li>
+          <li>Start Zoom button replaces Join Zoom</li>
+          <li>Zoom links without https:// are fixed automatically</li>
+          <li>Filter resets after booking a session</li>
+        </ul>
+      </div>
+      <div class="changelog-entry">
+        <div class="changelog-version">v1.1 | improvements</div>
+        <div class="changelog-date">29 Mar 2026</div>
+        <ul>
+          <li>Book, edit and cancel sessions</li>
+          <li>WhatsApp support button</li>
+          <li>🌍 on slots from 16:00 for international teachers</li>
+          <li>Timezone selector</li>
+          <li>Filter by teacher</li>
+        </ul>
+      </div>
+      <div class="changelog-entry">
+        <div class="changelog-version">v1.0 | Launch</div>
+        <div class="changelog-date">28 Mar 2026</div>
+        <ul>
+          <li>Teacher booking portal with daily schedule view</li>
+          <li>Password-protected access</li>
+        </ul>
+      </div>
+    </div>
     <div class="changelog-footer">
       <button class="changelog-close" onclick="document.getElementById('changelog').classList.remove('open')">Close</button>
     </div>
   </div>
-
+</div>
 
 <div class="toast" id="toast"></div>
+
+<!-- FOOTER -->
+<div class="rw-footer">
+  <div class="rw-footer-inner">
+    <div class="rw-footer-left">
+      <div class="rw-footer-copy"><strong>Built by Eshanka and Luna.</strong> If something's not working, ask Maria.</div>
+      <button class="whats-new-btn" onclick="document.getElementById('changelog').classList.add('open')">What's new</button>
+    </div>
+    <div class="rw-footer-right">
+      <a href="teachers.html" class="rw-footer-link">← Teachers hub</a>
+      <a href="guide.html" class="rw-footer-btn">👵 Ask Maria</a>
+    </div>
+  </div>
+</div>
 
 <script>
   const WORKER_URL = 'https://redwood-api.lunamargherita.com';
@@ -817,26 +1067,24 @@
     renderSchedule();
   }
 
-  // --- DATES & SLOTS ---
   const CORRECT_DAYS = [
-  { label: 'Mon 30 Mar', date: '2026-03-30' },
-  { label: 'Tue 31 Mar', date: '2026-03-31' },
-  { label: 'Wed 1 Apr', date: '2026-04-01' },
-  { label: 'Thu 2 Apr', date: '2026-04-02' },
-  { label: 'Fri 3 Apr', date: '2026-04-03' },
-  { label: 'Mon 6 Apr', date: '2026-04-06' },
-  { label: 'Tue 7 Apr', date: '2026-04-07' },
-  { label: 'Wed 8 Apr', date: '2026-04-08' },
-  { label: 'Thu 9 Apr', date: '2026-04-09' },
-  { label: 'Fri 10 Apr', date: '2026-04-10' },
-  { label: 'Mon 13 Apr', date: '2026-04-13' },
-  { label: 'Tue 14 Apr', date: '2026-04-14' },
-  { label: 'Wed 15 Apr', date: '2026-04-15' },
-  { label: 'Thu 16 Apr', date: '2026-04-16' },
-  { label: 'Fri 17 Apr', date: '2026-04-17' },
-];
+    { label: 'Mon 30 Mar', date: '2026-03-30' },
+    { label: 'Tue 31 Mar', date: '2026-03-31' },
+    { label: 'Wed 1 Apr',  date: '2026-04-01' },
+    { label: 'Thu 2 Apr',  date: '2026-04-02' },
+    { label: 'Fri 3 Apr',  date: '2026-04-03' },
+    { label: 'Mon 6 Apr',  date: '2026-04-06' },
+    { label: 'Tue 7 Apr',  date: '2026-04-07' },
+    { label: 'Wed 8 Apr',  date: '2026-04-08' },
+    { label: 'Thu 9 Apr',  date: '2026-04-09' },
+    { label: 'Fri 10 Apr', date: '2026-04-10' },
+    { label: 'Mon 13 Apr', date: '2026-04-13' },
+    { label: 'Tue 14 Apr', date: '2026-04-14' },
+    { label: 'Wed 15 Apr', date: '2026-04-15' },
+    { label: 'Thu 16 Apr', date: '2026-04-16' },
+    { label: 'Fri 17 Apr', date: '2026-04-17' },
+  ];
 
-  // Sessions run 12:00–14:45 Dubai time (last slot ends at 15:00)
   const ALL_SLOTS = [];
   for (let h = 12; h <= 14; h++) {
     for (let m = 0; m < 60; m += 15) {
@@ -847,7 +1095,6 @@
   const MORNING_SLOTS = [];
   const AFTERNOON_SLOTS = ALL_SLOTS;
 
-  // --- STATE ---
   let sessions = [];
   let activeDayIndex = 0;
   let editingSessionId = null;
@@ -866,11 +1113,9 @@
 
   function getPastDays() {
     const todayIdx = getTodayIndex();
-    return CORRECT_DAYS.slice(0, todayIdx).reverse(); // most recent first
+    return CORRECT_DAYS.slice(0, todayIdx).reverse();
   }
 
-  // --- AUTH ---
-  // Check hub sessionStorage first, fall back to own token
   let authToken = sessionStorage.getItem('rw_token') || sessionStorage.getItem('redwood-teacher-token') || null;
 
   async function checkPassword() {
@@ -923,7 +1168,6 @@
     document.getElementById('password-input').focus();
   }
 
-  // --- INIT ---
   function init() {
     buildDayTabs();
     buildModalDayOptions();
@@ -936,42 +1180,45 @@
     const visible = getVisibleDays();
     visible.forEach((day) => {
       const globalIdx = CORRECT_DAYS.indexOf(day);
+      const parts = day.label.split(' ');
+      const dow = parts[0];
+      const num = parts[1];
       const btn = document.createElement('button');
-      btn.className = 'day-tab' + (globalIdx === activeDayIndex ? ' active' : '');
-      btn.innerHTML = `${day.label} <span class="tab-badge" id="badge-${globalIdx}"></span>`;
-      btn.onclick = () => { activeDayIndex = globalIdx; setActiveTab(globalIdx); renderSchedule(); };
+      btn.className = 'day-pill' + (globalIdx === activeDayIndex ? ' active' : '');
+      btn.innerHTML = `
+        <span class="day-pill-dow">${dow}</span>
+        <span class="day-pill-num">${num}</span>
+        <span class="day-pill-badge" id="badge-${globalIdx}"></span>
+      `;
+      btn.onclick = () => { activeDayIndex = globalIdx; buildDayTabs(); renderSchedule(); };
       container.appendChild(btn);
     });
     buildArchive();
   }
 
-  function setActiveTab(globalIdx) {
-    const visible = getVisibleDays();
-    document.querySelectorAll('.day-tab').forEach((t, i) => {
-      const day = visible[i];
-      if (!day) return;
-      const idx = CORRECT_DAYS.indexOf(day);
-      t.classList.toggle('active', idx === globalIdx);
-    });
-  }
-
   function buildArchive() {
     const pastDays = getPastDays();
-    const container = document.getElementById('archive-section');
-    if (!container) return;
-    if (pastDays.length === 0) { container.style.display = 'none'; return; }
-
-    const pastWithSessions = pastDays.filter(d => sessions.some(s => s.date === d.date));
-    if (pastWithSessions.length === 0) { container.style.display = 'none'; return; }
-
-    container.style.display = 'block';
+    const archiveSection = document.getElementById('archive-section');
     const list = document.getElementById('archive-list');
-    list.style.display = 'none'; // collapsed by default
     const toggle = document.getElementById('archive-toggle');
+
+    if (pastDays.length === 0) {
+      archiveSection.style.display = 'none';
+      return;
+    }
+    const pastWithSessions = pastDays.filter(d => sessions.some(s => s.date === d.date));
+    if (pastWithSessions.length === 0) {
+      archiveSection.style.display = 'none';
+      return;
+    }
+
+    archiveSection.style.display = 'block';
+
     toggle.onclick = () => {
       const open = list.style.display !== 'none';
       list.style.display = open ? 'none' : 'block';
       toggle.textContent = open ? '📁 Past sessions' : '📂 Past sessions';
+      toggle.classList.toggle('open', !open);
     };
 
     list.innerHTML = '';
@@ -1006,7 +1253,6 @@
     });
   }
 
-  // --- LOAD SESSIONS ---
   async function loadSessions() {
     try {
       const res = await fetch(`${WORKER_URL}/sessions`, { headers: authHeaders() });
@@ -1014,7 +1260,7 @@
       renderSchedule();
       buildArchive();
     } catch (e) {
-      document.getElementById('schedule').innerHTML = '<div class="loading">Could not load sessions. Check Worker URL.</div>';
+      document.getElementById('schedule').innerHTML = '<div style="font-size:0.9rem;color:var(--muted);padding:1rem 0;">Could not load sessions. Check Worker URL.</div>';
     }
   }
 
@@ -1023,7 +1269,6 @@
     renderSchedule();
   }
 
-  // --- RENDER SCHEDULE ---
   function renderSchedule() {
     const day = CORRECT_DAYS[activeDayIndex];
     let daySessions = sessions.filter(s => s.date === day.date);
@@ -1031,49 +1276,45 @@
       daySessions = daySessions.filter(s => s.teacher === selectedTeacher);
     }
     const container = document.getElementById('schedule');
-
     const byTime = {};
     daySessions.forEach(s => {
       if (!byTime[s.time]) byTime[s.time] = [];
       byTime[s.time].push(s);
     });
-
-    let html = '';
     const tzLabel = tzOffset === DUBAI_OFFSET ? 'Dubai time' : `your local time (GMT${tzOffset >= 0 ? '+' : ''}${tzOffset})`;
-
-    html += `<div style="font-size:0.75rem;font-weight:600;color:var(--bark-light);text-transform:uppercase;letter-spacing:0.08em;padding:0.5rem 0 0.25rem 88px">12:00 – 15:00 · ${tzLabel}</div>`;
+    let html = `<div class="time-range-label">12:00 – 15:00 · ${tzLabel}</div>`;
     AFTERNOON_SLOTS.forEach(slot => {
       html += renderSlotRow(slot, byTime[slot] || [], day.date);
     });
-
-   container.innerHTML = html;
+    container.innerHTML = html;
     updateDayBadges();
     scrollToCurrentTime();
   }
 
   function updateDayBadges() {
-  CORRECT_DAYS.forEach((day, i) => {
-    const count = sessions.filter(s => s.date === day.date).length;
-    const badge = document.getElementById(`badge-${i}`);
-    if (badge) {
-      const isActive = i === activeDayIndex;
-      badge.textContent = count > 0 ? count : '';
-      badge.style.display = count > 0 && !isActive ? 'inline-flex' : 'none';
-    }
-  });
-}
+    const visible = getVisibleDays();
+    visible.forEach((day) => {
+      const globalIdx = CORRECT_DAYS.indexOf(day);
+      const count = sessions.filter(s => s.date === day.date).length;
+      const badge = document.getElementById(`badge-${globalIdx}`);
+      if (badge) {
+        badge.textContent = count > 0 ? count : '';
+        badge.style.display = count > 0 ? 'inline-flex' : 'none';
+      }
+    });
+  }
 
   function scrollToCurrentTime() {
     const now = new Date();
     const dubaiNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Dubai' }));
     const today = dubaiNow.toLocaleDateString('en-CA', { timeZone: 'Asia/Dubai' });
     const day = CORRECT_DAYS[activeDayIndex];
-    if (day.date !== today) return; // only scroll on today's tab
+    if (day.date !== today) return;
     const currentTime = `${String(dubaiNow.getHours()).padStart(2,'0')}:${String(dubaiNow.getMinutes()).padStart(2,'0')}`;
     const allSlots = [...MORNING_SLOTS, ...AFTERNOON_SLOTS];
     const targetSlot = allSlots.find(s => s >= currentTime) || allSlots[allSlots.length - 1];
-    const slotRows = document.querySelectorAll('.slot-row');
     const slotTimes = document.querySelectorAll('.slot-time');
+    const slotRows = document.querySelectorAll('.slot-row');
     for (let i = 0; i < slotTimes.length; i++) {
       if (slotTimes[i].textContent.trim().startsWith(displayTime(targetSlot))) {
         slotRows[i].scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1087,22 +1328,18 @@
     slotSessions.forEach(s => {
       const live = isSessionLive(s);
       const past = isSessionPast(s);
-
       const joinBtn = !past
         ? `<a class="session-zoom" href="${s.zoom_link && !s.zoom_link.startsWith('http') ? 'https://' + s.zoom_link : s.zoom_link}" target="_blank">Start Zoom ↗</a>`
         : '';
-
       const actions = !past
         ? `<div class="card-actions">
              <button class="edit-btn" onclick="openEditModal('${s.id}')">Edit</button>
              <button class="cancel-btn" onclick="cancelSession('${s.id}')">Cancel</button>
            </div>`
         : '';
-
       const loveArea = (live || past)
         ? `<button class="love-replay-btn" onclick="showLove('${s.id}', event)" id="love-btn-${s.id}">💛 See the love</button>`
         : '';
-
       sessionsHtml += `
         <div class="session-card${live ? ' is-live' : ''}${past ? ' is-past' : ''}">
           <div class="session-info">
@@ -1118,14 +1355,21 @@
         </div>`;
     });
 
-sessionsHtml += `<div class="empty-slot" onclick="openModal('${date}','${slot}')">+ Add session</div>`;
+    sessionsHtml += `
+      <div class="empty-slot" onclick="openModal('${date}','${slot}')">
+        <div class="empty-slot-icon">＋</div>
+        <div>
+          <div class="empty-slot-text">Add your session</div>
+          <div class="empty-slot-sub">Any Redwood child can join</div>
+        </div>
+      </div>`;
 
     return `
       <div class="slot-row">
-        <div class="slot-time">${displayTime(slot)}${slot >= '16:00' ? ' \uD83C\uDF0D' : ''}</div>
+        <div class="slot-time">${displayTime(slot)}${slot >= '16:00' ? ' 🌍' : ''}</div>
         <div class="slot-sessions">${sessionsHtml}</div>
       </div>`;
-    }
+  }
 
   function isSessionLive(s) {
     const now = new Date();
@@ -1146,7 +1390,6 @@ sessionsHtml += `<div class="empty-slot" onclick="openModal('${date}','${slot}')
     return dubaiNow >= sessionEnd;
   }
 
-  // --- MODAL ---
   function openModal(date, time) {
     document.getElementById('modal').classList.add('open');
     if (date && time) {
@@ -1156,12 +1399,12 @@ sessionsHtml += `<div class="empty-slot" onclick="openModal('${date}','${slot}')
         updateModalSlots();
         document.getElementById('modal-time-select').value = time;
         document.getElementById('modal-slot-label').textContent =
-          `${CORRECT_DAYS[dayIdx].label} at ${time}`;
+          `${CORRECT_DAYS[dayIdx].label} at ${time} · any child can join`;
       }
     } else {
       document.getElementById('modal-day-select').value = activeDayIndex;
       updateModalSlots();
-      document.getElementById('modal-slot-label').textContent = 'Choose a slot below';
+      document.getElementById('modal-slot-label').textContent = '15 minutes. Any topic. Any child can join.';
     }
   }
 
@@ -1172,9 +1415,9 @@ sessionsHtml += `<div class="empty-slot" onclick="openModal('${date}','${slot}')
     document.getElementById('zoom-input').value = '';
     document.getElementById('modal-time-select').value = '';
     document.getElementById('modal-day-select').value = '';
-    document.getElementById('modal-slot-label').textContent = 'Choose a slot below';
+    document.getElementById('modal-slot-label').textContent = '15 minutes. Any topic. Any child can join.';
     document.getElementById('submit-btn').textContent = 'Book slot';
-    document.querySelector('#modal h2').textContent = 'Book a session';
+    document.querySelector('#modal h2').textContent = 'Add your session';
     selectedTeacher = '';
     document.getElementById('teacher-filter').value = '';
     editingSessionId = null;
@@ -1201,17 +1444,16 @@ sessionsHtml += `<div class="empty-slot" onclick="openModal('${date}','${slot}')
   }
 
   function updateModalSlots() {
-  const sel = document.getElementById('modal-time-select');
-  sel.innerHTML = '<option value="">Select time…</option>';
-  ALL_SLOTS.forEach(slot => {
-    const opt = document.createElement('option');
-    opt.value = slot;
-    opt.textContent = slot >= '16:00' ? slot + ' \uD83C\uDF0D' : slot;
-    sel.appendChild(opt);
-  });
-}
+    const sel = document.getElementById('modal-time-select');
+    sel.innerHTML = '<option value="">Select time…</option>';
+    ALL_SLOTS.forEach(slot => {
+      const opt = document.createElement('option');
+      opt.value = slot;
+      opt.textContent = slot >= '16:00' ? slot + ' 🌍' : slot;
+      sel.appendChild(opt);
+    });
+  }
 
-  // --- SUBMIT ---
   async function submitSession() {
     const teacher = document.getElementById('teacher-select').value;
     const dayIdx = document.getElementById('modal-day-select').value;
@@ -1221,17 +1463,14 @@ sessionsHtml += `<div class="empty-slot" onclick="openModal('${date}','${slot}')
     if (zoom_link && !zoom_link.startsWith('http://') && !zoom_link.startsWith('https://')) {
       zoom_link = 'https://' + zoom_link;
     }
-
     if (!teacher || dayIdx === '' || !time || !zoom_link) {
       showToast('Please fill in all required fields.', 'error');
       return;
     }
-
     const date = CORRECT_DAYS[dayIdx].date;
     const btn = document.getElementById('submit-btn');
     btn.disabled = true;
     btn.textContent = editingSessionId ? 'Saving…' : 'Booking…';
-
     try {
       if (editingSessionId) {
         const res = await fetch(`${WORKER_URL}/session/${editingSessionId}`, {
@@ -1260,7 +1499,6 @@ sessionsHtml += `<div class="empty-slot" onclick="openModal('${date}','${slot}')
     }
   }
 
-  // --- CANCEL ---
   async function cancelSession(id) {
     if (!confirm('Cancel this session?')) return;
     try {
@@ -1273,7 +1511,6 @@ sessionsHtml += `<div class="empty-slot" onclick="openModal('${date}','${slot}')
     }
   }
 
-  // --- TOAST ---
   function showToast(msg, type = '') {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -1281,8 +1518,7 @@ sessionsHtml += `<div class="empty-slot" onclick="openModal('${date}','${slot}')
     setTimeout(() => t.classList.remove('show'), 3000);
   }
 
-  // --- LOVE ---
-  const LOVE_EMOJIS = ['💛', '🦖', '🌟', '🍄', '🐌', '💫', '🍀', '☀️', '🫶', '🐙', '🛝', '🐞', '🦕', '✨', '🥰', '🌻', '🍉', '🌱', '🥇', '🖍️', '🎠', '🔵', '🪐', '💚', '🦸🏽‍♀️', '🐪', '☺️', '🌸', '🥑', '🎈', '🏆', '🦒', '🐥'];
+  const LOVE_EMOJIS = ['💛','🦖','🌟','🍄','🐌','💫','🍀','☀️','🫶','🐙','🛝','🐞','🦕','✨','🥰','🌻','🍉','🌱','🥇','🖍️','🎠','🔵','🪐','💚','🦸🏽‍♀️','🐪','☺️','🌸','🥑','🎈','🏆','🦒','🐥'];
 
   async function showLove(sessionId, event) {
     const btn = document.getElementById(`love-btn-${sessionId}`);
@@ -1319,68 +1555,10 @@ sessionsHtml += `<div class="empty-slot" onclick="openModal('${date}','${slot}')
 
   document.getElementById('modal').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
-    });
-    
-  document.getElementById('changelog').addEventListener('click', function(e) {
-  if (e.target === this) this.classList.remove('open');   
   });
-  
+  document.getElementById('changelog').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('open');
+  });
 </script>
-<div class="rw-footer">
-  <div class="rw-footer-inner">
-    <div class="rw-footer-copy"><strong>Built by Eshanka and Luna.</strong> If something's not working, ask Maria.</div>
-    <div style="display:flex;gap:0.75rem;align-items:center;">
-      <a href="teachers.html" class="rw-footer-link">← Teachers hub</a>
-      <a href="guide.html" class="rw-footer-btn">👵 Ask Maria</a>
-    </div>
-  </div>
-</div>
-
-<style>
-  .rw-footer {
-    border-top: 1px solid var(--border);
-    background: var(--card);
-    padding: 1.25rem 2rem;
-    position: sticky;
-    bottom: 0;
-    z-index: 50;
-  }
-  .rw-footer-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-  .rw-footer-copy { font-size: 0.82rem; color: var(--muted); }
-  .rw-footer-copy strong { color: var(--navy); font-weight: 600; }
-  .rw-footer-link {
-    font-size: 0.78rem;
-    color: var(--muted);
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .rw-footer-link:hover { color: var(--navy); }
-  .rw-footer-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: var(--navy);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 0.45rem 1rem;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    transition: opacity 0.2s;
-  }
-  .rw-footer-btn:hover { opacity: 0.85; }
-</style>
-
 </body>
 </html>
