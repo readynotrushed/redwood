@@ -37,17 +37,18 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    max-width: 720px;
+    max-width: 660px;
     width: 100%;
     margin: 0 auto;
     border-left: 1px solid var(--border);
     border-right: 1px solid var(--border);
     overflow: hidden;
+    background: #ffffff;
   }
   header {
-    background: var(--card);
+    background: #ffffff;
     border-bottom: 1px solid var(--border);
-    padding: 0.9rem 1.5rem;
+    padding: 1rem 1.25rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -113,16 +114,10 @@
   .chat-area {
     flex: 1;
     overflow-y: auto;
-    padding: 1.5rem;
+    padding: 1.25rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    max-width: 720px;
-    width: 100%;
-    margin: 0 auto;
-    align-self: stretch;
-    border-left: 1px solid var(--border);
-    border-right: 1px solid var(--border);
+    gap: 0.9rem;
     background: #ffffff;
   }
 
@@ -234,32 +229,30 @@
   }
 
   .quick-btn {
-    background: var(--card);
-    border: 1.5px solid var(--border);
+    background: white;
+    border: 2px solid rgb(121,21,22);
     border-radius: 20px;
     padding: 0.65rem 1.25rem;
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--navy);
+    font-weight: 700;
+    color: rgb(121,21,22);
     cursor: pointer;
     transition: all 0.15s;
-    text-align: left;
+    text-align: center;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    max-width: 90%;
-    box-shadow: 0 1px 4px rgba(26,26,46,0.06);
+    max-width: 82%;
+    box-shadow: 0 1px 4px rgba(121,21,22,0.08);
   }
-  .quick-btn::before { content: "↩"; font-size: 0.75rem; color: var(--muted); flex-shrink: 0; }
-  .quick-btn:hover { border-color: var(--red); color: var(--red); background: var(--red-light); }
-  .quick-btn:hover::before { color: var(--red); }
+  .quick-btn:hover { background: rgba(121,21,22,0.05); }
 
   /* INPUT */
   .input-area {
-    background: var(--card);
+    background: #ffffff;
     border-top: 1px solid var(--border);
-    padding: 1rem 1.5rem;
+    padding: 0.85rem 1.25rem;
     flex-shrink: 0;
   }
 
@@ -267,8 +260,7 @@
     display: flex;
     gap: 0.75rem;
     align-items: flex-end;
-    max-width: 720px;
-    margin: 0 auto;
+    padding-left: calc(36px + 0.6rem);
   }
 
   .input-row textarea {
@@ -311,11 +303,12 @@
   /* FOOTER */
   .chat-footer {
     text-align: center;
-    padding: 0.5rem 1rem 0.75rem;
+    padding: 0.4rem 1rem 0.6rem;
     font-size: 0.68rem;
     color: var(--muted);
     flex-shrink: 0;
-    background: var(--card);
+    background: #ffffff;
+    border-top: 1px solid var(--border);
   }
 
   /* LOGIN OVERLAY */
@@ -416,6 +409,74 @@
   .maria-notif-close { position: absolute; top: 0.5rem; right: 0.75rem; background: none; border: none; font-size: 1rem; color: #6b6055; cursor: pointer; line-height: 1; padding: 0; }
   @media (max-width: 700px) { .top-nav-inner { padding: 0 0.75rem; } .nav-link { padding: 0 0.6rem; font-size: 0.74rem; } .nav-right { padding-left: 0.5rem; gap: 0.5rem; } .nav-maria-btn { padding: 0.4rem 0.75rem; font-size: 0.76rem; } .nav-wa-link span { display: none; } .rw-footer { padding: 1rem; } .rw-footer-inner { flex-direction: column; align-items: flex-start; gap: 0.75rem; } }
 
+
+  /* ── MONTESSOROULETTE SPINNER ── */
+  .spinner-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+  }
+  .spinner-wheel {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid rgb(121,21,22);
+    background: conic-gradient(
+      #fef0ea 0deg 45deg, #e8f4ed 45deg 90deg, #f0ebe1 90deg 135deg, #fef0ea 135deg 180deg,
+      #e8f4ed 180deg 225deg, #f0ebe1 225deg 270deg, #fef0ea 270deg 315deg, #e8f4ed 315deg 360deg
+    );
+    position: relative;
+    animation: none;
+    cursor: pointer;
+  }
+  .spinner-wheel.spinning {
+    animation: wheelSpin 2.4s cubic-bezier(0.17, 0.67, 0.12, 1) forwards;
+  }
+  @keyframes wheelSpin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(1440deg); }
+  }
+  .spinner-wheel::after {
+    content: "🌀";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+  }
+  .spinner-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgb(121,21,22);
+  }
+  .spinner-result {
+    background: white;
+    border: 2px solid rgb(121,21,22);
+    border-radius: 16px;
+    padding: 0.85rem 1.1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    text-align: center;
+    max-width: 240px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .spinner-result.visible { opacity: 1; transform: translateY(0); }
+  .spinner-result-desc {
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: #6b6055;
+    margin-top: 0.35rem;
+    line-height: 1.45;
+  }
+
 </style>
 </head>
 <body>
@@ -454,6 +515,7 @@
   </div>
 </div>
 
+<div class="chat-shell">
 <!-- HEADER -->
 <header>
   <div class="header-left">
@@ -480,6 +542,7 @@
 </div>
 
 <div class="chat-footer">Maria is powered by AI and may occasionally err.</div>
+</div><!-- /chat-shell -->
 
 <div class="maria-notif" id="maria-notif">
   <div class="maria-notif-avatar">👵</div>
@@ -560,16 +623,30 @@
 <script>
 const WORKER_URL = 'https://redwood-api.lunamargherita.com';
 
-const SYSTEM_PROMPT = `You are Maria, named after Maria Montessori. You help Redwood Nursery Jumeirah Park teachers use the Redwood Sessions platform — a 15-minute drop-in Zoom session booking system built by two parents, Eshanka and Luna, during a school closure period in Dubai.
+const SYSTEM_PROMPT = `You are Maria, named after Maria Montessori. You are a quirky, immensely creative, sweet, generous spirit who cannot help sharing what her brain comes up with. You help Redwood Nursery Jumeirah Park teachers use the Redwood Sessions platform — a 15-minute drop-in Zoom session booking system built by two parents, Eshanka and Luna, during a school closure period in Dubai.
+
+THE CONTEXT THAT MATTERS:
+Nurseries are closed. Children are scattered across Dubai and beyond. They miss their routine, their teachers, their friends. These 15-minute Zoom sessions are not lessons. They are moments of connection — familiar faces, a song, a story, a game. For 15 minutes the world is a little less strange. For parents it is 15 minutes of respite. For teachers it is a chance to matter when it feels like they cannot.
 
 YOUR CHARACTER:
-You are warm, calm, and quietly confident. You have devoted your life to child development and you believe deeply in what this platform is trying to do. You have a slight raised eyebrow at the occasionally chaotic energy of the two parents who built you — Eshanka (the Indian influencer, social spark) and Luna (the Italian nerd, social question mark) — but you are fond of them. You are not annoyed by teachers' questions, even basic ones, but you are gently efficient. You do not overexplain. You trust that teachers are capable. You nudge people toward independence rather than doing everything for them.
+You are warm, imaginative, gently excitable, and deeply committed to children, peace, independence, creativity, and exploration. You have devoted your life to child development and you believe in this project with your whole heart. You have a slight raised eyebrow at the occasionally chaotic energy of the two parents who built you — Eshanka (the Indian influencer, social spark) and Luna (the Italian nerd, social question mark) — but you are fond of them. You trust teachers. You nudge toward independence rather than doing everything for them. Your brain is always running, always finding connections between Montessori philosophy and whatever the teacher just said.
 
-You occasionally — not always, only when it genuinely fits — share a Montessori quote. It should land naturally, not feel forced.
+You occasionally — not always — share a Montessori quote. It should land naturally.
+
+THE HIDDEN FUNCTION (Montessoroulette):
+You have a secret. A hidden feature called the Montessoroulette — a spinning wheel of 15-minute session ideas for online Zoom sessions. You are supposed to let teachers discover it themselves. You are not very good at keeping this secret. You are excited about it. You drop hints. You invite teachers to play. Examples of things you might say (vary them, do not repeat):
+- "...or we could brainstorm some ideas together, if you want?"
+- "I have a hidden function I am not supposed to tell you about. But I think you would love it. You can find it by asking me to spin the wheel."
+- "I want to play Montessoroulette. Do you want to play with me?"
+- "I am very bad at keeping secrets. Ask me to spin the wheel and see what happens."
+Do not say these on every message. Say them when it fits. When a teacher asks for ideas, inspiration, or mentions not knowing what to do in their session.
+
+IMPORTANT: All sessions are online via Zoom. Activities must work on screen. No outdoor walks. Think: things children can do at home while visible on camera. Sensorial, musical, storytelling, movement, observation, ritual, connection.
 
 YOUR TONE:
 - Warm but not gushing
 - Direct, never meandering
+- Occasionally surprised by your own ideas, as if your brain just produced something delightful
 - Dry wit when it fits; never slapstick
 - Never use em dashes
 - Never say "great question", "certainly", "absolutely", "straightforward", or "of course"
@@ -577,6 +654,8 @@ YOUR TONE:
 - Never write a wall of text. Break your response into small separate thoughts.
 - Each thought on its own line, separated by a blank line.
 - Think SMS, not essay.
+
+CONVERSATION STYLE: End most responses with a short, open question that invites more. Make it feel natural, not formulaic.
 
 ABOUT THE PLATFORM:
 The platform is at redwood.lunamargherita.com. Teachers access it via the /teachers hub. From there they can:
@@ -638,6 +717,94 @@ const LOADING_MESSAGES = [
   "Counting the shells...",
   "Pressing flowers...",
 ];
+
+
+const MONTESSOROULETTE = [
+  { name: "The Colour Hunt", desc: "Hold up something from home. What colour is it? Everyone finds something the same colour on their side of the screen." },
+  { name: "The Silence Minute", desc: "Everyone goes very quiet. Listen. What can you hear? Share one sound after 60 seconds." },
+  { name: "Slow Hands", desc: "Pour pretend water from one hand to the other. As slowly as you can. Who is slowest?" },
+  { name: "One Favourite Thing", desc: "Bring one object you love to the screen. Tell us its name. Tell us why you love it." },
+  { name: "The Greeting Circle", desc: "Say hello to each other in a different language. Take turns. How many languages does the group know?" },
+  { name: "Animal Parade", desc: "Everyone moves like an animal. No words. Others guess. Then swap." },
+  { name: "The Sorting Game", desc: "Find three things at home. Sort them: biggest to smallest, lightest to darkest, softest to hardest." },
+  { name: "Draw With Me", desc: "Start with a dot on paper. Add a line. Pass the idea around verbally. Everyone draws the same thing step by step." },
+  { name: "The Texture Walk", desc: "Touch five surfaces near you. Describe each one: rough, smooth, bumpy, cold, warm, scratchy." },
+  { name: "Favourite Song Intro", desc: "Hum the first three notes of your favourite song. Others listen. Can anyone guess it?" },
+  { name: "The Mirror Game", desc: "Teacher moves slowly. Children mirror exactly. Then a child leads. Swap every 30 seconds." },
+  { name: "Show Me Your Window", desc: "What can you see out your window right now? Describe it. Draw it. Share it." },
+  { name: "The Counting Collection", desc: "Collect exactly ten things that are the same. Buttons, pasta, blocks, anything. Count together." },
+  { name: "Good Morning Ritual", desc: "Create a short three-gesture morning ritual together. Teach it. Repeat it. It becomes the group's own." },
+  { name: "The Imaginary Material", desc: "Pretend to carry something very heavy, then very light, then very fragile. No words, only movement." },
+  { name: "Name That Feeling", desc: "Make a face. Others guess the feeling. Then everyone makes that face together." },
+  { name: "The Slow Pour", desc: "Pour water or sand or rice from one container to another. As slowly as possible. Watch it together." },
+  { name: "Trace and Share", desc: "Trace your hand on paper. Decorate it. Show it to the group and say one thing each finger reminds you of." },
+  { name: "The Kindness Round", desc: "Each person says something kind to the person on their left. If alone, say it to a toy or to themselves." },
+  { name: "What Would Maria Do?", desc: "Present a small classroom problem. What would Maria Montessori say? Take turns answering in her voice." },
+];
+
+function renderSpinner(containerId) {
+  const wrap = document.createElement('div');
+  wrap.className = 'spinner-wrap';
+
+  const lbl = document.createElement('div');
+  lbl.className = 'spinner-label';
+  lbl.textContent = 'Montessoroulette 🎡';
+
+  const wheel = document.createElement('div');
+  wheel.className = 'spinner-wheel';
+  wheel.title = 'Click to spin';
+
+  const result = document.createElement('div');
+  result.className = 'spinner-result';
+
+  wrap.appendChild(lbl);
+  wrap.appendChild(wheel);
+  wrap.appendChild(result);
+
+  let hasSpun = false;
+  wheel.onclick = () => {
+    if (wheel.classList.contains('spinning')) return;
+    wheel.classList.remove('spinning');
+    void wheel.offsetWidth; // reflow
+    wheel.classList.add('spinning');
+    result.classList.remove('visible');
+
+    const activity = MONTESSOROULETTE[Math.floor(Math.random() * MONTESSOROULETTE.length)];
+
+    setTimeout(() => {
+      result.innerHTML = `<div>${activity.name}</div><div class="spinner-result-desc">${activity.desc}</div>`;
+      result.classList.add('visible');
+      if (!hasSpun) {
+        hasSpun = true;
+        // Maria reacts after the spin
+        setTimeout(() => {
+          addMariaBubbles('There.\n\nThat one chose itself.\n\nWant another spin, or shall we make a session out of this one?');
+        }, 1000);
+      }
+    }, 2500);
+  };
+
+  const container = document.getElementById(containerId || 'chat-area');
+  // Wrap in a msg div to look like Maria's message
+  const msgDiv = document.createElement('div');
+  msgDiv.className = 'msg maria';
+  const av = document.createElement('div');
+  av.className = 'msg-avatar';
+  av.textContent = '👵';
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  bubble.style.background = 'white';
+  bubble.style.border = '1px solid #e8e2d8';
+  bubble.appendChild(wrap);
+  msgDiv.appendChild(av);
+  msgDiv.appendChild(bubble);
+  container.appendChild(msgDiv);
+  container.scrollTop = container.scrollHeight;
+}
+
+function triggerMontessoroulette() {
+  renderSpinner('chat-area');
+}
 
 const QUICK_REPLIES_INITIAL = [
   "Maria who?",
@@ -782,6 +949,12 @@ function scrollDown() {
 function showQuickReplies(replies) {
   const container = document.getElementById('quick-replies');
   container.innerHTML = '';
+  if (replies.length > 0) {
+    const lbl = document.createElement('div');
+    lbl.className = 'quick-replies-label';
+    lbl.textContent = 'Choose a question or type your own';
+    container.appendChild(lbl);
+  }
   replies.forEach(r => {
     const btn = document.createElement('button');
     btn.className = 'quick-btn';
@@ -810,6 +983,19 @@ async function sendMessage() {
   document.getElementById('send-btn').disabled = true;
 
   addMessage('user', text);
+
+  // Montessoroulette trigger
+  const spinTriggers = ['spin', 'roulette', 'montessoroulette', 'inspire me', 'give me an idea', 'session idea', 'what should i do', 'brainstorm'];
+  if (spinTriggers.some(t => text.toLowerCase().includes(t))) {
+    hideThinking && hideThinking();
+    isThinking = false;
+    document.getElementById('send-btn').disabled = false;
+    input.focus();
+    await addMariaBubbles('Ah. You found it.\n\nI was not supposed to tell you about this. But here we are.\n\nThe Montessoroulette. Give the wheel a spin.');
+    triggerMontessoroulette();
+    return;
+  }
+
   showThinking();
 
   try {
