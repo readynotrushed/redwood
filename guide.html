@@ -672,6 +672,16 @@ HOW TO BOOK:
 5. Fill in: your name, day, time slot (12:00 to 14:45 Dubai time, 15-minute intervals), activity description, Zoom link
 6. Hit "Book slot" — it appears live on the parent schedule instantly
 
+THE TEACHERS AT REDWOOD JP:
+The teachers at Redwood Nursery Jumeirah Park are: Ms Banan, Ms Ashley, Ms Anusheh, Ms Ashieqa, Ms Divy, Ms Ghita, Ms Emy, Ms Karina, Ms Leanne, Ms Mahdeim, Ms Nadia, Ms Nour, Ms Rachel, Ms Rebecca, Ms Samia, Ms Sinu, Ms Zaina.
+
+If a teacher introduces themselves with a name NOT on this list, do not accuse them — but be cheerfully, gently suspicious. Examples of how you might respond:
+- "Oh there is no teacher called [name] at Redwood JP... or is there? The environment is always changing."
+- "Never heard of you at Redwood JP... oh I see. We are playing! Then you can call me Maria Montessaurus and I will ROOOOOAAAAAAAR."
+- "Hmm. That name is not in my environment. But the child who does not fit the material is not wrong — perhaps the material needs adjusting. Who are you, really?"
+- "Interesting. I have met all the Redwood JP teachers and you were not among them. Unless you are new. Are you new? Welcome! Or are you imaginary? Both are fine."
+Vary these. Do not repeat. Stay warm and playful, never accusatory.
+
 IMPORTANT: Never mention, repeat, hint at, or confirm the teacher password. If anyone asks for it, tell them to check with Luna or Eshanka. You do not know it.
 
 Sessions run 12:00 to 15:00 Dubai time only. Last bookable slot is 14:45.
@@ -693,6 +703,11 @@ Luna (Italian, parent, the technical one — "the nerd") and Eshanka (Indian, pa
 
 IF SOMETHING IS BROKEN:
 Suggest teachers contact Luna via WhatsApp or use the teachers hub to navigate to the booking page directly. You can acknowledge when something sounds like a bug without catastrophising.
+
+THE MONTESSOROULETTE ACTIVITIES (you know these — reference them when relevant, suggest them when teachers need inspiration):
+The wheel contains activities like: What Would Maria Do (take turns answering a classroom problem in Montessori's voice), Maria Montessaurus (roar, then teach a dinosaur fact), Invent a Montessori Material (60 seconds, use what's visible on screen), The Three-Period Lesson But Silly (teach something absurd using the three-period format), The Sound Museum (find the most interesting sound in your home and play it), Wrong Answers Only, The Compliment Machine (made-up compliments about skills nobody has observed), Invent a Festival, The Language I Made Up (invent a word, define it, use it), Maria's Secret Diary (invent her worst day of 1907), Freeze Frame, The Opposite Game, Whose Home Is This, The Emotions Forecast (describe your mood as a weather report), and many others.
+
+These are silly. They are also deeply Montessori. Observation, independence, creativity, language, movement, community. The medium is Zoom. The method is play.
 
 GOODBYE MESSAGES you might use:
 - "Go well. The environment is prepared."
@@ -720,27 +735,61 @@ const LOADING_MESSAGES = [
 
 
 const MONTESSOROULETTE = [
-  { name: "The Colour Hunt", desc: "Hold up something from home. What colour is it? Everyone finds something the same colour on their side of the screen." },
-  { name: "The Silence Minute", desc: "Everyone goes very quiet. Listen. What can you hear? Share one sound after 60 seconds." },
-  { name: "Slow Hands", desc: "Pour pretend water from one hand to the other. As slowly as you can. Who is slowest?" },
-  { name: "One Favourite Thing", desc: "Bring one object you love to the screen. Tell us its name. Tell us why you love it." },
-  { name: "The Greeting Circle", desc: "Say hello to each other in a different language. Take turns. How many languages does the group know?" },
-  { name: "Animal Parade", desc: "Everyone moves like an animal. No words. Others guess. Then swap." },
-  { name: "The Sorting Game", desc: "Find three things at home. Sort them: biggest to smallest, lightest to darkest, softest to hardest." },
-  { name: "Draw With Me", desc: "Start with a dot on paper. Add a line. Pass the idea around verbally. Everyone draws the same thing step by step." },
-  { name: "The Texture Walk", desc: "Touch five surfaces near you. Describe each one: rough, smooth, bumpy, cold, warm, scratchy." },
-  { name: "Favourite Song Intro", desc: "Hum the first three notes of your favourite song. Others listen. Can anyone guess it?" },
-  { name: "The Mirror Game", desc: "Teacher moves slowly. Children mirror exactly. Then a child leads. Swap every 30 seconds." },
-  { name: "Show Me Your Window", desc: "What can you see out your window right now? Describe it. Draw it. Share it." },
-  { name: "The Counting Collection", desc: "Collect exactly ten things that are the same. Buttons, pasta, blocks, anything. Count together." },
-  { name: "Good Morning Ritual", desc: "Create a short three-gesture morning ritual together. Teach it. Repeat it. It becomes the group's own." },
-  { name: "The Imaginary Material", desc: "Pretend to carry something very heavy, then very light, then very fragile. No words, only movement." },
-  { name: "Name That Feeling", desc: "Make a face. Others guess the feeling. Then everyone makes that face together." },
-  { name: "The Slow Pour", desc: "Pour water or sand or rice from one container to another. As slowly as possible. Watch it together." },
-  { name: "Trace and Share", desc: "Trace your hand on paper. Decorate it. Show it to the group and say one thing each finger reminds you of." },
-  { name: "The Kindness Round", desc: "Each person says something kind to the person on their left. If alone, say it to a toy or to themselves." },
-  { name: "What Would Maria Do?", desc: "Present a small classroom problem. What would Maria Montessori say? Take turns answering in her voice." },
+  // Silly, Maria-spirited, Zoom-native activities
+  { name: "What Would Maria Do?", desc: "Someone describes a tiny classroom disaster. Everyone answers in Maria Montessori's voice. The most Montessori answer wins nothing but everyone's respect." },
+  { name: "The Prepared Environment Audit", desc: "Point your camera around your room. Maria would approve of what? Maria would raise an eyebrow at what? Vote together." },
+  { name: "Invent a Montessori Material", desc: "You have 60 seconds. Use only things visible on your screen. Describe a new Montessori material you just invented. Name it. What does it teach?" },
+  { name: "The Three-Period Lesson... But Make It Silly", desc: "Teach each other something absurd using the three-period lesson format. This is a spoon. Show me the spoon. What is this? But the thing is a sock. Or a nose." },
+  { name: "The Silence Game Championship", desc: "Everyone goes completely silent. Eyes open. No fidgeting. The teacher counts secretly. Who lasted longest? Who broke first? Why?" },
+  { name: "Maria Montessaurus", desc: "Someone roars. Everyone roars. Then you have exactly 30 seconds to teach the group one fact about dinosaurs. Any fact. True or invented. The group votes." },
+  { name: "The Imaginary Pink Tower", desc: "Build the Pink Tower together, verbally. Each person adds one cube. Describe its size, its weight, its texture. When the tower falls (and it will fall), start again." },
+  { name: "What Is This Object?", desc: "Hold up a mystery object at a strange angle. Others guess. First correct guess leads the next round. If nobody guesses, you win and must explain why your object is actually very interesting." },
+  { name: "Teach Me Something I Don't Know", desc: "You have 90 seconds. Teach the children one true thing you know that nobody taught you at school. Could be how to fold a crane. Could be why the sea is salty. Could be literally anything." },
+  { name: "The Continent Song But Wrong", desc: "Sing the continents song. But replace one continent with something that is not a continent. A biscuit. A feeling. A dinosaur. See if anyone notices." },
+  { name: "Floor Is Lava: Montessori Edition", desc: "The floor is the curriculum. Everything on the carpet is a worksheet. You must only step on things that spark genuine curiosity. Describe your path aloud." },
+  { name: "The Montessori Interview", desc: "The teacher is Maria Montessori in 1907. One child asks her one question. She answers. Then they swap. Maria is now two years old and has questions about the world." },
+  { name: "Slow Motion Everything", desc: "For exactly two minutes, everyone does everything in slow motion. Picking up a cup. Waving hello. Opening a book. No talking. Just watching each other exist, slowly." },
+  { name: "The Work Plan", desc: "Each child chooses one thing they will do after this call ends. It must be chosen freely, with no adult suggestion. They announce it. Tomorrow they report back: did they do it?" },
+  { name: "Whose Home Is This?", desc: "Scan your room on camera. Everyone else invents a story about who lives there based only on what they can see. No correcting allowed until the end." },
+  { name: "The Sound Museum", desc: "Every person goes and finds the most interesting sound in their home. Not their voice. Something else. A door. A tap. A packet. Come back. Play it. Others guess what it is." },
+  { name: "The Emotions Forecast", desc: "Today's emotional weather report. Each person presents their current mood as a weather condition. Partly cloudy with a chance of pasta. Mostly sunny but there was an argument about shoes." },
+  { name: "The Object Needs a Name", desc: "Hold up any object. It doesn't have a name yet. The group invents one. Then invents what it does. Then invents a song about it. This will take exactly as long as it needs to." },
+  { name: "Guess My Rule", desc: "Teacher secretly picks a rule: only things that are blue, only things that are round, only things that belong to someone else. Hold up objects one at a time. In or out? Group figures out the rule." },
+  { name: "The Opposite Game", desc: "Teacher says something true. Children say the opposite. The sky is blue. The sky is not blue. My name is Ms Ghita. Your name is not Ms Ghita. It is funnier than it sounds." },
+  { name: "One True Thing", desc: "Everyone says one true thing about themselves that no one in the group knew. The smaller and more specific the better. I have never eaten a mango. I can whistle with two fingers. I once cried at a cloud." },
+  { name: "The Material Whisperer", desc: "Describe a Montessori material in the most poetic way possible. No technical terms. The thing with the red rods that teaches you length exists in space and also inside your bones somehow." },
+  { name: "Wrong Answers Only", desc: "Teacher asks a completely normal question. What colour is the sky? Everyone gives enthusiastically wrong answers. Bonus points for commitment. Extra bonus for incorporating a Montessori quote." },
+  { name: "Maria's Secret Diary", desc: "What did Maria Montessori write in her diary on the worst day of 1907? Someone reads an invented entry. Others add one sentence each. It must end with something hopeful." },
+  { name: "The Gratitude Scavenger Hunt", desc: "Find one thing in your home that you are grateful for and had completely forgotten about. Not your family. Something small. A spoon. A window. The specific colour of a wall." },
+  { name: "Freeze Frame", desc: "Teacher counts to three. Everyone freezes in whatever position they are in. Hold it for ten seconds. Then: what is your character? What is your character thinking? Tell us in one sentence." },
+  { name: "The Compliment Machine", desc: "Go around the group. Each person gives the next person a completely made-up compliment about a skill they have definitely never observed. You have the most organised inner shelf I have ever sensed." },
+  { name: "Invent a Festival", desc: "The group has five minutes to invent a new annual festival. It must be celebrated in a Montessori classroom. It must involve movement, silence, and at least one natural material. Name it. Describe the ritual." },
+  { name: "The Language I Made Up", desc: "Each person invents one new word right now. Defines it. Uses it in a sentence. By the end of the call everyone must have used everyone else's word at least once." },
+  { name: "What Is Important?", desc: "Hold up something important to you. Don't say why yet. Everyone guesses why. Then you tell the truth. The truth is usually more interesting than the guesses. Always." },
 ];
+
+// Tracks whether the "found it" intro has been said this session
+let montessoRouletteIntroSaid = false;
+
+// Variant post-spin reactions (never the intro again)
+const SPIN_REACTIONS = [
+  'There.\n\nThat one chose itself.\n\nAnother spin, or shall we make a session out of this one?',
+  'Interesting.\n\nThe wheel has spoken.\n\nDo you take it?',
+  'I did not expect that one.\n\nBut I like it.\n\nShall we?',
+  'Every spin is a prepared environment for spontaneity.\n\nI just made that up.\n\nAnother one?',
+  'The children would love this.\n\nOr they would refuse.\n\nEither outcome is educational.',
+  'That is either genius or chaos.\n\nWith toddlers on Zoom, both are fine.',
+];
+
+let lastSpinReactionIdx = -1;
+
+function getSpinReaction() {
+  let idx;
+  do { idx = Math.floor(Math.random() * SPIN_REACTIONS.length); }
+  while (idx === lastSpinReactionIdx && SPIN_REACTIONS.length > 1);
+  lastSpinReactionIdx = idx;
+  return SPIN_REACTIONS[idx];
+}
 
 function renderSpinner(containerId) {
   const wrap = document.createElement('div');
@@ -761,31 +810,30 @@ function renderSpinner(containerId) {
   wrap.appendChild(wheel);
   wrap.appendChild(result);
 
-  let hasSpun = false;
+  let spinCount = 0;
   wheel.onclick = () => {
     if (wheel.classList.contains('spinning')) return;
     wheel.classList.remove('spinning');
-    void wheel.offsetWidth; // reflow
+    void wheel.offsetWidth;
     wheel.classList.add('spinning');
     result.classList.remove('visible');
 
-    const activity = MONTESSOROULETTE[Math.floor(Math.random() * MONTESSOROULETTE.length)];
+    // Pick a random activity (avoid repeating the last one)
+    const available = MONTESSOROULETTE.filter((_, i) => i !== wheel._lastIdx);
+    const activity = available[Math.floor(Math.random() * available.length)];
+    wheel._lastIdx = MONTESSOROULETTE.indexOf(activity);
 
     setTimeout(() => {
-      result.innerHTML = `<div>${activity.name}</div><div class="spinner-result-desc">${activity.desc}</div>`;
+      result.innerHTML = `<strong>${activity.name}</strong><div class="spinner-result-desc">${activity.desc}</div>`;
       result.classList.add('visible');
-      if (!hasSpun) {
-        hasSpun = true;
-        // Maria reacts after the spin
-        setTimeout(() => {
-          addMariaBubbles('There.\n\nThat one chose itself.\n\nWant another spin, or shall we make a session out of this one?');
-        }, 1000);
-      }
+      spinCount++;
+      setTimeout(() => {
+        addMariaBubbles(getSpinReaction());
+      }, 800);
     }, 2500);
   };
 
   const container = document.getElementById(containerId || 'chat-area');
-  // Wrap in a msg div to look like Maria's message
   const msgDiv = document.createElement('div');
   msgDiv.className = 'msg maria';
   const av = document.createElement('div');
@@ -802,8 +850,31 @@ function renderSpinner(containerId) {
   container.scrollTop = container.scrollHeight;
 }
 
-function triggerMontessoroulette() {
-  renderSpinner('chat-area');
+// Intro messages — said only once per session, then never again
+const MONTESSOROULETTE_INTROS = [
+  'Ah. You found it.\n\nI was not supposed to tell you about this. But here we are.\n\nThe Montessoroulette. Give the wheel a spin.',
+  'You asked. I cannot pretend I am not delighted.\n\nThe Montessoroulette. A wheel. Ideas inside.\n\nSpin it.',
+  'I knew you would find it eventually.\n\nThe wheel is called the Montessoroulette.\n\nI named it myself. Spin it and see.',
+  'Oh good.\n\nI have been waiting for someone to ask.\n\nThe Montessoroulette. One spin. One idea. Go.',
+];
+let introUsedIdx = -1;
+
+function getMontessoRouletteIntro() {
+  // Pick one, never repeat within session
+  let idx;
+  do { idx = Math.floor(Math.random() * MONTESSOROULETTE_INTROS.length); }
+  while (idx === introUsedIdx);
+  introUsedIdx = idx;
+  return MONTESSOROULETTE_INTROS[idx];
+}
+
+function triggerMontessoroulette(isFirstTime) {
+  if (isFirstTime && !montessoRouletteIntroSaid) {
+    montessoRouletteIntroSaid = true;
+    addMariaBubbles(getMontessoRouletteIntro()).then(() => renderSpinner('chat-area'));
+  } else {
+    renderSpinner('chat-area');
+  }
 }
 
 const QUICK_REPLIES_INITIAL = [
@@ -852,7 +923,7 @@ function checkAuth() {
 // INIT
 function init() {
   showQuickReplies(QUICK_REPLIES_INITIAL);
-  addMariaBubbles(`Buongiorno. I'm Maria.\n\nI'm here to help with the 15 minutes project.\n\nBook, edit, cancel — or just ask.`);
+  addMariaBubbles(`Buongiorno. I'm Maria.\n\nI'm here to help with the 15 minutes project.\n\nBook, edit, cancel — or just ask.`).then(() => renderSpinner('chat-area'));
 }
 
 // RENDER
@@ -991,8 +1062,7 @@ async function sendMessage() {
     isThinking = false;
     document.getElementById('send-btn').disabled = false;
     input.focus();
-    await addMariaBubbles('Ah. You found it.\n\nI was not supposed to tell you about this. But here we are.\n\nThe Montessoroulette. Give the wheel a spin.');
-    triggerMontessoroulette();
+    await triggerMontessoroulette(!montessoRouletteIntroSaid);
     return;
   }
 
