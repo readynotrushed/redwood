@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Redwood Assistant · Jumeirah Park</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -31,7 +31,7 @@
 
     html, body {
       height: 100%;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Source Sans 3', sans-serif;
       background: var(--bg);
       color: var(--text);
       -webkit-font-smoothing: antialiased;
@@ -94,13 +94,12 @@
     }
 
     .status-dot {
-      width: 7px;
-      height: 7px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
       background: var(--sage);
-      margin-left: auto;
       flex-shrink: 0;
-      box-shadow: 0 0 0 2px rgba(74, 124, 89, 0.2);
+      box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.2);
     }
 
     /* ── Message area ── */
@@ -223,11 +222,21 @@
       border-radius: 20px;
       padding: 7px 14px;
       font-size: 13px;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Source Sans 3', sans-serif;
       color: var(--red);
       cursor: pointer;
       transition: background 0.15s, border-color 0.15s;
-      font-weight: 500;
+      font-weight: 600;
+    }
+
+    .sender-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      padding-left: 2px;
     }
 
     .chip:hover {
@@ -253,9 +262,7 @@
 
     textarea {
       flex: 1;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 14px;
-      color: var(--text);
+      font-family: 'Source Sans 3', sans-serif;
       background: #fff;
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
@@ -339,11 +346,11 @@
     <div class="header-icon">
       <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
     </div>
+    <div class="status-dot"></div>
     <div class="header-text">
-      <h1>Redwood JP · Parent Assistant</h1>
+      <h1>PARENT ASSISTANT · Redwood JP</h1>
       <p>Jumeirah Park · April 2026 reopening</p>
     </div>
-    <div class="status-dot"></div>
   </header>
 
   <div class="messages" id="messages"></div>
@@ -352,7 +359,7 @@
     <div class="input-row">
       <textarea
         id="input"
-        placeholder="Ask a question…"
+        placeholder="Type your question…"
         rows="1"
         onInput="autoResize(this)"
         onKeydown="handleKey(event)"
@@ -361,7 +368,7 @@
         <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       </button>
     </div>
-    <p class="footer-note">For urgent matters, contact the nursery directly. This assistant cannot access your child's records.</p>
+    <p class="footer-note">Parent Assistant is AI and can make mistakes. Double check what's important with a Redwood JP human. They are ready to help.</p>
   </div>
 </div>
 
@@ -459,41 +466,71 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
     'How do I help my child settle back in?'
   ];
 
-  // ── Render multiple bubbles from one response ──
-  function renderBotBubbles(text, isDemo) {
-    // Split on double newlines into paragraphs
+  // ── Render multiple bubbles with staggered typing reveals ──
+  function renderBotBubbles(text, isDemo, showSender) {
     const paragraphs = text
       .replace(/DEMO_CONTENT\n?/g, '')
       .split(/\n\n+/)
       .map(p => p.trim())
       .filter(Boolean);
 
-    const fragment = document.createDocumentFragment();
-
+    // First bubble appears immediately; subsequent ones after typing delay
     paragraphs.forEach((para, i) => {
-      const row = document.createElement('div');
-      row.className = 'bubble-row';
-      row.style.animationDelay = `${i * 80}ms`;
+      const delay = i === 0 ? 0 : i * 1400; // ~1.4s per bubble after first
 
-      const bubble = document.createElement('div');
-      bubble.className = 'bubble bot';
+      setTimeout(() => {
+        // Remove any existing typing indicator before appending real bubble
+        const existing = document.getElementById('typing-inter');
+        if (existing) existing.parentElement.remove();
 
-      // Only put DEMO badge on first bubble if flagged
-      if (isDemo && i === 0) {
-        const badge = document.createElement('div');
-        badge.className = 'demo-badge';
-        badge.textContent = 'Illustrative — not confirmed';
-        bubble.appendChild(badge);
-      }
+        const wrapper = document.createElement('div');
 
-      const p = document.createElement('div');
-      p.innerHTML = formatText(para);
-      bubble.appendChild(p);
-      row.appendChild(bubble);
-      fragment.appendChild(row);
+        // Sender label only on first bubble of first assistant turn
+        if (showSender && i === 0) {
+          const label = document.createElement('div');
+          label.className = 'sender-label';
+          label.textContent = 'Parent Assistant';
+          wrapper.appendChild(label);
+        }
+
+        const row = document.createElement('div');
+        row.className = 'bubble-row';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble bot';
+
+        if (isDemo) {
+          const badge = document.createElement('div');
+          badge.className = 'demo-badge';
+          badge.textContent = 'Illustrative content — demo only';
+          bubble.appendChild(badge);
+        }
+
+        const p = document.createElement('div');
+        p.innerHTML = formatText(para);
+        bubble.appendChild(p);
+        row.appendChild(bubble);
+        wrapper.appendChild(row);
+        appendNode(wrapper);
+
+        // Add typing indicator after this bubble if more are coming
+        if (i < paragraphs.length - 1) {
+          setTimeout(() => {
+            const typRow = document.createElement('div');
+            typRow.className = 'bubble-row';
+            const tb = document.createElement('div');
+            tb.className = 'typing-bubble';
+            tb.id = 'typing-inter';
+            tb.innerHTML = '<span></span><span></span><span></span>';
+            typRow.appendChild(tb);
+            appendNode(typRow);
+          }, 200);
+        }
+      }, delay);
     });
 
-    return fragment;
+    // Return total duration so caller can time follow-up chips
+    return paragraphs.length * 1400;
   }
 
   function renderUser(text) {
@@ -553,37 +590,53 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
 
   // ── Intro ──
   function showIntro() {
-    const b1 = document.createElement('div');
-    b1.className = 'bubble-row';
-    const bub1 = document.createElement('div');
-    bub1.className = 'bubble bot';
-    bub1.innerHTML = formatText('I am an assistant built to help Redwood JP and parents focus on what matters most: the children.');
-    b1.appendChild(bub1);
-    appendNode(b1);
+    const intros = [
+      'Parents have questions at all hours, and the Redwood team has a lot on their hands right now. Parent Assistant gives you a direct line to answers, any time of day, without adding to the inbox.',
+      'I can walk you through what you need to know about the reopening, how the nursery has prepared, and how to help your child settle back in.',
+      "I don't have access to your child's records. For anything personal or urgent, the team is there and ready to hear from you directly."
+    ];
 
-    setTimeout(() => {
-      const b2 = document.createElement('div');
-      b2.className = 'bubble-row';
-      const bub2 = document.createElement('div');
-      bub2.className = 'bubble bot';
-      bub2.innerHTML = formatText('I can help you go through several topics prepared by the Redwood staff — from logistical questions about the reopening, to how to help your child adjust to this new transition.');
-      b2.appendChild(bub2);
-      appendNode(b2);
-    }, 300);
+    intros.forEach((text, i) => {
+      setTimeout(() => {
+        const existing = document.getElementById('typing-inter');
+        if (existing) existing.parentElement.remove();
 
-    setTimeout(() => {
-      const b3 = document.createElement('div');
-      b3.className = 'bubble-row';
-      const bub3 = document.createElement('div');
-      bub3.className = 'bubble bot';
-      bub3.innerHTML = formatText('I don\'t have access to your child\'s records. For anything personal or urgent, you\'re always welcome to contact the school directly — the team is there and ready.');
-      b3.appendChild(bub3);
-      appendNode(b3);
-    }, 600);
+        const wrapper = document.createElement('div');
 
-    setTimeout(() => {
-      renderChips(MAIN_CHIPS);
-    }, 900);
+        if (i === 0) {
+          const label = document.createElement('div');
+          label.className = 'sender-label';
+          label.textContent = 'Parent Assistant';
+          wrapper.appendChild(label);
+        }
+
+        const row = document.createElement('div');
+        row.className = 'bubble-row';
+        const bub = document.createElement('div');
+        bub.className = 'bubble bot';
+        bub.innerHTML = formatText(text);
+        row.appendChild(bub);
+        wrapper.appendChild(row);
+        appendNode(wrapper);
+
+        if (i < intros.length - 1) {
+          setTimeout(() => {
+            const typRow = document.createElement('div');
+            typRow.className = 'bubble-row';
+            const tb = document.createElement('div');
+            tb.className = 'typing-bubble';
+            tb.id = 'typing-inter';
+            tb.innerHTML = '<span></span><span></span><span></span>';
+            typRow.appendChild(tb);
+            appendNode(typRow);
+          }, 200);
+        }
+
+        if (i === intros.length - 1) {
+          setTimeout(() => renderChips(MAIN_CHIPS), 600);
+        }
+      }, i * 1600);
+    });
   }
 
   // ── Send ──
@@ -621,12 +674,10 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
       const isDemo = /DEMO_CONTENT/.test(reply);
       history.push({ role: 'assistant', content: reply });
 
-      const fragment = renderBotBubbles(reply, isDemo);
-      document.getElementById('messages').appendChild(fragment);
-      scrollBottom();
+      const isFirst = history.filter(m => m.role === 'assistant').length === 1;
+      const duration = renderBotBubbles(reply, isDemo, isFirst);
 
-      // Re-show unused chips after a pause, if conversation has more than 2 turns
-      // Find which main chip was used (if any) and show the others
+      // Re-show unused chips after bubbles finish
       const usedChip = MAIN_CHIPS.find(c => text === c);
       if (usedChip && history.length <= 4) {
         setTimeout(() => {
@@ -638,18 +689,16 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
           hintBub.innerHTML = formatText('There are a couple of other topics parents have been asking about too:');
           hint.appendChild(hintBub);
           appendNode(hint);
-          setTimeout(() => renderChips(remaining), 150);
-        }, 800);
+          setTimeout(() => renderChips(remaining), 200);
+        }, duration + 400);
       }
 
     } catch (e) {
       typingRow.remove();
-      const errFrag = renderBotBubbles(
-        'I\'m not able to respond right now.\n\nFor immediate questions, please contact the nursery on WhatsApp: <a href="https://wa.me/971503967190">+971 50 396 7190</a> (East) or <a href="https://wa.me/971501072766">+971 50 107 2766</a> (West).',
-        false
+      renderBotBubbles(
+        "I'm not able to respond right now.\n\nFor immediate questions, please contact the nursery on WhatsApp: <a href=\"https://wa.me/971503967190\">+971 50 396 7190</a> (East) or <a href=\"https://wa.me/971501072766\">+971 50 107 2766</a> (West).",
+        false, false
       );
-      document.getElementById('messages').appendChild(errFrag);
-      scrollBottom();
     }
 
     waiting = false;
