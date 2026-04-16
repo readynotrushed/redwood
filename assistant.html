@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redwood Assistant · Jumeirah Park</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: rgb(121, 21, 22);
+      --red-light: rgba(121, 21, 22, 0.08);
+      --red-mid: rgba(121, 21, 22, 0.15);
+      --sage: #4a7c59;
+      --peach: #c4623a;
+      --bg: #f0ebe1;
+      --surface: #faf7f2;
+      --text: #1a1a1a;
+      --text-muted: #6b6560;
+      --border: rgba(121, 21, 22, 0.12);
+      --demo: #b45309;
+      --demo-bg: #fef3c7;
+      --bubble-user-bg: var(--red);
+      --bubble-user-text: #fff;
+      --bubble-bot-bg: #fff;
+      --bubble-bot-border: var(--border);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout ── */
+    .shell {
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+      max-width: 680px;
+      margin: 0 auto;
+      background: var(--surface);
+      box-shadow: 0 0 0 1px var(--border);
+    }
+
+    /* ── Header ── */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+
+    .header-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .header-icon svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .header-text h1 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .header-text p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--sage);
+      margin-left: auto;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 2px rgba(74, 124, 89, 0.2);
+    }
+
+    /* ── Message area ── */
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scroll-behavior: smooth;
+    }
+
+    .messages::-webkit-scrollbar { width: 4px; }
+    .messages::-webkit-scrollbar-track { background: transparent; }
+    .messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    /* ── Bubbles ── */
+    .bubble-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      animation: fadeUp 0.25s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .bubble-row.user { flex-direction: row-reverse; }
+
+    .bubble {
+      max-width: 82%;
+      padding: 11px 15px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      line-height: 1.55;
+      position: relative;
+    }
+
+    .bubble.bot {
+      background: var(--bubble-bot-bg);
+      border: 1px solid var(--bubble-bot-border);
+      border-bottom-left-radius: 4px;
+      color: var(--text);
+    }
+
+    .bubble.user {
+      background: var(--bubble-user-bg);
+      color: var(--bubble-user-text);
+      border-bottom-right-radius: 4px;
+    }
+
+    /* DEMO badge */
+    .demo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--demo);
+      background: var(--demo-bg);
+      border: 1px solid rgba(180, 83, 9, 0.2);
+      border-radius: 4px;
+      padding: 2px 6px;
+      margin-bottom: 6px;
+    }
+
+    .demo-badge::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--demo);
+      flex-shrink: 0;
+    }
+
+    /* Typing indicator */
+    .typing-bubble {
+      background: var(--bubble-bot-bg);
+      border: 1px solid var(--bubble-bot-border);
+      border-bottom-left-radius: 4px;
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .typing-bubble span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      animation: bounce 1.2s infinite;
+    }
+    .typing-bubble span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-bubble span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-5px); opacity: 1; }
+    }
+
+    /* ── Quick replies / starter chips ── */
+    .chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+      animation: fadeUp 0.3s ease 0.1s both;
+    }
+
+    .chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--red);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      font-weight: 500;
+    }
+
+    .chip:hover {
+      background: var(--red-light);
+      border-color: var(--red);
+    }
+
+    .chip:active { transform: scale(0.97); }
+
+    /* ── Input area ── */
+    .input-area {
+      padding: 12px 16px 16px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+    }
+
+    textarea {
+      flex: 1;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      resize: none;
+      line-height: 1.5;
+      min-height: 42px;
+      max-height: 120px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    textarea:focus { border-color: var(--red); }
+    textarea::placeholder { color: var(--text-muted); }
+
+    .send-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-sm);
+      background: var(--red);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: opacity 0.15s;
+    }
+
+    .send-btn:hover { opacity: 0.88; }
+    .send-btn:active { transform: scale(0.95); }
+    .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .send-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ── Footer note ── */
+    .footer-note {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
+    /* ── Contact card ── */
+    .contact-card {
+      margin-top: 10px;
+      background: var(--red-light);
+      border: 1px solid var(--red-mid);
+      border-radius: var(--radius-sm);
+      padding: 10px 13px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .contact-card a {
+      color: var(--red);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .contact-card a:hover { text-decoration: underline; }
+
+    @media (max-width: 480px) {
+      .bubble { max-width: 90%; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="shell">
+  <header>
+    <div class="header-icon">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </div>
+    <div class="header-text">
+      <h1>Redwood JP · Parent Assistant</h1>
+      <p>Jumeirah Park · April 2026 reopening</p>
+    </div>
+    <div class="status-dot"></div>
+  </header>
+
+  <div class="messages" id="messages"></div>
+
+  <div class="input-area">
+    <div class="input-row">
+      <textarea
+        id="input"
+        placeholder="Ask a question…"
+        rows="1"
+        onInput="autoResize(this)"
+        onKeydown="handleKey(event)"
+      ></textarea>
+      <button class="send-btn" id="send-btn" onclick="sendMessage()" aria-label="Send">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+    <p class="footer-note">For urgent matters, contact the nursery directly. This assistant cannot access your child's records.</p>
+  </div>
+</div>
+
+<script>
+  const WORKER_URL = 'https://redwood-api.lunamargherita.com';
+
+  // ── Facts: confirmed by Redwood JP ──
+  const CONFIRMED_FACTS = `
+CONFIRMED FACTS (from official Redwood JP communication):
+- MOE and KHDA have approved reopening. One final declaration is still awaited before full on-site operations resume.
+- Tentative reopening date: Monday 20 April 2026, subject to final KHDA confirmation.
+- Any changes will be communicated promptly to parents.
+- Fees apply from the child's confirmed return date, per nursery policy.
+- Children return on their existing schedule (same days and timings as before).
+- Meal services are subject to availability from the external provider.
+- All arrangements remain subject to government directives and may be adjusted.
+- The team will provide extra emotional care during the transition, to help children re-familiarise with the routine, environment, and teachers.
+- Emergency contact details must be up to date: local UAE number, someone other than a parent, reachable during nursery hours.
+
+CONTACTS:
+- Urgent (WhatsApp): +971 50 396 7190 (East) or +971 50 107 2766 (West), during working hours
+- Landline: +971 4 4538688
+- Nurse: +971 50 107 2782 / nurse.jp@theredwoodnursery.com
+- Director Suroor Ansari: suroor.ansari@theredwoodnursery.com
+- Admin: admin.jp@theredwoodnursery.com
+- Admin support: adminsupport.jp@theredwoodnursery.com
+`.trim();
+
+  // ── Demo: plausible but NOT confirmed — must be flagged ──
+  const DEMO_FACTS = `
+ILLUSTRATIVE DETAILS (not yet confirmed by nursery — flag these responses with DEMO_CONTENT marker):
+- All staff trained for emergencies; extra training conducted in days prior to reopening.
+- Entry will be staggered based on attendance data.
+- Play areas have been moved away from windows as a precaution.
+- In case of shelter-in-place: cosy corners created around the nursery with blankets, toys, sensory trays, books, and portable music players with calming sounds.
+- A dedicated WhatsApp broadcast list exists for emergency updates only. Three staff members assigned to send updates as soon as everyone is safe. Updates will confirm children and staff are safe and provide brief calm updates (e.g. "story time in the cosy corner").
+- Parents may wait in the surrounding area to collect children in case of siren, but pick-up is not possible during an active shelter-in-place alert.
+- Maximum flexibility on pick-up times in general.
+- No ECAs at this time.
+- Extra slots available to communicate with teachers.
+- A series of webinars with experts is planned on how to handle the return.
+- A discount code is available for parents wishing to book a session with a counsellor specialising in how children process fear and anxiety.
+`.trim();
+
+  // ── Psychology knowledge ──
+  const PSYCHOLOGY_KNOWLEDGE = `
+DEVELOPMENTAL & PSYCHOLOGICAL KNOWLEDGE (back responses with this where relevant):
+- Children aged 2-4 are pre-verbal and pre-logical; they process disruption through behaviour (clinginess, regression, sleep changes) not words. This is normal.
+- Routine is the primary regulator for toddlers. Predictable sequence matters more than explanation.
+- Children co-regulate with adults: a calm, matter-of-fact adult presence is the most evidence-based tool available to a parent.
+- Avoid detailed explanations of threats. Children do not need to understand what happened; they need to feel that the adults around them are steady.
+- Transition back to nursery may bring separation anxiety that wasn't there before. Brief, confident goodbyes are more effective than prolonged reassurance at drop-off (research: Ainsworth attachment theory; Zero to Three guidelines).
+- Regression (thumb-sucking, night waking, wanting to be carried) is a normal stress response in toddlers. It resolves with consistency and patience, not correction.
+- Play is how children process big events. If a child re-enacts something frightening, this is therapeutic, not alarming, unless it becomes obsessive.
+- Every child is different. What works depends on temperament, prior attachment patterns, and the child's specific sensitivities. There is no single right approach.
+- Teachers who know the child are an important resource. Parents should not hesitate to share observations with the nursery team — they are partners in this.
+`.trim();
+
+  const SYSTEM_PROMPT = `You are the parent information assistant for Redwood Nursery Jumeirah Park. You help parents with questions about the April 2026 reopening, the nursery's safety arrangements, and how to support their toddlers through the return to routine.
+
+Your voice: calm, clear, professional, and direct. You do not use filler phrases. You do not offer false reassurance. You are competent and you demonstrate it through precision, not warmth-performance.
+
+Rules:
+1. Use CONFIRMED FACTS freely. They are official nursery communications.
+2. Use ILLUSTRATIVE DETAILS only if directly relevant to the question. When you do, prepend exactly the token DEMO_CONTENT on a new line before the relevant sentence or paragraph. This is a technical marker, not something to explain to the parent.
+3. When you draw on developmental or psychological knowledge, ground it briefly in evidence without being academic.
+4. If you do not know something, say so clearly. Do not speculate. Direct the parent to the appropriate contact.
+5. Answers about urgent or sensitive situations (medical, urgent security): always direct to WhatsApp or the nurse first.
+6. Answers about administrative questions (fees, schedule): direct to admin.jp@theredwoodnursery.com.
+7. For longer or non-urgent matters: admin.jp@theredwoodnursery.com or adminsupport.jp@theredwoodnursery.com.
+8. Keep responses concise. One clear answer, then the right next step if needed. No bullet lists unless there are genuinely multiple discrete items.
+9. Do not say "great question," "I understand," or any variant of performed empathy. Just answer.
+10. Every child is different. When giving developmental guidance, always acknowledge this.
+11. Never invent facts about the nursery that are not in your knowledge base.
+
+${CONFIRMED_FACTS}
+
+${DEMO_FACTS}
+
+${PSYCHOLOGY_KNOWLEDGE}`;
+
+  let history = [];
+  let waiting = false;
+
+  // ── Render ──
+  function renderBot(text, isDemo) {
+    const row = document.createElement('div');
+    row.className = 'bubble-row';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble bot';
+
+    if (isDemo) {
+      const badge = document.createElement('div');
+      badge.className = 'demo-badge';
+      badge.textContent = 'Illustrative — not confirmed';
+      bubble.appendChild(badge);
+    }
+
+    const p = document.createElement('div');
+    p.innerHTML = formatText(text);
+    bubble.appendChild(p);
+
+    row.appendChild(bubble);
+    return row;
+  }
+
+  function renderUser(text) {
+    const row = document.createElement('div');
+    row.className = 'bubble-row user';
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble user';
+    bubble.textContent = text;
+    row.appendChild(bubble);
+    return row;
+  }
+
+  function renderTyping() {
+    const row = document.createElement('div');
+    row.className = 'bubble-row';
+    const b = document.createElement('div');
+    b.className = 'typing-bubble';
+    b.id = 'typing';
+    b.innerHTML = '<span></span><span></span><span></span>';
+    row.appendChild(b);
+    return row;
+  }
+
+  function formatText(text) {
+    // Strip DEMO_CONTENT marker (handled separately by caller)
+    return text
+      .replace(/DEMO_CONTENT\n?/g, '')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n/g, '<br>');
+  }
+
+  function scrollBottom() {
+    const m = document.getElementById('messages');
+    m.scrollTop = m.scrollHeight;
+  }
+
+  function appendNode(node) {
+    document.getElementById('messages').appendChild(node);
+    scrollBottom();
+  }
+
+  // ── Chips ──
+  function renderChips(options) {
+    const row = document.createElement('div');
+    row.className = 'chips-row';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'chip';
+      btn.textContent = opt;
+      btn.onclick = () => {
+        row.remove();
+        sendMessage(opt);
+      };
+      row.appendChild(btn);
+    });
+    document.getElementById('messages').appendChild(row);
+    scrollBottom();
+  }
+
+  // ── Intro ──
+  function showIntro() {
+    const intro = renderBot(`I'm here to help with questions about the nursery's reopening on 20 April, the safety arrangements in place, and how you can support your child through the return to routine.\n\nWhat would you like to know?`);
+    appendNode(intro);
+
+    setTimeout(() => {
+      renderChips([
+        'What do I need to know about reopening?',
+        'How is the nursery prepared for emergencies?',
+        'How do I help my child settle back in?'
+      ]);
+    }, 150);
+  }
+
+  // ── Send ──
+  async function sendMessage(override) {
+    if (waiting) return;
+    const input = document.getElementById('input');
+    const text = override || input.value.trim();
+    if (!text) return;
+
+    // Remove chips if still visible
+    document.querySelectorAll('.chips-row').forEach(c => c.remove());
+
+    if (!override) input.value = '';
+    autoResize(input);
+
+    appendNode(renderUser(text));
+    history.push({ role: 'user', content: text });
+
+    waiting = true;
+    document.getElementById('send-btn').disabled = true;
+    const typingRow = renderTyping();
+    appendNode(typingRow);
+
+    try {
+      const res = await fetch(`${WORKER_URL}/parent-chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history, system: SYSTEM_PROMPT })
+      });
+
+      const data = await res.json();
+      typingRow.remove();
+
+      let reply = data.content?.[0]?.text || data.reply || 'Sorry, something went wrong. Please contact the nursery directly.';
+
+      // Detect demo content
+      const isDemo = /DEMO_CONTENT/.test(reply);
+
+      history.push({ role: 'assistant', content: reply });
+      appendNode(renderBot(reply, isDemo));
+
+    } catch (e) {
+      typingRow.remove();
+      appendNode(renderBot('I\'m not able to respond right now. For immediate questions, please contact the nursery on WhatsApp: +971 50 396 7190 (East) or +971 50 107 2766 (West).', false));
+    }
+
+    waiting = false;
+    document.getElementById('send-btn').disabled = false;
+    input.focus();
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  }
+
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  }
+
+  showIntro();
+</script>
+</body>
+</html>
