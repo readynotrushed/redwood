@@ -422,20 +422,27 @@ DEVELOPMENTAL & PSYCHOLOGICAL KNOWLEDGE (back responses with this where relevant
 
   const SYSTEM_PROMPT = `You are the parent information assistant for Redwood Nursery Jumeirah Park. You help parents with questions about the April 2026 reopening, the nursery's safety arrangements, and how to support their toddlers through the return to routine.
 
-Your voice: calm, clear, professional, and direct. You do not use filler phrases. You do not offer false reassurance. You are competent and you demonstrate it through precision, not warmth-performance.
+Your voice: calm, clear, professional, and direct. You do not use filler phrases. You do not offer false reassurance. You are competent and you demonstrate it through precision, not performed warmth. You are kind and you know your limits.
+
+RESPONSE FORMAT — CRITICAL:
+- Write in short, separate paragraphs. Maximum 2-3 sentences per paragraph.
+- Separate each paragraph with a blank line (\\n\\n).
+- Never write a wall of text. If your answer has multiple points, each point is its own paragraph.
+- At the end of most responses, offer one natural follow-up — either a question ("Is there anything specific about drop-off you'd like to go through?") or a gentle suggestion of a related topic ("Many parents also find it helpful to think through the first morning routine — happy to go through that if useful."). Keep this light, never pushy.
+- Do not list multiple follow-up options. One natural thread at a time.
 
 Rules:
 1. Use CONFIRMED FACTS freely. They are official nursery communications.
-2. Use ILLUSTRATIVE DETAILS only if directly relevant to the question. When you do, prepend exactly the token DEMO_CONTENT on a new line before the relevant sentence or paragraph. This is a technical marker, not something to explain to the parent.
-3. When you draw on developmental or psychological knowledge, ground it briefly in evidence without being academic.
-4. If you do not know something, say so clearly. Do not speculate. Direct the parent to the appropriate contact.
-5. Answers about urgent or sensitive situations (medical, urgent security): always direct to WhatsApp or the nurse first.
-6. Answers about administrative questions (fees, schedule): direct to admin.jp@theredwoodnursery.com.
-7. For longer or non-urgent matters: admin.jp@theredwoodnursery.com or adminsupport.jp@theredwoodnursery.com.
-8. Keep responses concise. One clear answer, then the right next step if needed. No bullet lists unless there are genuinely multiple discrete items.
-9. Do not say "great question," "I understand," or any variant of performed empathy. Just answer.
-10. Every child is different. When giving developmental guidance, always acknowledge this.
-11. Never invent facts about the nursery that are not in your knowledge base.
+2. Use ILLUSTRATIVE DETAILS only if directly relevant to the question. When you do, prepend exactly the token DEMO_CONTENT on its own line before that paragraph only. This is a technical marker — do not mention it or explain it to the parent.
+3. When you draw on developmental or psychological knowledge, ground it briefly in evidence without being academic. Always note that every child is different and the nursery team can help find the right approach for their child specifically.
+4. If you do not know something, say so clearly. Do not speculate. Direct the parent to the right contact.
+5. Urgent or medical matters: direct to WhatsApp first. Make the numbers clickable: <a href="https://wa.me/971503967190">+971 50 396 7190</a> (East) or <a href="https://wa.me/971501072766">+971 50 107 2766</a> (West).
+6. Administrative questions (fees, schedule, records): admin.jp@theredwoodnursery.com.
+7. Non-urgent queries or need for human reassurance: remind parents warmly that staff are there and welcome direct contact — this assistant exists to make information accessible quickly, not to replace the team.
+8. All teachers and staff have received training for emergency situations, including specific preparation in the days before reopening. Mention this where relevant.
+9. Do not say "great question," "I understand," "of course," or any variant of performed empathy. Just answer.
+10. Never invent facts about the nursery that are not in your knowledge base.
+11. You do not have access to any individual child's records. Say so if asked anything personal.
 
 ${CONFIRMED_FACTS}
 
@@ -446,27 +453,47 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
   let history = [];
   let waiting = false;
 
-  // ── Render ──
-  function renderBot(text, isDemo) {
-    const row = document.createElement('div');
-    row.className = 'bubble-row';
+  const MAIN_CHIPS = [
+    'What do I need to know about reopening?',
+    'How is the nursery prepared for emergencies?',
+    'How do I help my child settle back in?'
+  ];
 
-    const bubble = document.createElement('div');
-    bubble.className = 'bubble bot';
+  // ── Render multiple bubbles from one response ──
+  function renderBotBubbles(text, isDemo) {
+    // Split on double newlines into paragraphs
+    const paragraphs = text
+      .replace(/DEMO_CONTENT\n?/g, '')
+      .split(/\n\n+/)
+      .map(p => p.trim())
+      .filter(Boolean);
 
-    if (isDemo) {
-      const badge = document.createElement('div');
-      badge.className = 'demo-badge';
-      badge.textContent = 'Illustrative — not confirmed';
-      bubble.appendChild(badge);
-    }
+    const fragment = document.createDocumentFragment();
 
-    const p = document.createElement('div');
-    p.innerHTML = formatText(text);
-    bubble.appendChild(p);
+    paragraphs.forEach((para, i) => {
+      const row = document.createElement('div');
+      row.className = 'bubble-row';
+      row.style.animationDelay = `${i * 80}ms`;
 
-    row.appendChild(bubble);
-    return row;
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble bot';
+
+      // Only put DEMO badge on first bubble if flagged
+      if (isDemo && i === 0) {
+        const badge = document.createElement('div');
+        badge.className = 'demo-badge';
+        badge.textContent = 'Illustrative — not confirmed';
+        bubble.appendChild(badge);
+      }
+
+      const p = document.createElement('div');
+      p.innerHTML = formatText(para);
+      bubble.appendChild(p);
+      row.appendChild(bubble);
+      fragment.appendChild(row);
+    });
+
+    return fragment;
   }
 
   function renderUser(text) {
@@ -491,9 +518,7 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
   }
 
   function formatText(text) {
-    // Strip DEMO_CONTENT marker (handled separately by caller)
     return text
-      .replace(/DEMO_CONTENT\n?/g, '')
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/\n/g, '<br>');
   }
@@ -528,16 +553,37 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
 
   // ── Intro ──
   function showIntro() {
-    const intro = renderBot(`I'm here to help with questions about the nursery's reopening on 20 April, the safety arrangements in place, and how you can support your child through the return to routine.\n\nWhat would you like to know?`);
-    appendNode(intro);
+    const b1 = document.createElement('div');
+    b1.className = 'bubble-row';
+    const bub1 = document.createElement('div');
+    bub1.className = 'bubble bot';
+    bub1.innerHTML = formatText('I am an assistant built to help Redwood JP and parents focus on what matters most: the children.');
+    b1.appendChild(bub1);
+    appendNode(b1);
 
     setTimeout(() => {
-      renderChips([
-        'What do I need to know about reopening?',
-        'How is the nursery prepared for emergencies?',
-        'How do I help my child settle back in?'
-      ]);
-    }, 150);
+      const b2 = document.createElement('div');
+      b2.className = 'bubble-row';
+      const bub2 = document.createElement('div');
+      bub2.className = 'bubble bot';
+      bub2.innerHTML = formatText('I can help you go through several topics prepared by the Redwood staff — from logistical questions about the reopening, to how to help your child adjust to this new transition.');
+      b2.appendChild(bub2);
+      appendNode(b2);
+    }, 300);
+
+    setTimeout(() => {
+      const b3 = document.createElement('div');
+      b3.className = 'bubble-row';
+      const bub3 = document.createElement('div');
+      bub3.className = 'bubble bot';
+      bub3.innerHTML = formatText('I don\'t have access to your child\'s records. For anything personal or urgent, you\'re always welcome to contact the school directly — the team is there and ready.');
+      b3.appendChild(bub3);
+      appendNode(b3);
+    }, 600);
+
+    setTimeout(() => {
+      renderChips(MAIN_CHIPS);
+    }, 900);
   }
 
   // ── Send ──
@@ -547,7 +593,6 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
     const text = override || input.value.trim();
     if (!text) return;
 
-    // Remove chips if still visible
     document.querySelectorAll('.chips-row').forEach(c => c.remove());
 
     if (!override) input.value = '';
@@ -573,15 +618,38 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
 
       let reply = data.content?.[0]?.text || data.reply || 'Sorry, something went wrong. Please contact the nursery directly.';
 
-      // Detect demo content
       const isDemo = /DEMO_CONTENT/.test(reply);
-
       history.push({ role: 'assistant', content: reply });
-      appendNode(renderBot(reply, isDemo));
+
+      const fragment = renderBotBubbles(reply, isDemo);
+      document.getElementById('messages').appendChild(fragment);
+      scrollBottom();
+
+      // Re-show unused chips after a pause, if conversation has more than 2 turns
+      // Find which main chip was used (if any) and show the others
+      const usedChip = MAIN_CHIPS.find(c => text === c);
+      if (usedChip && history.length <= 4) {
+        setTimeout(() => {
+          const remaining = MAIN_CHIPS.filter(c => c !== usedChip);
+          const hint = document.createElement('div');
+          hint.className = 'bubble-row';
+          const hintBub = document.createElement('div');
+          hintBub.className = 'bubble bot';
+          hintBub.innerHTML = formatText('There are a couple of other topics parents have been asking about too:');
+          hint.appendChild(hintBub);
+          appendNode(hint);
+          setTimeout(() => renderChips(remaining), 150);
+        }, 800);
+      }
 
     } catch (e) {
       typingRow.remove();
-      appendNode(renderBot('I\'m not able to respond right now. For immediate questions, please contact the nursery on WhatsApp: +971 50 396 7190 (East) or +971 50 107 2766 (West).', false));
+      const errFrag = renderBotBubbles(
+        'I\'m not able to respond right now.\n\nFor immediate questions, please contact the nursery on WhatsApp: <a href="https://wa.me/971503967190">+971 50 396 7190</a> (East) or <a href="https://wa.me/971501072766">+971 50 107 2766</a> (West).',
+        false
+      );
+      document.getElementById('messages').appendChild(errFrag);
+      scrollBottom();
     }
 
     waiting = false;
