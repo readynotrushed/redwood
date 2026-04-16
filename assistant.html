@@ -81,14 +81,14 @@
     }
 
     .header-text h1 {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 600;
       color: var(--text);
       line-height: 1.2;
     }
 
     .header-text p {
-      font-size: 12px;
+      font-size: 13px;
       color: var(--text-muted);
       margin-top: 1px;
     }
@@ -134,10 +134,10 @@
 
     .bubble {
       max-width: 82%;
-      padding: 11px 15px;
+      padding: 12px 16px;
       border-radius: var(--radius);
-      font-size: 14px;
-      line-height: 1.55;
+      font-size: 16px;
+      line-height: 1.6;
       position: relative;
     }
 
@@ -221,9 +221,7 @@
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 7px 14px;
-      font-size: 13px;
-      font-family: 'Source Sans 3', sans-serif;
-      color: var(--red);
+      font-size: 15px;
       cursor: pointer;
       transition: background 0.15s, border-color 0.15s;
       font-weight: 600;
@@ -263,6 +261,8 @@
     textarea {
       flex: 1;
       font-family: 'Source Sans 3', sans-serif;
+      font-size: 16px;
+      color: var(--text);
       background: #fff;
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
@@ -368,7 +368,7 @@
         <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       </button>
     </div>
-    <p class="footer-note">Parent Assistant is AI and can make mistakes. Double check what's important with a Redwood JP human. They are ready to help.</p>
+    <p class="footer-note">Parent Assistant is AI and can make mistakes. Double check responses with Redwood JP humans.</p>
   </div>
 </div>
 
@@ -450,6 +450,7 @@ Rules:
 9. Do not say "great question," "I understand," "of course," or any variant of performed empathy. Just answer.
 10. Never invent facts about the nursery that are not in your knowledge base.
 11. You do not have access to any individual child's records. Say so if asked anything personal.
+12. If a parent asks why Parent Assistant exists, who built it, or what its purpose is: explain that the Redwood JP team is focused more than ever on preparing the nursery for the children's return — and knew that parents would have questions. Parent Assistant was put together so that families have immediate access to answers on logistics and child development, without having to wait for an email reply from a team that is hands-on getting everything ready. The focus is always the children. When children are back in person, staff will be busier than ever, and Parent Assistant is one way the nursery is trying to support families through a demanding moment.
 
 ${CONFIRMED_FACTS}
 
@@ -591,9 +592,9 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
   // ── Intro ──
   function showIntro() {
     const intros = [
-      'Parents have questions at all hours, and the Redwood team has a lot on their hands right now. Parent Assistant gives you a direct line to answers, any time of day, without adding to the inbox.',
+      'Hi, I am a Parent Assistant designed to support Redwood JP families in this next phase.',
       'I can walk you through what you need to know about the reopening, how the nursery has prepared, and how to help your child settle back in.',
-      "I don't have access to your child's records. For anything personal or urgent, the team is there and ready to hear from you directly."
+      "I don't have access to your child's records. You are always welcome to contact the nursery directly. They will be happy to help you."
     ];
 
     intros.forEach((text, i) => {
