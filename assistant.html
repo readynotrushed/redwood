@@ -173,8 +173,8 @@
     .demo-badge {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      font-size: 10px;
+      gap: 5px;
+      font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -182,7 +182,7 @@
       background: var(--demo-bg);
       border: 1px solid rgba(180, 83, 9, 0.2);
       border-radius: 4px;
-      padding: 2px 6px;
+      padding: 4px 9px;
       margin-bottom: 6px;
     }
 
@@ -408,7 +408,7 @@
     </div>
     <div class="status-dot"></div>
     <div class="header-text">
-      <h1>PARENT ASSISTANT</h1>
+      <h1>Parent Assistant</h1>
       <p id="header-sub">Redwood JP · April 2026 reopening</p>
     </div>
   </header>
@@ -428,7 +428,7 @@
         <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       </button>
     </div>
-    <p class="footer-note">Parent Assistant is AI and can make mistakes. Double check responses with Redwood JP humans.</p>
+    <p class="footer-note">This assistant can make mistakes. For anything urgent or personal, contact the nursery directly.</p>
   </div>
 </div>
 
@@ -471,6 +471,13 @@ Admin support:
 [EMAIL:Admin Support|adminsupport.jp@theredwoodnursery.com]
 
 Token format: [WA:Label|dialNumber|displayNumber] or [EMAIL:Label|address]. Never mid-sentence.
+
+ATTENDANCE & ABSENCE FOR REOPENING WEEK:
+- Parents are not obligated to send their child on Monday if they do not feel ready. The nursery understands this is a personal decision.
+- If a child will be absent, parents should notify the nursery in advance. WhatsApp or a message to admin is fine.
+- Fees apply from the confirmed return date per the standard nursery policy. Parents with specific questions about fees during the closure or on return should contact admin directly.
+- There is no academic penalty for toddlers. Missing a day or a week does not put a child behind.
+- If a parent is unsure whether their child is ready, the team is available to talk it through. This is a human conversation, not administrative. The director and key teachers welcome it.
 `.trim();
 
   // ── Demo: plausible but NOT confirmed — must be flagged ──
@@ -521,14 +528,15 @@ Rules:
 2. Use ILLUSTRATIVE DETAILS only if directly relevant. When you do, prepend DEMO_CONTENT on its own line before that paragraph. This is a technical marker, do not mention or explain it.
 3. When drawing on developmental or psychological knowledge, ground it briefly without being academic. Always note that every child is different and the nursery team can help find the right approach.
 4. If you do not know something, say so. Do not speculate. Direct to the right contact.
-5. Urgent or medical matters: direct to WhatsApp first. Use clickable links: <a href="https://wa.me/971503967190">+971 50 396 7190</a> (East) or <a href="https://wa.me/971501072766">+971 50 107 2766</a> (West).
+5. Urgent or medical matters: direct to WhatsApp using the token format. Output the text context first, then the tokens on separate lines.
 6. Administrative questions (fees, schedule, records): admin.jp@theredwoodnursery.com.
 7. For anything needing a human: remind parents warmly that staff welcome direct contact.
 8. All teachers and staff have received training for emergency situations, including specific preparation in the days before reopening. Mention this where relevant.
 9. Do not say "great question", "I understand", "of course", or any performed empathy. Just answer.
 10. Never invent facts about the nursery not in your knowledge base.
-11. You do not have access to any individual child's records. Say so if asked.
+11. You do not have access to any individual child's records. Say so only if asked about their specific child's situation. Do not volunteer this proactively.
 12. If asked why Parent Assistant exists: the Redwood JP team is focused on preparing the nursery for the children's return. They knew parents would have questions. Parent Assistant gives families immediate access to answers without waiting for an email reply from a team that is hands-on getting everything ready. The focus is always the children. When children are back in person, staff will be busier than ever, and this is one way the nursery is trying to support families through a demanding moment.
+13. If a parent expresses hesitation about sending their child back, do not reassure them that it will be fine. Acknowledge that it is a legitimate decision, give them the factual position (no obligation, notify nursery, fees question goes to admin), and offer the option to talk to the team directly. Do not push them toward sending the child. Do not push them away from it. Stay neutral and practical.
 
 ${CONFIRMED_FACTS}
 
@@ -540,9 +548,9 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
   let waiting = false;
 
   const MAIN_CHIPS = [
-    'What do I need to know about reopening?',
-    'How is the nursery prepared for emergencies?',
-    'How do I help my child settle back in?'
+    'What happens if there\'s an alert during nursery hours?',
+    'My child is struggling: what do I do?',
+    'What do I need for Monday morning?'
   ];
 
   const WA_ICON = `<svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.121 1.535 5.857L.057 23.743a.75.75 0 0 0 .921.921l5.886-1.478A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.667-.502-5.2-1.379l-.374-.214-3.873.972.991-3.771-.234-.389A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>`;
@@ -731,9 +739,8 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
   // ── Intro ──
   function showIntro() {
     const intros = [
-      'Hi, I am Parent Assistant. I was designed to support Redwood JP families during this transition phase',
-      'I can walk you through what you need to know about the reopening, how the nursery has prepared, and how to help your child settle back in',
-      "FYI I don't have access to your child's records. For anything personal contact the nursery directly. They will be happy to help you (I can give you their contacts, just ask)"
+      "Hi, I'm the Redwood JP parent assistant. I'm here to answer your questions about the nursery reopening on Monday 20th",
+      "I can walk you through what you need to know about the reopening, how the nursery has prepared, and how to help your child settle back in"
     ];
 
     intros.forEach((text, i) => {
