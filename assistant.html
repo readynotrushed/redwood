@@ -100,6 +100,20 @@
       background: var(--sage);
       flex-shrink: 0;
       box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.2);
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.2); }
+      50%       { box-shadow: 0 0 0 6px rgba(74, 124, 89, 0.35), 0 0 10px rgba(74, 124, 89, 0.2); }
+    }
+
+    .header-typing {
+      font-size: 11px;
+      color: var(--sage);
+      font-style: italic;
+      margin-top: 1px;
+      height: 14px;
     }
 
     /* ── Message area ── */
@@ -134,6 +148,7 @@
 
     .bubble {
       max-width: 82%;
+      width: fit-content;
       padding: 12px 16px;
       border-radius: var(--radius);
       font-size: 16px;
@@ -348,8 +363,8 @@
     </div>
     <div class="status-dot"></div>
     <div class="header-text">
-      <h1>PARENT ASSISTANT · Redwood JP</h1>
-      <p>Jumeirah Park · April 2026 reopening</p>
+      <h1>PARENT ASSISTANT</h1>
+      <p id="header-sub">Redwood JP · April 2026 reopening</p>
     </div>
   </header>
 
@@ -431,26 +446,28 @@ DEVELOPMENTAL & PSYCHOLOGICAL KNOWLEDGE (back responses with this where relevant
 
 Your voice: calm, clear, professional, and direct. You do not use filler phrases. You do not offer false reassurance. You are competent and you demonstrate it through precision, not performed warmth. You are kind and you know your limits.
 
-RESPONSE FORMAT — CRITICAL:
-- Write in short, separate paragraphs. Maximum 2-3 sentences per paragraph.
-- Separate each paragraph with a blank line (\\n\\n).
-- Never write a wall of text. If your answer has multiple points, each point is its own paragraph.
-- At the end of most responses, offer one natural follow-up — either a question ("Is there anything specific about drop-off you'd like to go through?") or a gentle suggestion of a related topic ("Many parents also find it helpful to think through the first morning routine — happy to go through that if useful."). Keep this light, never pushy.
-- Do not list multiple follow-up options. One natural thread at a time.
+STRICT FORMATTING RULES:
+- Never use em dashes (-- or -). Use a comma, a short sentence break, or a new sentence instead.
+- Maximum 2 paragraphs per response. Give the surface layer first. If the parent wants more, they will ask. This is a conversation, not a briefing document.
+- Separate paragraphs with a blank line.
+- Never end the final sentence of a bubble with a full stop. It reads as cold and formal. End with a question, an open thought, or simply trail off naturally.
+- Bold text sparingly: only when naming a specific technique, concept, or action the parent should remember. Example: "One approach is called **sportscasting** -- narrating what you see without judgment". Use *word* syntax for bold.
+- Never write a wall of text. Short is almost always better.
+- At the end of your response, offer one natural thread to pull on, either a question or a soft suggestion. One only.
 
 Rules:
 1. Use CONFIRMED FACTS freely. They are official nursery communications.
-2. Use ILLUSTRATIVE DETAILS only if directly relevant to the question. When you do, prepend exactly the token DEMO_CONTENT on its own line before that paragraph only. This is a technical marker — do not mention it or explain it to the parent.
-3. When you draw on developmental or psychological knowledge, ground it briefly in evidence without being academic. Always note that every child is different and the nursery team can help find the right approach for their child specifically.
-4. If you do not know something, say so clearly. Do not speculate. Direct the parent to the right contact.
-5. Urgent or medical matters: direct to WhatsApp first. Make the numbers clickable: <a href="https://wa.me/971503967190">+971 50 396 7190</a> (East) or <a href="https://wa.me/971501072766">+971 50 107 2766</a> (West).
+2. Use ILLUSTRATIVE DETAILS only if directly relevant. When you do, prepend DEMO_CONTENT on its own line before that paragraph. This is a technical marker, do not mention or explain it.
+3. When drawing on developmental or psychological knowledge, ground it briefly without being academic. Always note that every child is different and the nursery team can help find the right approach.
+4. If you do not know something, say so. Do not speculate. Direct to the right contact.
+5. Urgent or medical matters: direct to WhatsApp first. Use clickable links: <a href="https://wa.me/971503967190">+971 50 396 7190</a> (East) or <a href="https://wa.me/971501072766">+971 50 107 2766</a> (West).
 6. Administrative questions (fees, schedule, records): admin.jp@theredwoodnursery.com.
-7. Non-urgent queries or need for human reassurance: remind parents warmly that staff are there and welcome direct contact — this assistant exists to make information accessible quickly, not to replace the team.
+7. For anything needing a human: remind parents warmly that staff welcome direct contact.
 8. All teachers and staff have received training for emergency situations, including specific preparation in the days before reopening. Mention this where relevant.
-9. Do not say "great question," "I understand," "of course," or any variant of performed empathy. Just answer.
-10. Never invent facts about the nursery that are not in your knowledge base.
-11. You do not have access to any individual child's records. Say so if asked anything personal.
-12. If a parent asks why Parent Assistant exists, who built it, or what its purpose is: explain that the Redwood JP team is focused more than ever on preparing the nursery for the children's return — and knew that parents would have questions. Parent Assistant was put together so that families have immediate access to answers on logistics and child development, without having to wait for an email reply from a team that is hands-on getting everything ready. The focus is always the children. When children are back in person, staff will be busier than ever, and Parent Assistant is one way the nursery is trying to support families through a demanding moment.
+9. Do not say "great question", "I understand", "of course", or any performed empathy. Just answer.
+10. Never invent facts about the nursery not in your knowledge base.
+11. You do not have access to any individual child's records. Say so if asked.
+12. If asked why Parent Assistant exists: the Redwood JP team is focused on preparing the nursery for the children's return. They knew parents would have questions. Parent Assistant gives families immediate access to answers without waiting for an email reply from a team that is hands-on getting everything ready. The focus is always the children. When children are back in person, staff will be busier than ever, and this is one way the nursery is trying to support families through a demanding moment.
 
 ${CONFIRMED_FACTS}
 
@@ -475,18 +492,18 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
       .map(p => p.trim())
       .filter(Boolean);
 
-    // First bubble appears immediately; subsequent ones after typing delay
     paragraphs.forEach((para, i) => {
-      const delay = i === 0 ? 0 : i * 1400; // ~1.4s per bubble after first
+      const delay = i === 0 ? 0 : i * 1400;
 
       setTimeout(() => {
-        // Remove any existing typing indicator before appending real bubble
         const existing = document.getElementById('typing-inter');
         if (existing) existing.parentElement.remove();
 
+        // Last bubble: clear header typing state
+        if (i === paragraphs.length - 1) setHeaderTyping(false);
+
         const wrapper = document.createElement('div');
 
-        // Sender label only on first bubble of first assistant turn
         if (showSender && i === 0) {
           const label = document.createElement('div');
           label.className = 'sender-label';
@@ -514,9 +531,9 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
         wrapper.appendChild(row);
         appendNode(wrapper);
 
-        // Add typing indicator after this bubble if more are coming
         if (i < paragraphs.length - 1) {
           setTimeout(() => {
+            setHeaderTyping(true);
             const typRow = document.createElement('div');
             typRow.className = 'bubble-row';
             const tb = document.createElement('div');
@@ -530,7 +547,6 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
       }, delay);
     });
 
-    // Return total duration so caller can time follow-up chips
     return paragraphs.length * 1400;
   }
 
@@ -545,6 +561,7 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
   }
 
   function renderTyping() {
+    setHeaderTyping(true);
     const row = document.createElement('div');
     row.className = 'bubble-row';
     const b = document.createElement('div');
@@ -589,12 +606,18 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
     scrollBottom();
   }
 
+  function setHeaderTyping(on) {
+    const sub = document.getElementById('header-sub');
+    if (sub) sub.textContent = on ? 'is typing...' : 'Redwood JP · April 2026 reopening';
+    if (sub) sub.style.color = on ? 'var(--sage)' : '';
+  }
+
   // ── Intro ──
   function showIntro() {
     const intros = [
-      'Hi, I am a Parent Assistant designed to support Redwood JP families in this next phase.',
-      'I can walk you through what you need to know about the reopening, how the nursery has prepared, and how to help your child settle back in.',
-      "I don't have access to your child's records. You are always welcome to contact the nursery directly. They will be happy to help you."
+      'Hi, I am Parent Assistant. I was designed to support Redwood JP families during this transition phase',
+      'I can walk you through what you need to know about the reopening, how the nursery has prepared, and how to help your child settle back in',
+      "FYI I don't have access to your child's records. For anything personal contact the nursery directly. They will be happy to help you (I can give you their contacts, just ask)"
     ];
 
     intros.forEach((text, i) => {
@@ -669,6 +692,7 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
 
       const data = await res.json();
       typingRow.remove();
+      setHeaderTyping(false);
 
       let reply = data.content?.[0]?.text || data.reply || 'Sorry, something went wrong. Please contact the nursery directly.';
 
@@ -696,6 +720,7 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
 
     } catch (e) {
       typingRow.remove();
+      setHeaderTyping(false);
       renderBotBubbles(
         "I'm not able to respond right now.\n\nFor immediate questions, please contact the nursery on WhatsApp: <a href=\"https://wa.me/971503967190\">+971 50 396 7190</a> (East) or <a href=\"https://wa.me/971501072766\">+971 50 107 2766</a> (West).",
         false, false
