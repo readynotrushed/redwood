@@ -330,6 +330,51 @@
       line-height: 1.4;
     }
 
+    /* ── Contact buttons ── */
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      border-bottom-left-radius: 4px;
+      padding: 11px 16px;
+      text-decoration: none;
+      color: var(--text);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      max-width: 82%;
+      animation: fadeUp 0.25s ease both;
+    }
+
+    .contact-btn:hover { background: var(--red-light); border-color: var(--red); }
+    .contact-btn:active { transform: scale(0.98); }
+
+    .contact-btn .cb-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-btn.wa .cb-icon { background: #25d366; }
+    .contact-btn.email .cb-icon { background: var(--red-light); border: 1px solid var(--red-mid); }
+
+    .contact-btn .cb-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .contact-btn .cb-text { display: flex; flex-direction: column; gap: 1px; }
+    .contact-btn .cb-label { font-weight: 600; font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .contact-btn .cb-value { font-size: 15px; color: var(--text); }
+
     /* ── Contact card ── */
     .contact-card {
       margin-top: 10px;
@@ -404,12 +449,28 @@ CONFIRMED FACTS (from official Redwood JP communication):
 - Emergency contact details must be up to date: local UAE number, someone other than a parent, reachable during nursery hours.
 
 CONTACTS:
-- Urgent (WhatsApp): +971 50 396 7190 (East) or +971 50 107 2766 (West), during working hours
-- Landline: +971 4 4538688
-- Nurse: +971 50 107 2782 / nurse.jp@theredwoodnursery.com
-- Director Suroor Ansari: suroor.ansari@theredwoodnursery.com
-- Admin: admin.jp@theredwoodnursery.com
-- Admin support: adminsupport.jp@theredwoodnursery.com
+When sharing any contact, use these exact tokens. Do not write the number or email in plain text alongside the token. Each token must be on its own line.
+
+Urgent WhatsApp (working hours) — first send a plain text bubble: "For urgent matters, contact the nursery on WhatsApp during working hours", then on separate lines:
+[WA:East|971503967190|+971 50 396 7190]
+[WA:West|971501072766|+971 50 107 2766]
+
+Landline: +971 4 4538688 (plain text only, no token)
+
+Nurse:
+[WA:Nurse|971501072782|+971 50 107 2782]
+[EMAIL:Nurse|nurse.jp@theredwoodnursery.com]
+
+Director:
+[EMAIL:Suroor Ansari, Director|suroor.ansari@theredwoodnursery.com]
+
+Admin:
+[EMAIL:Admin|admin.jp@theredwoodnursery.com]
+
+Admin support:
+[EMAIL:Admin Support|adminsupport.jp@theredwoodnursery.com]
+
+Token format: [WA:Label|dialNumber|displayNumber] or [EMAIL:Label|address]. Never mid-sentence.
 `.trim();
 
   // ── Demo: plausible but NOT confirmed — must be flagged ──
@@ -484,23 +545,67 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
     'How do I help my child settle back in?'
   ];
 
+  const WA_ICON = `<svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.121 1.535 5.857L.057 23.743a.75.75 0 0 0 .921.921l5.886-1.478A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.667-.502-5.2-1.379l-.374-.214-3.873.972.991-3.771-.234-.389A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>`;
+
+  const EMAIL_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="rgb(121,21,22)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>`;
+
+  function makeContactButton(type, label, value, display) {
+    const a = document.createElement('a');
+    a.className = `contact-btn ${type}`;
+    if (type === 'wa') {
+      a.href = `https://wa.me/${value}`;
+    } else {
+      a.href = `mailto:${value}`;
+    }
+    a.target = '_blank';
+    a.rel = 'noopener';
+
+    const icon = document.createElement('div');
+    icon.className = 'cb-icon';
+    icon.innerHTML = type === 'wa' ? WA_ICON : EMAIL_ICON;
+
+    const text = document.createElement('div');
+    text.className = 'cb-text';
+    text.innerHTML = `<span class="cb-label">${label}</span><span class="cb-value">${display || value}</span>`;
+
+    a.appendChild(icon);
+    a.appendChild(text);
+    return a;
+  }
+
   // ── Render multiple bubbles with staggered typing reveals ──
   function renderBotBubbles(text, isDemo, showSender) {
-    const paragraphs = text
+    // Split full text into lines first, then group into paragraphs or token lines
+    const rawParagraphs = text
       .replace(/DEMO_CONTENT\n?/g, '')
       .split(/\n\n+/)
       .map(p => p.trim())
       .filter(Boolean);
 
-    paragraphs.forEach((para, i) => {
-      const delay = i === 0 ? 0 : i * 1400;
+    // Further split paragraphs that contain token lines into separate items
+    const segments = [];
+    rawParagraphs.forEach(para => {
+      const lines = para.split('\n').map(l => l.trim()).filter(Boolean);
+      let textBuffer = [];
+      lines.forEach(line => {
+        if (/^\[WA:/.test(line) || /^\[EMAIL:/.test(line)) {
+          if (textBuffer.length) { segments.push({ type: 'text', content: textBuffer.join('\n') }); textBuffer = []; }
+          segments.push({ type: 'token', content: line });
+        } else {
+          textBuffer.push(line);
+        }
+      });
+      if (textBuffer.length) segments.push({ type: 'text', content: textBuffer.join('\n') });
+    });
+
+    segments.forEach((seg, i) => {
+      const delay = i === 0 ? 0 : i * 1100;
 
       setTimeout(() => {
         const existing = document.getElementById('typing-inter');
         if (existing) existing.parentElement.remove();
 
-        // Last bubble: clear header typing state
-        if (i === paragraphs.length - 1) setHeaderTyping(false);
+        if (i === segments.length - 1) setHeaderTyping(false);
 
         const wrapper = document.createElement('div');
 
@@ -511,27 +616,38 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
           wrapper.appendChild(label);
         }
 
-        const row = document.createElement('div');
-        row.className = 'bubble-row';
+        if (seg.type === 'token') {
+          const waMatch = seg.content.match(/^\[WA:([^|]+)\|([^|]+)\|([^\]]+)\]$/);
+          const emailMatch = seg.content.match(/^\[EMAIL:([^|]+)\|([^\]]+)\]$/);
 
-        const bubble = document.createElement('div');
-        bubble.className = 'bubble bot';
+          if (waMatch) {
+            wrapper.appendChild(makeContactButton('wa', waMatch[1], waMatch[2], waMatch[3]));
+          } else if (emailMatch) {
+            wrapper.appendChild(makeContactButton('email', emailMatch[1], emailMatch[2], emailMatch[2]));
+          }
+        } else {
+          const row = document.createElement('div');
+          row.className = 'bubble-row';
+          const bubble = document.createElement('div');
+          bubble.className = 'bubble bot';
 
-        if (isDemo) {
-          const badge = document.createElement('div');
-          badge.className = 'demo-badge';
-          badge.textContent = 'Illustrative content — demo only';
-          bubble.appendChild(badge);
+          if (isDemo) {
+            const badge = document.createElement('div');
+            badge.className = 'demo-badge';
+            badge.textContent = 'Illustrative content — demo only';
+            bubble.appendChild(badge);
+          }
+
+          const p = document.createElement('div');
+          p.innerHTML = formatText(seg.content);
+          bubble.appendChild(p);
+          row.appendChild(bubble);
+          wrapper.appendChild(row);
         }
 
-        const p = document.createElement('div');
-        p.innerHTML = formatText(para);
-        bubble.appendChild(p);
-        row.appendChild(bubble);
-        wrapper.appendChild(row);
         appendNode(wrapper);
 
-        if (i < paragraphs.length - 1) {
+        if (i < segments.length - 1) {
           setTimeout(() => {
             setHeaderTyping(true);
             const typRow = document.createElement('div');
@@ -547,7 +663,7 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
       }, delay);
     });
 
-    return paragraphs.length * 1400;
+    return segments.length * 1100;
   }
 
   function renderUser(text) {
