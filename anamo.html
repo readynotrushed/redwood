@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OP ANAMO — Black River Gorges</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Share+Tech+Mono&family=Barlow:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:    #ede8de;
+    --paper2:   #e4ddd0;
+    --paper3:   #d8d0c2;
+    --ink:      #1e1b14;
+    --ink-mid:  #3a3328;
+    --ink-soft: #6b6050;
+    --ink-faint:#9a8e7e;
+    --red:      #b81c00;
+    --red-soft: #c42200;
+    --red-pale: rgba(184,28,0,0.10);
+    --line:     rgba(30,27,20,0.15);
+    --topo:     #b8a88a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* grain */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.055;
+    mix-blend-mode: multiply;
+  }
+
+  /* TOPO BACKGROUND */
+  .topo-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .topo-bg svg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0; left: 0;
+  }
+
+  .content { position: relative; z-index: 1; }
+
+  /* ===== HEADER ===== */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header-top {
+    background: var(--red);
+    padding: 0.45rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .header-top span {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.92rem;
+    letter-spacing: 0.18em;
+    color: #fff;
+    text-transform: uppercase;
+  }
+
+  .header-main {
+    padding: 2.5rem 2rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: end;
+    position: relative;
+  }
+
+  .header-main::before {
+    content: 'ANAMO';
+    position: absolute;
+    right: 1.5rem;
+    bottom: -1rem;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 10rem;
+    color: rgba(255,255,255,0.04);
+    pointer-events: none;
+    line-height: 1;
+  }
+
+  .op-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(3rem, 9vw, 6rem);
+    line-height: 0.88;
+    color: var(--paper);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  h1 em { color: var(--red); font-style: normal; }
+
+  .header-meta {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--topo);
+    line-height: 2;
+    text-align: right;
+  }
+
+  .header-sub {
+    padding: 1rem 2rem 1.5rem;
+    font-size: 1rem;
+    color: var(--paper3);
+    font-style: italic;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    line-height: 1.6;
+    max-width: 620px;
+    font-weight: 300;
+  }
+
+  /* ===== CREW ===== */
+  .crew-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: var(--paper2);
+    border-bottom: 2px solid var(--line);
+  }
+
+  .crew-card {
+    padding: 1.75rem 1.75rem;
+    border-right: 1px solid var(--line);
+  }
+
+  .crew-card:last-child { border-right: none; }
+
+  .crew-rank {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.18em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .crew-name {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    margin-bottom: 0.6rem;
+  }
+
+  .crew-profile {
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .crew-tag {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    border: 1.5px solid var(--red);
+    color: var(--red);
+    padding: 0.25rem 0.7rem;
+    margin-top: 0.65rem;
+  }
+
+  /* ===== MAIN ===== */
+  main {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 2rem 5rem;
+  }
+
+  .section {
+    padding: 3rem 0;
+    border-bottom: 1px solid var(--line);
+    opacity: 0;
+    transform: translateY(14px);
+    animation: rise 0.45s forwards;
+  }
+
+  .section:nth-child(1) { animation-delay: 0.05s; }
+  .section:nth-child(2) { animation-delay: 0.12s; }
+  .section:nth-child(3) { animation-delay: 0.19s; }
+  .section:nth-child(4) { animation-delay: 0.26s; }
+  .section:nth-child(5) { animation-delay: 0.33s; }
+  .section:nth-child(6) { animation-delay: 0.40s; }
+
+  @keyframes rise { to { opacity: 1; transform: none; } }
+
+  .sec-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .sec-code {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.88rem;
+    letter-spacing: 0.22em;
+    color: var(--red);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .sec-rule {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--red), transparent);
+    opacity: 0.3;
+  }
+
+  h2 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ===== TIMELINE ===== */
+  .timeline { display: flex; flex-direction: column; }
+
+  .t-row {
+    display: grid;
+    grid-template-columns: 96px 24px 1fr;
+    gap: 0 1rem;
+    min-height: 3rem;
+  }
+
+  .t-row:last-child .t-line { display: none; }
+
+  .t-time {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.05rem;
+    color: var(--red);
+    padding-top: 0.2rem;
+    text-align: right;
+    font-weight: 500;
+  }
+
+  .t-spine {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .t-dot {
+    width: 11px;
+    height: 11px;
+    min-height: 11px;
+    border: 2px solid var(--red);
+    background: var(--paper);
+    border-radius: 50%;
+    margin-top: 0.2rem;
+  }
+
+  .t-line {
+    flex: 1;
+    width: 1px;
+    background: var(--red);
+    opacity: 0.22;
+    min-height: 1.5rem;
+  }
+
+  .t-content { padding: 0 0 1.75rem; }
+
+  .t-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.3rem;
+  }
+
+  .t-desc {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+
+  .t-desc strong { color: var(--ink); font-weight: 500; }
+
+  .t-assign {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-mid);
+    background: var(--paper3);
+    border: 1px solid var(--line);
+    padding: 0.28rem 0.75rem;
+    margin-top: 0.45rem;
+  }
+
+  /* ===== TRAIL CARD ===== */
+  .trail-card {
+    background: var(--paper2);
+    border: 1px solid var(--line);
+    border-left: 5px solid var(--red);
+    padding: 1.75rem;
+    margin-bottom: 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .trail-card::after {
+    content: '828m';
+    position: absolute;
+    right: 1rem;
+    bottom: -0.75rem;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 5.5rem;
+    color: rgba(30,27,20,0.04);
+    pointer-events: none;
+    line-height: 1;
+  }
+
+  .trail-name {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.3rem;
+  }
+
+  .diff-badge {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--red);
+    border: 1.5px solid var(--red);
+    padding: 0.2rem 0.6rem;
+    margin-bottom: 1.25rem;
+    opacity: 0.85;
+  }
+
+  .trail-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .stat { font-family: 'Share Tech Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); }
+
+  .stat strong {
+    display: block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.1rem;
+    letter-spacing: 0.03em;
+  }
+
+  .trail-brief { font-size: 0.95rem; color: var(--ink-soft); line-height: 1.72; }
+
+  /* ===== ALERT BOX ===== */
+  .alert-box {
+    background: var(--red-pale);
+    border: 1px solid rgba(184,28,0,0.22);
+    border-left: 5px solid var(--red);
+    padding: 1.1rem 1.4rem;
+    margin-top: 1.25rem;
+    font-size: 0.95rem;
+    color: var(--ink-mid);
+    line-height: 1.65;
+  }
+
+  .alert-box strong { color: var(--ink); }
+
+  /* ===== MAP ===== */
+  .map-frame {
+    width: 100%;
+    height: 340px;
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--red);
+    display: block;
+    margin-bottom: 1.25rem;
+  }
+
+  .nav-note {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    line-height: 1.9;
+    margin-bottom: 1.5rem;
+    background: var(--paper2);
+    border: 1px solid var(--line);
+    padding: 1rem 1.25rem;
+  }
+
+  .nav-note strong { color: var(--ink); }
+
+  /* ===== ALLTRAILS BLOCK ===== */
+  .at-block {
+    background: var(--paper2);
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--red);
+    padding: 1.5rem 1.75rem;
+  }
+
+  .at-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .at-headline {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.6rem;
+  }
+
+  .at-body {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    line-height: 1.68;
+    margin-bottom: 1.25rem;
+  }
+
+  .at-body strong { color: var(--ink); }
+
+  .at-steps {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1.25rem;
+    counter-reset: s;
+    padding-left: 0;
+  }
+
+  .at-steps li {
+    counter-increment: s;
+    display: flex;
+    gap: 0.85rem;
+    font-size: 0.93rem;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    align-items: flex-start;
+  }
+
+  .at-steps li::before {
+    content: counter(s, decimal-leading-zero);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--red);
+    min-width: 1.6rem;
+    padding-top: 0.14rem;
+    font-weight: 500;
+  }
+
+  .at-steps li strong { color: var(--ink); }
+
+  .at-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--red);
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.85rem 1.75rem;
+    transition: background 0.12s, transform 0.1s;
+  }
+
+  .at-btn:hover { background: var(--red-soft); transform: translateY(-1px); }
+
+  .assigned-strip {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .a-chip {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-mid);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 0.3rem 0.75rem;
+  }
+
+  /* ===== PACK LIST ===== */
+  .pack-intro {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    color: var(--ink-soft);
+    margin-bottom: 1.25rem;
+    text-transform: uppercase;
+  }
+
+  .pack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .pack-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.9rem 1.1rem;
+    background: var(--paper2);
+    border: 1px solid var(--line);
+    border-left: 3px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.12s, background 0.12s;
+    user-select: none;
+  }
+
+  .pack-item:hover { border-left-color: rgba(184,28,0,0.4); }
+  .pack-item.checked { border-left-color: var(--red); background: rgba(184,28,0,0.05); }
+  .pack-item.checked .chk { background: var(--red); border-color: var(--red); }
+  .pack-item.checked .chk::after { content: '✓'; color: #fff; font-size: 0.72rem; font-weight: bold; }
+
+  .chk {
+    width: 19px;
+    height: 19px;
+    min-width: 19px;
+    border: 1.5px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.12rem;
+    transition: background 0.12s, border-color 0.12s;
+    background: var(--paper);
+  }
+
+  .p-label { font-size: 0.93rem; color: var(--ink); line-height: 1.4; font-weight: 400; }
+  .p-sub { font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.2rem; font-style: italic; line-height: 1.45; }
+
+  /* ===== ROLES ===== */
+  .roles-list { display: flex; flex-direction: column; }
+
+  .role-row {
+    display: grid;
+    grid-template-columns: 2.8rem 1fr;
+    gap: 1rem;
+    align-items: start;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .role-num {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: rgba(184,28,0,0.3);
+    line-height: 1.2;
+  }
+
+  .role-text { font-size: 0.95rem; color: var(--ink-soft); line-height: 1.65; }
+  .role-text strong { color: var(--ink); font-weight: 500; }
+
+  /* ===== UNIT PROTOCOLS ===== */
+  .team-intro {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1.5rem;
+    border-left: 5px solid var(--red);
+  }
+
+  .team-intro-hl {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.55rem;
+    color: #fff;
+  }
+
+  .team-intro-body {
+    font-size: 0.95rem;
+    color: var(--paper3);
+    line-height: 1.72;
+    font-weight: 300;
+  }
+
+  .member-protocol {
+    border: 1px solid var(--line);
+    border-left: 5px solid var(--paper3);
+    padding: 1.35rem 1.75rem;
+    margin-bottom: 0.75rem;
+    background: var(--paper2);
+    transition: border-left-color 0.18s;
+  }
+
+  .member-protocol:hover { border-left-color: var(--red); }
+
+  .mp-name {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--red);
+    margin-bottom: 0.1rem;
+  }
+
+  .mp-trigger {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    margin-bottom: 0.65rem;
+  }
+
+  .mp-action { font-size: 0.95rem; color: var(--ink-soft); line-height: 1.7; }
+  .mp-action strong { color: var(--ink); font-weight: 500; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center;
+    padding: 1.75rem 2rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    border-top: 1px solid var(--line);
+    background: var(--paper2);
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 640px) {
+    h1 { font-size: 2.8rem; }
+    .header-main { grid-template-columns: 1fr; }
+    .header-meta { text-align: left; }
+    .crew-strip { grid-template-columns: 1fr; }
+    .crew-card { border-right: none; border-bottom: 1px solid var(--line); }
+    .pack-grid { grid-template-columns: 1fr; }
+    .t-row { grid-template-columns: 68px 20px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPOGRAPHIC BACKGROUND -->
+<div class="topo-bg">
+  <svg viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <style>
+        .tc  { fill:none; stroke:#b8a88a; stroke-width:0.9; opacity:0.7; }
+        .tc2 { fill:none; stroke:#b8a88a; stroke-width:1.6; opacity:0.85; }
+        .tg  { fill:none; stroke:#b8a88a; stroke-width:0.5; stroke-dasharray:3,10; opacity:0.45; }
+        .tlbl{ font-family:monospace; font-size:8px; fill:#b8a88a; opacity:0.7; }
+      </style>
+    </defs>
+
+    <!-- PRIMARY PEAK — centre-right, irregular organic contours -->
+    <path class="tc"  d="M820,480 C870,430 940,410 980,440 C1020,470 1030,530 990,560 C950,590 880,595 840,570 C800,545 775,530 820,480Z"/>
+    <path class="tc"  d="M800,500 C858,438 950,415 998,448 C1045,482 1056,548 1010,582 C965,616 884,620 840,592 C788,560 748,562 800,500Z"/>
+    <path class="tc2" d="M778,518 C844,446 960,418 1014,455 C1068,492 1080,565 1028,603 C978,640 888,645 838,614 C778,576 716,590 778,518Z"/>
+    <path class="tc"  d="M752,538 C828,455 970,423 1032,462 C1094,502 1108,582 1048,624 C990,665 892,670 836,636 C764,594 678,620 752,538Z"/>
+    <path class="tc"  d="M724,558 C812,463 978,428 1048,470 C1118,512 1134,600 1068,646 C1002,692 896,698 832,660 C746,610 636,650 724,558Z"/>
+    <path class="tc2" d="M694,580 C798,472 988,432 1066,478 C1144,524 1162,618 1090,668 C1018,718 900,726 828,684 C726,626 590,680 694,580Z"/>
+    <path class="tc"  d="M660,604 C782,482 996,438 1082,488 C1168,538 1188,638 1110,692 C1032,746 902,754 822,708 C702,642 538,710 660,604Z"/>
+    <path class="tc"  d="M622,630 C764,494 1006,444 1100,498 C1194,552 1216,658 1132,716 C1048,774 906,782 816,732 C674,656 480,740 622,630Z"/>
+
+    <!-- SECONDARY PEAK — top-left -->
+    <path class="tc"  d="M210,160 C235,135 270,128 292,145 C314,162 318,195 296,212 C274,228 238,230 216,215 C194,200 186,185 210,160Z"/>
+    <path class="tc2" d="M192,175 C222,142 268,132 296,152 C324,172 330,210 304,230 C278,250 236,252 210,234 C182,214 162,208 192,175Z"/>
+    <path class="tc"  d="M172,192 C210,150 266,136 300,160 C334,184 342,226 312,250 C282,272 234,274 204,254 C168,228 134,234 172,192Z"/>
+    <path class="tc"  d="M150,210 C198,158 264,140 304,168 C344,196 354,244 320,270 C286,296 230,298 196,276 C152,244 102,260 150,210Z"/>
+
+    <!-- TERTIARY — bottom right -->
+    <path class="tc"  d="M1180,760 C1200,738 1228,732 1246,746 C1264,760 1266,784 1248,798 C1230,812 1202,814 1184,800 C1164,785 1160,782 1180,760Z"/>
+    <path class="tc2" d="M1164,772 C1188,746 1222,738 1246,754 C1270,770 1274,800 1252,816 C1230,832 1196,834 1174,818 C1146,800 1140,798 1164,772Z"/>
+    <path class="tc"  d="M1146,786 C1176,754 1216,744 1246,762 C1276,780 1282,816 1256,834 C1230,852 1190,854 1164,836 C1126,814 1116,818 1146,786Z"/>
+
+    <!-- RIVER / VALLEY TRACE -->
+    <path class="tc" d="M0,320 C80,310 140,340 200,360 C260,380 310,340 380,350 C450,360 490,400 560,410 C620,418 670,390 730,400 C790,410 820,450 880,460" stroke-dasharray="6,6" stroke-width="1.2"/>
+
+    <!-- GRID -->
+    <line class="tg" x1="0" y1="200" x2="1400" y2="200"/>
+    <line class="tg" x1="0" y1="400" x2="1400" y2="400"/>
+    <line class="tg" x1="0" y1="600" x2="1400" y2="600"/>
+    <line class="tg" x1="0" y1="800" x2="1400" y2="800"/>
+    <line class="tg" x1="280" y1="0" x2="280" y2="900"/>
+    <line class="tg" x1="560" y1="0" x2="560" y2="900"/>
+    <line class="tg" x1="840" y1="0" x2="840" y2="900"/>
+    <line class="tg" x1="1120" y1="0" x2="1120" y2="900"/>
+
+    <!-- ELEVATION LABELS -->
+    <text class="tlbl" x="8" y="198">200</text>
+    <text class="tlbl" x="8" y="398">400</text>
+    <text class="tlbl" x="8" y="598">600</text>
+    <text class="tlbl" x="8" y="798">800</text>
+
+    <!-- SUMMIT CROSSHAIR -->
+    <line stroke="#b8a88a" stroke-width="1.5" opacity="0.8" x1="895" y1="490" x2="935" y2="490"/>
+    <line stroke="#b8a88a" stroke-width="1.5" opacity="0.8" x1="915" y1="470" x2="915" y2="510"/>
+    <circle fill="none" stroke="#b8a88a" stroke-width="1.5" opacity="0.8" cx="915" cy="490" r="7"/>
+    <text class="tlbl" x="924" y="486" font-size="7">828m</text>
+  </svg>
+</div>
+
+<div class="content">
+
+<!-- HEADER -->
+<header>
+  <div class="header-top">
+    <span>CLASSIFIED — FAMILY USE ONLY</span>
+    <span>SUNDAY 19 APR 2026 / DEPART 10:30</span>
+  </div>
+  <div class="header-main">
+    <div>
+      <div class="op-label">Operation</div>
+      <h1>Black River<br><em>Gorges</em></h1>
+    </div>
+    <div class="header-meta">
+      <div>GRID: -20.3999 / 57.4667</div>
+      <div>ELEV: 828 M ASL</div>
+      <div>DISTANCE: ~8 KM RETURN</div>
+      <div>DURATION: 5.5 HRS</div>
+      <div>CLASSIFICATION: MODERATE</div>
+      <div>PERSONNEL: 3</div>
+    </div>
+  </div>
+  <div class="header-sub">Mauritius's largest national park. Rainforest, waterfalls, summit views. No signal on trail. All three of you come back.</div>
+</header>
+
+<!-- CREW -->
+<div class="crew-strip">
+  <div class="crew-card">
+    <div class="crew-rank">Unit Member / Quiet Ops</div>
+    <div class="crew-name">Ryan</div>
+    <div class="crew-profile">Quiet. Moves at his own pace. Notices things others miss. His silence is not a problem to solve.</div>
+    <div class="crew-tag">SECRET WEAPON: AUTISM</div>
+  </div>
+  <div class="crew-card">
+    <div class="crew-rank">Unit Member / Comms &amp; Nav</div>
+    <div class="crew-name">Roy</div>
+    <div class="crew-profile">Talks, questions, drives energy. Today that's an asset. His brain doesn't stop. Neither does the trail.</div>
+    <div class="crew-tag">SECRET WEAPON: ADHD</div>
+  </div>
+  <div class="crew-card">
+    <div class="crew-rank">Unit Member / Not In Command Today</div>
+    <div class="crew-name">Luna</div>
+    <div class="crew-profile">High energy or shutdown, both are normal. Not the coordinator today. Just a hiker. The unit covers the rest.</div>
+    <div class="crew-tag">SECRET WEAPON: AUDHD</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- TIMELINE -->
+  <div class="section">
+    <div class="sec-header">
+      <span class="sec-code">SECTION 01 / Mission Timeline</span>
+      <div class="sec-rule"></div>
+    </div>
+    <h2>Schedule of Operations</h2>
+    <div class="timeline">
+
+      <div class="t-row">
+        <div class="t-time">10:00</div>
+        <div class="t-spine"><div class="t-dot"></div><div class="t-line"></div></div>
+        <div class="t-content">
+          <div class="t-title">Kit Check / Everyone Packs Themselves</div>
+          <div class="t-desc">Each person checks the pack list below against their own bag. No one does this for anyone else. Car is at the door at 10:30.</div>
+        </div>
+      </div>
+
+      <div class="t-row">
+        <div class="t-time">10:30</div>
+        <div class="t-spine"><div class="t-dot"></div><div class="t-line"></div></div>
+        <div class="t-content">
+          <div class="t-title">Wheels Up / Tamarin to Plaine Champagne</div>
+          <div class="t-desc">About 35 minutes. Route: B103 towards Plaine Champagne. <strong>Google Maps and Waze both work</strong> for this drive. Search "Piton de la Riviere Noire trailhead" or "Gorges Viewpoint." Road is clear and well-signed. Stop on the way if anyone needs breakfast.</div>
+          <span class="t-assign">ROY NAVIGATES</span>
+        </div>
+      </div>
+
+      <div class="t-row">
+        <div class="t-time">11:10</div>
+        <div class="t-spine"><div class="t-dot"></div><div class="t-line"></div></div>
+        <div class="t-content">
+          <div class="t-title">Gorges Viewpoint / Brief Stop</div>
+          <div class="t-desc">Pull over. Look at the canyon. Ten minutes. This is the preview, not the hike.</div>
+        </div>
+      </div>
+
+      <div class="t-row">
+        <div class="t-time">11:20</div>
+        <div class="t-spine"><div class="t-dot"></div><div class="t-line"></div></div>
+        <div class="t-content">
+          <div class="t-title">Advance to Trailhead</div>
+          <div class="t-desc">5 minutes further on B103. Park at Plaine Champagne. Trail starts from the road, marked. Use the toilets at the visitor centre before you begin.</div>
+        </div>
+      </div>
+
+      <div class="t-row">
+        <div class="t-time">11:30</div>
+        <div class="t-spine"><div class="t-dot"></div><div class="t-line"></div></div>
+        <div class="t-content">
+          <div class="t-title">Commence Ascent</div>
+          <div class="t-desc">Dense rainforest canopy. Trail marked with painted rocks and ribbons. No guide needed. No technical climbing. Signal drops early, that is normal. You have the offline map.</div>
+        </div>
+      </div>
+
+      <div class="t-row">
+        <div class="t-time">13:30</div>
+        <div class="t-spine"><div class="t-dot"></div><div class="t-line"></div></div>
+        <div class="t-content">
+          <div class="t-title">Summit / 828m</div>
+          <div class="t-desc">Eat. Drink. Sit. Views cover the full west coast: Le Morne, Tourelle de Tamarin, the lagoon. Stay 20 to 30 minutes.</div>
+        </div>
+      </div>
+
+      <div class="t-row">
+        <div class="t-time">14:00</div>
+        <div class="t-spine"><div class="t-dot"></div><div class="t-line"></div></div>
+        <div class="t-content">
+          <div class="t-title">Descent</div>
+          <div class="t-desc">Same trail back. Faster going down. Watch your footing on roots, they are slippier on the descent.</div>
+        </div>
+      </div>
+
+      <div class="t-row">
+        <div class="t-time">15:00</div>
+        <div class="t-spine"><div class="t-dot"></div><div class="t-line"></div></div>
+        <div class="t-content">
+          <div class="t-title">Return to Vehicle</div>
+          <div class="t-desc">Optional: Alexandra Falls viewpoint is 10 minutes away by car, no extra hiking. Drive home from there or straight back.</div>
+        </div>
+      </div>
+
+      <div class="t-row">
+        <div class="t-time">16:00</div>
+        <div class="t-spine"><div class="t-dot"></div></div>
+        <div class="t-content">
+          <div class="t-title">Mission Complete</div>
+          <div class="t-desc">Showers. Food. Done.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TRAIL -->
+  <div class="section">
+    <div class="sec-header">
+      <span class="sec-code">SECTION 02 / Terrain Intel</span>
+      <div class="sec-rule"></div>
+    </div>
+    <h2>The Trail</h2>
+    <div class="trail-card">
+      <div class="diff-badge">MODERATE DIFFICULTY</div>
+      <div class="trail-name">Piton de la Riviere Noire</div>
+      <div class="trail-stats">
+        <div class="stat"><strong>~8 km</strong>Return</div>
+        <div class="stat"><strong>3 to 4 hrs</strong>Walking time</div>
+        <div class="stat"><strong>828 m</strong>Summit</div>
+        <div class="stat"><strong>Free</strong>Entry</div>
+      </div>
+      <div class="trail-brief">
+        Starts on B103 at Plaine Champagne. Rainforest canopy for most of the ascent, good shade, humid. Muddy sections and exposed roots throughout. Final stretch steepens before the summit opens to full panoramic views. Marked with painted rocks and yellow ribbons. No technical climbing. No guide required.
+      </div>
+    </div>
+    <div class="alert-box">
+      <strong>If anyone wants to turn back early, that is a valid call.</strong> The forest is the experience. The summit is the bonus. There is no wrong version of this hike.
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <div class="section">
+    <div class="sec-header">
+      <span class="sec-code">SECTION 03 / Navigation</span>
+      <div class="sec-rule"></div>
+    </div>
+    <h2>Maps and Route</h2>
+
+    <iframe
+      class="map-frame"
+      src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d60306!2d57.42!3d-20.365!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x0%3A0x0!3m2!1d-20.3283787!2d57.374674!4m5!1s0x0%3A0x0!2sPiton+de+la+Riviere+Noire%2C+Mauritius!3m2!1d-20.3999!2d57.4667!5e0!3m2!1sen!2smu!4v1"
+      frameborder="0"
+      allowfullscreen=""
+      loading="lazy">
+    </iframe>
+
+    <div class="nav-note">
+      <strong>DRIVING:</strong> Google Maps and Waze both work. Search "Piton de la Riviere Noire trailhead" or "Gorges Viewpoint B103."<br>
+      <strong>ON TRAIL:</strong> No signal. Navigate using the AllTrails offline map downloaded below.
+    </div>
+
+    <div class="at-block">
+      <div class="at-label">Critical Pre-Mission Task / All Three of You</div>
+      <div class="at-headline">Download the Offline Map Before 10:30</div>
+      <div class="at-body">
+        There is no phone signal on this trail. The offline map is your only navigation once you are in the forest. <strong>This is not optional, and it is not one person's job.</strong> Each of you does this on your own phone. If one phone dies on trail, one of the others has the map. That is how a unit works.
+      </div>
+      <ol class="at-steps">
+        <li>Download the <strong>AllTrails app</strong> (free) from your app store if you don't have it.</li>
+        <li>Create a free account or log in.</li>
+        <li>Open the link below and find <strong>"Piton de la Riviere Noire."</strong></li>
+        <li>Tap <strong>Download</strong> on the trail page. The map saves to your phone.</li>
+        <li>Confirm it works: go to airplane mode, open AllTrails, check the map loads. Then turn signal back on.</li>
+      </ol>
+      <a class="at-btn" href="https://www.alltrails.com/trail/mauritius/riviere-noire/macchabee-and-colophanne-trail-circular" target="_blank" rel="noopener">
+        Open Trail on AllTrails
+      </a>
+      <div class="assigned-strip">
+        <div class="a-chip">RYAN downloads own map</div>
+        <div class="a-chip">ROY downloads own map</div>
+        <div class="a-chip">LUNA downloads own map</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PACK -->
+  <div class="section">
+    <div class="sec-header">
+      <span class="sec-code">SECTION 04 / Kit List</span>
+      <div class="sec-rule"></div>
+    </div>
+    <h2>What to Bring</h2>
+    <p class="pack-intro">Each person packs their own bag / tap to check off</p>
+    <div class="pack-grid">
+
+      <div class="pack-item" onclick="toggle(this)">
+        <div class="chk"></div>
+        <div>
+          <div class="p-label">Trainers or hiking shoes</div>
+          <div class="p-sub">Closed toe. Not flip flops.</div>
+        </div>
+      </div>
+
+      <div class="pack-item" onclick="toggle(this)">
+        <div class="chk"></div>
+        <div>
+          <div class="p-label">Water, full, whatever size you have</div>
+          <div class="p-sub">Ideal is 1.5L. No big bottle? Drink as much as you can before leaving, then bring whatever you have, full.</div>
+        </div>
+      </div>
+
+      <div class="pack-item" onclick="toggle(this)">
+        <div class="chk"></div>
+        <div>
+          <div class="p-label">Mosquito repellent</div>
+          <div class="p-sub">Apply before entering the forest. Not optional.</div>
+        </div>
+      </div>
+
+      <div class="pack-item" onclick="toggle(this)">
+        <div class="chk"></div>
+        <div>
+          <div class="p-label">Sunscreen</div>
+          <div class="p-sub">Summit has no shade. Apply before you start.</div>
+        </div>
+      </div>
+
+      <div class="pack-item" onclick="toggle(this)">
+        <div class="chk"></div>
+        <div>
+          <div class="p-label">Food for the summit</div>
+          <div class="p-sub">We buy it on the road. Small shops and bakeries en route to Plaine Champagne. Have some breakfast before or during the drive, even something small.</div>
+        </div>
+      </div>
+
+      <div class="pack-item" onclick="toggle(this)">
+        <div class="chk"></div>
+        <div>
+          <div class="p-label">Phone, charged and offline map ready</div>
+          <div class="p-sub">AllTrails downloaded and confirmed in airplane mode before leaving.</div>
+        </div>
+      </div>
+
+      <div class="pack-item" onclick="toggle(this)">
+        <div class="chk"></div>
+        <div>
+          <div class="p-label">Small backpack</div>
+          <div class="p-sub">To carry all of the above.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ROLES -->
+  <div class="section">
+    <div class="sec-header">
+      <span class="sec-code">SECTION 05 / Rules of Engagement</span>
+      <div class="sec-rule"></div>
+    </div>
+    <h2>How This Works</h2>
+    <div class="roles-list">
+      <div class="role-row">
+        <div class="role-num">01</div>
+        <div class="role-text"><strong>Roy navigates.</strong> Google Maps or Waze to the trailhead. AllTrails on the trail. Unsure of direction: check the app, check the markers.</div>
+      </div>
+      <div class="role-row">
+        <div class="role-num">02</div>
+        <div class="role-text"><strong>Ryan sets the pace.</strong> No one rushes him. No one checks in. His silence is not an invitation to talk.</div>
+      </div>
+      <div class="role-row">
+        <div class="role-num">03</div>
+        <div class="role-text"><strong>Luna is not the coordinator today.</strong> She hikes. If she goes quiet: leave her to it. The unit covers itself.</div>
+      </div>
+      <div class="role-row">
+        <div class="role-num">04</div>
+        <div class="role-text"><strong>Stay within sight</strong> at all times. No need to walk side-by-side. But keep each other visible.</div>
+      </div>
+      <div class="role-row">
+        <div class="role-num">05</div>
+        <div class="role-text"><strong>No signal is normal.</strong> Do not panic. You have the offline map. The trail is marked. Follow both.</div>
+      </div>
+      <div class="role-row">
+        <div class="role-num">06</div>
+        <div class="role-text"><strong>Water check at the summit.</strong> Everyone drinks before starting the descent. Not negotiable.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UNIT PROTOCOLS -->
+  <div class="section" style="border-bottom:none;">
+    <div class="sec-header">
+      <span class="sec-code">SECTION 06 / Unit Protocols</span>
+      <div class="sec-rule"></div>
+    </div>
+    <h2>A Strong Unit Covers Its Own</h2>
+
+    <div class="team-intro">
+      <div class="team-intro-hl">Why This Section Exists</div>
+      <div class="team-intro-body">
+        A strong unit is not one where everyone operates the same way. It is one where each member knows what the others need and responds without being asked. Ryan, Roy, and Luna each have a different operating mode. None of those modes is a flaw. What follows is the field manual: what to look for, and exactly what to do. Read it once. Know it. Use it when it matters.
+      </div>
+    </div>
+
+    <div class="member-protocol">
+      <div class="mp-name">Luna</div>
+      <div class="mp-trigger">If Luna goes into shutdown</div>
+      <div class="mp-action">
+        She will go quiet and slow down. She does not need fixing, entertaining, or checking on. <strong>Roy: say "take your time" and match her pace. That is it.</strong> <strong>Ryan: nothing required, keep moving at your own pace.</strong> Luna will come back online on her own. Do not make it a moment. The hike continues.
+      </div>
+    </div>
+
+    <div class="member-protocol">
+      <div class="mp-name">Roy</div>
+      <div class="mp-trigger">If Roy hits overload or starts to spiral</div>
+      <div class="mp-action">
+        He will talk faster, jump between topics, or start catastrophising. <strong>Luna: give him one concrete fact.</strong> "We are on the trail. The app shows we are here. We keep going." One sentence. Do not match his energy, anchor it. <strong>Ryan: no action needed. Your calm already helps more than you know.</strong>
+      </div>
+    </div>
+
+    <div class="member-protocol">
+      <div class="mp-name">Ryan</div>
+      <div class="mp-trigger">If Ryan needs to stop or step back</div>
+      <div class="mp-action">
+        He will slow or stop without explanation. That is the signal. <strong>Do not ask why. Do not offer solutions. Do not fill the silence.</strong> Find a flat spot nearby, stop, give him space. Wait. When he starts moving again, that is the all-clear. <strong>Luna and Roy: no words needed. Just wait.</strong>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<footer>OP ANAMO / BLACK RIVER GORGES NATIONAL PARK / MAURITIUS / 19.04.2026 / REDWOOD.LUNAMARGHERITA.COM/ANAMO</footer>
+
+</div>
+
+<script>
+  function toggle(el) { el.classList.toggle('checked'); }
+</script>
+</body>
+</html>
