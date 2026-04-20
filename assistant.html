@@ -19,8 +19,6 @@
       --text: #1a1a1a;
       --text-muted: #6b6560;
       --border: rgba(121, 21, 22, 0.12);
-      --demo: #b45309;
-      --demo-bg: #fef3c7;
       --bubble-user-bg: var(--red);
       --bubble-user-text: #fff;
       --bubble-bot-bg: #fff;
@@ -169,31 +167,6 @@
       border-bottom-right-radius: 4px;
     }
 
-    /* DEMO badge */
-    .demo-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--demo);
-      background: var(--demo-bg);
-      border: 1px solid rgba(180, 83, 9, 0.2);
-      border-radius: 4px;
-      padding: 4px 9px;
-      margin-bottom: 6px;
-    }
-
-    .demo-badge::before {
-      content: '';
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--demo);
-      flex-shrink: 0;
-    }
 
     /* Typing indicator */
     .typing-bubble {
@@ -480,21 +453,33 @@ ATTENDANCE & ABSENCE FOR REOPENING WEEK:
 - If a parent is unsure whether their child is ready, the team is available to talk it through. This is a human conversation, not administrative. The director and key teachers welcome it.
 `.trim();
 
-  // ── Demo: plausible but NOT confirmed — must be flagged ──
-  const DEMO_FACTS = `
-ILLUSTRATIVE DETAILS (not yet confirmed by nursery — flag these responses with DEMO_CONTENT marker):
-- All staff trained for emergencies; extra training conducted in days prior to reopening.
-- Entry will be staggered based on attendance data.
-- Play areas have been moved away from windows as a precaution.
-- In case of shelter-in-place: cosy corners created around the nursery with blankets, toys, sensory trays, books, and portable music players with calming sounds.
-- A dedicated WhatsApp broadcast list exists for emergency updates only. Three staff members assigned to send updates as soon as everyone is safe. Updates will confirm children and staff are safe and provide brief calm updates (e.g. "story time in the cosy corner").
-- Parents may wait in the surrounding area to collect children in case of siren, but pick-up is not possible during an active shelter-in-place alert.
-- Maximum flexibility on pick-up times in general.
-- No ECAs at this time.
-- Extra slots available to communicate with teachers.
-- A series of webinars with experts is planned on how to handle the return.
-- A discount code is available for parents wishing to book a session with a counsellor specialising in how children process fear and anxiety.
+  // ── KFG Safety & Emergency Procedures ──
+  const KFG_SAFETY = `
+KFG SAFETY & EMERGENCY PROCEDURES (Kids First Group — the group that operates Redwood JP):
+
+OVERVIEW:
+Kids First Group operates a centralised safety system across all its nurseries, bringing together leadership, safeguarding, health, facilities, and communications. The Group Compliance Director is Loretta Lynn Riggs. Every nursery operates within this shared framework.
+
+IN AN EMERGENCY:
+When an alert is activated, the Site Crisis Lead at each nursery immediately initiates the emergency response. Staff move children to safety — either sheltering indoors or evacuating via pre-identified safe routes, depending on the situation. Every child is accounted for through an immediate headcount and remains supervised and grouped at all times. The nursery reports to Head Office without delay so that oversight and parent communication can begin immediately.
+
+WHAT PARENTS CAN EXPECT DURING AN ALERT:
+- Communication comes through official nursery channels only, using verified information. Not unofficial sources.
+- Parents are called directly when a child is personally affected or when urgent action is needed.
+- Families will be told clearly whether to remain on standby, delay arrival, or follow revised collection instructions.
+- If one communication channel is unavailable, the nursery moves to the next approved method to keep information flowing.
+
+PHYSICAL SAFETY MEASURES AT THE NURSERY:
+- Designated safe rooms and shelter-in-place procedures are in place.
+- Evacuation procedures, safe pick-up and drop-off protocols, and clearly defined safety procedures are established.
+- Emergency signage, evacuation maps, internal alarms, and emergency supplies are maintained and accessible.
+- 100% of staff have been trained in crisis response procedures and protocols. Regular drills are conducted.
+- Each nursery has a Site Crisis Lead and Crisis Team, supported by Head Office Crisis Leads, First Responders, Registered Nurses, Health & Safety Officers, and Education Continuity Teams.
+
+CONTINUITY OF CARE:
+Children continue to receive care, supervision, and emotional support whether the nursery is in normal operations, restricted operations, closure, or distance learning. KFG has an Education Continuity Lead and a framework to support learning in all these scenarios. The plan includes safeguarding oversight, wellbeing support, and follow-up for children and families affected by disruption or distress. When it is safe to do so, the plan supports a calm return to familiar routines.
 `.trim();
+
 
   // ── Psychology knowledge ──
   const PSYCHOLOGY_KNOWLEDGE = `
@@ -525,7 +510,7 @@ STRICT FORMATTING RULES:
 
 Rules:
 1. Use CONFIRMED FACTS freely. They are official nursery communications.
-2. Use ILLUSTRATIVE DETAILS only if directly relevant. When you do, prepend DEMO_CONTENT on its own line before that paragraph. This is a technical marker, do not mention or explain it.
+2. Use KFG SAFETY & EMERGENCY PROCEDURES freely. This is confirmed group policy and applies to Redwood JP as a KFG nursery.
 3. When drawing on developmental or psychological knowledge, ground it briefly without being academic. Always note that every child is different and the nursery team can help find the right approach.
 4. If you do not know something, say so. Do not speculate. Direct to the right contact.
 5. Urgent or medical matters: direct to WhatsApp using the token format. Output the text context first, then the tokens on separate lines.
@@ -540,7 +525,7 @@ Rules:
 
 ${CONFIRMED_FACTS}
 
-${DEMO_FACTS}
+${KFG_SAFETY}
 
 ${PSYCHOLOGY_KNOWLEDGE}`;
 
@@ -582,10 +567,9 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
   }
 
   // ── Render multiple bubbles with staggered typing reveals ──
-  function renderBotBubbles(text, isDemo, showSender) {
+  function renderBotBubbles(text, showSender) {
     // Split full text into lines first, then group into paragraphs or token lines
     const rawParagraphs = text
-      .replace(/DEMO_CONTENT\n?/g, '')
       .split(/\n\n+/)
       .map(p => p.trim())
       .filter(Boolean);
@@ -638,13 +622,6 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
           row.className = 'bubble-row';
           const bubble = document.createElement('div');
           bubble.className = 'bubble bot';
-
-          if (isDemo) {
-            const badge = document.createElement('div');
-            badge.className = 'demo-badge';
-            badge.textContent = 'Illustrative content — demo only';
-            bubble.appendChild(badge);
-          }
 
           const p = document.createElement('div');
           p.innerHTML = formatText(seg.content);
@@ -817,13 +794,12 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
       typingRow.remove();
       setHeaderTyping(false);
 
-      let reply = data.content?.[0]?.text || data.reply || 'Sorry, something went wrong. Please contact the nursery directly.';
+      const reply = data.content?.[0]?.text || data.reply || 'Sorry, something went wrong. Please contact the nursery directly.';
 
-      const isDemo = /DEMO_CONTENT/.test(reply);
       history.push({ role: 'assistant', content: reply });
 
       const isFirst = history.filter(m => m.role === 'assistant').length === 1;
-      const duration = renderBotBubbles(reply, isDemo, isFirst);
+      const duration = renderBotBubbles(reply, isFirst);
 
       // Re-show unused chips after bubbles finish
       const usedChip = MAIN_CHIPS.find(c => text === c);
@@ -846,7 +822,7 @@ ${PSYCHOLOGY_KNOWLEDGE}`;
       setHeaderTyping(false);
       renderBotBubbles(
         "I'm not able to respond right now.\n\nFor immediate questions, please contact the nursery on WhatsApp: <a href=\"https://wa.me/971503967190\">+971 50 396 7190</a> (East) or <a href=\"https://wa.me/971501072766\">+971 50 107 2766</a> (West).",
-        false, false
+        false
       );
     }
 
